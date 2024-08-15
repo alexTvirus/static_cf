@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Button, Form, Input } from 'antd';
+import { Button, DatePicker, Form, Input } from 'antd';
 import "./style.scss"
 import { Row, Col } from 'antd';
 import { Radio } from 'antd';
@@ -8,13 +8,19 @@ import { message, Popconfirm } from 'antd';
 import TextArea from "antd/es/input/TextArea";
 import { Status } from "../../constants/constants";
 import Util from "../../util/util";
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+
+dayjs.extend(customParseFormat);
 
 const FormInput = (props) => {
     //1. dữ liệu đưa vào từ props
 
     //2. hoặc lấy từ redux
 
-    const { handleSubmit, handleDelete, data , form } = props
+    const { handleSubmit, handleDelete, data, form } = props
+
+    const dateFormat = 'DD/MM/YYYY';
 
     const [value, setValue] = useState(1);
     const onChangeRadioButton = (e) => {
@@ -24,32 +30,63 @@ const FormInput = (props) => {
     const handleOnchageInput = (e) => {
 
     }
+
+    const validateNotifyDate = (rule, value) => {
+        if (value) {
+            let notify = moment(moment(value.$d).format("DD/MM/YYYY"), "DD/MM/YYYY")
+            let now = new Date();
+            now = moment(moment(now).format("DD/MM/YYYY"), "DD/MM/YYYY");
+            if (notify.isBefore(now)) {
+                return Promise.reject('notify date must be greater now');
+            }
+        }
+        return Promise.resolve();
+    }
+
+
     useEffect(() => {
 
         if (data && data.id) {
             let task = {}
             for (let key in data) {
-                task = {
-                    ...task,
-                    [key]: data[key]
+
+                if (key === "createAtString") {
+                    task = {
+                        ...task,
+                        [key]: dayjs(data[key], dateFormat)
+                    }
+                } else {
+                    task = {
+                        ...task,
+                        [key]: data[key]
+                    }
                 }
+
+
             }
+            debugger
             form.setFieldsValue(task)
         }
 
-        else
-            form.setFieldsValue({
-                "createAtString": moment(new Date()).format("DD/MM/YYYY")
-            }
-            )
+        else {
+
+            // form.setFieldsValue({
+            //     "createAtString": dayjs('2015/01/01', dateFormat)
+            // }
+            // )
+        }
+
     }, [data])
 
 
     const prehandleSubmit = (e) => {
         debugger
+        // createAtString: moment(e.notifyAt.$d).format("DD/MM/YYYY")
+        // notifyAtTimestamp: moment(task.notifyAt, "DD/MM/YYYY").valueOf(),
+        let x = moment(e.createAtString.$d, "DD/MM/YYYY").valueOf()
         let newTask = {
             title: e.title,
-            createAtString: e.createAtString,
+            createAtString: moment(e.createAtString.$d).format("DD/MM/YYYY"),
             description: e.description,
             status: e.status,
             createBy: e.createBy,
@@ -63,7 +100,7 @@ const FormInput = (props) => {
         else
             handleSubmit({
                 ...newTask,
-                createAt: Date.now(),
+                createAt: moment(e.createAtString.$d, "DD/MM/YYYY").valueOf(),
                 status: Status.NEW
             })
         form.resetFields()
@@ -143,14 +180,23 @@ const FormInput = (props) => {
                 }}
             >
                 <Col xs={24} sm={24} md={24} lg={12}>
+
                     <Form.Item
                         name="createAtString"
-                        disabled={true}
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your notify date!',
+                            },
+                            { validator: validateNotifyDate }
+                        ]}
                     >
-                        <Input disabled={true} />
+                        <DatePicker format={'DD/MM/YYYY'} className="todoApp--main__date-picker-input" needConfirm />
                     </Form.Item>
                 </Col>
             </Row>
+
+
             <Row
                 style={{
                     justifyContent: "center",

@@ -6,6 +6,7 @@ import FormSearch from "../../components/FormSearch"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useState } from "react"
 import { actionAddTask, actionDeleteTask, actionFetchAllTask, actionUpdateTask } from "../../redux/features/task/taskSlice"
+import Util from "../../util/util"
 
 
 const TestComponent = () => {
@@ -15,6 +16,7 @@ const TestComponent = () => {
     })
     const [form] = useForm()
     const handleSubmitFormInput = async (param) => {
+        param = {...param,id:await Util.genId()}
         async function inner(param) {
             dispatch(actionAddTask(param))
         }
