@@ -12,10 +12,21 @@ import ScrollToTop from '../../../components/scroll-to-top/ScrollToTop';
 const BaseLayout = () => {
   return (
     <>
-      <GlobalNavbar />
-      <ScrollToTop />
+      <div className='bg-brand'>
+        <div className='container mx-auto'>
+          <GlobalNavbar />
+        </div>
+      </div>
+
       <Outlet />
-      <GlobalFooter />
+
+      <div className='container mx-auto'>
+        <GlobalFooter />
+      </div>
+
+
+
+
     </>
   );
 };

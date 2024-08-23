@@ -1,0 +1,113 @@
+.todoApp--container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.todoApp--wrapper {
+  margin: 20px 0 20px 0;
+  padding: 5px;
+  width: 90%;
+}
+
+.todoApp--header {
+  margin-bottom: 10px;
+
+
+
+  &__title {
+    text-align: center;
+  }
+
+
+
+
+}
+
+.todoApp--main {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  .listTask {
+    border: 1px solid rgb(43, 223, 118);
+    padding: 8px;
+    overflow-y: auto;
+    height: 100vh;
+    border-radius: 8px;
+  }
+
+  .task {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 7px;
+    padding: 8px;
+    border: 1px solid rgb(216, 202, 202);
+
+    &__name {
+      margin: 0;
+      font-weight: 600;
+      height: 19px;
+      text-align: left;
+
+      &--done {
+        color: green;
+      }
+    }
+
+    &__btn-group {
+      display: flex;
+      column-gap: 5px;
+    }
+
+    &__remove-btn,
+    &__done-btn {
+      cursor: pointer;
+    }
+
+  }
+
+  &__form {
+    column-gap: 10px;
+  }
+
+  &__task-name-input {
+    flex-grow: 1;
+  }
+
+  &__date-picker-input {
+    width: 100%;
+  }
+
+  &__add-task-btn {
+    // padding: 20px;
+    cursor: pointer;
+    border: none;
+    outline: none;
+
+  }
+}
+
+.todoApp--footer{
+  margin-top: 15px;
+}
+
+
+
+.content-overflow {
+  // overflow-wrap: break-word;
+  // text-overflow: ellipsis;
+  // overflow: hidden;
+  // white-space: nowrap 
+  display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+
+p{
+  margin: 0;
+}
