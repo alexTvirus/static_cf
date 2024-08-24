@@ -31,6 +31,7 @@ const HeroCover = (props) => {
     locationTypeheadResults,
     setisDatePickerVisible,
   } = props;
+
   return (
     <div className='bg-brand'>
       <div className='container mx-auto'>

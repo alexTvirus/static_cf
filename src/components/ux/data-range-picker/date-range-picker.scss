@@ -17,3 +17,35 @@
     top: 100%;
     width: 100%;
 }
+
+.custom-date .ant-picker-range {}
+
+.custom-date .ant-picker-input input {
+    background-color: white;
+    border: 2px solid $secondary-color;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    width: 50%;
+}
+
+.ant-picker-outlined {
+    border: none;
+}
+
+.ant-picker {
+    padding: 0;
+}
+
+.ant-picker-suffix {
+    visibility: hidden !important;
+}
+
+.ant-picker-range-separator{
+    padding: 0 !important;
+}
+
+.ant-picker-range-separator .ant-picker-separator{
+    visibility: hidden;
+}

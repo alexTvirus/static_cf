@@ -1,10 +1,17 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { faCalendar } from '@fortawesome/free-solid-svg-icons';
 import { DateRange } from 'react-date-range';
 import { formatDate } from '../../../utils/date-helpers';
 import useOutsideClickHandler from '../../../hooks/useOutsideClickHandler';
 
+import { DatePicker, Radio } from 'antd';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+dayjs.extend(customParseFormat);
+const dateFormat = 'YYYY-MM-DD';
+
+const { RangePicker } = DatePicker;
 const inputSyleMap = {
   SECONDARY: 'stay-booker__input--secondary',
   DARK: 'stay-booker__input--dark',
@@ -12,67 +19,26 @@ const inputSyleMap = {
 
 const DateRangePicker = (props) => {
   const {
-    isDatePickerVisible,
-    onDatePickerIconClick,
     onDateChangeHandler,
-    dateRange,
-    setisDatePickerVisible,
-    inputStyle,
+    dateRange = [dayjs(),dayjs()],
   } = props;
-
-  const wrapperRef = useRef();
-  useOutsideClickHandler(wrapperRef, () => setisDatePickerVisible(false));
-
-  // Format dates for display
-  const formattedStartDate = dateRange[0].startDate
-    ? formatDate(dateRange[0].startDate)
-    : 'Check-in';
-  const formattedEndDate = dateRange[0].endDate
-    ? formatDate(dateRange[0].endDate)
-    : 'Check-out';
 
   return (
     <div className="relative flex" data-testid="date-range-picker">
-      <input
-        className={`${
-          inputStyle
-            ? inputSyleMap[inputStyle]
-            : 'stay-booker__input--secondary'
-        } stay-booker__input px-8 py-2 w-[50%]`}
-        type="text"
-        value={formattedStartDate}
-        onFocus={onDatePickerIconClick}
-        readOnly
-      ></input>
-      <FontAwesomeIcon
-        icon={faCalendar}
-        color="#074498"
-        className="left-[18px] transform-center-y"
-        onClick={onDatePickerIconClick}
-      />
-      <input
-        className={`${
-          inputStyle
-            ? inputSyleMap[inputStyle]
-            : '  stay-booker__input--secondary'
-        } stay-booker__input px-8 py-2 w-[50%]`}
-        type="text"
-        value={formattedEndDate}
-        onFocus={onDatePickerIconClick}
-        readOnly
-      ></input>
-      <div ref={wrapperRef} className="">
-        {isDatePickerVisible && (
-          <DateRange
-            editableDateInputs={true}
-            onChange={onDateChangeHandler}
-            moveRangeOnFirstSelection={false}
-            ranges={dateRange}
-            minDate={new Date()}
-            direction="horizontal"
-            className={`sb__date-range-picker`}
-          />
-        )}
+      <div className="">
+        <RangePicker
+          placeholder={["check in","checkout"]}
+          className='custom-date bg-brand hover:bg-brand focus:bg-brand focus-within:bg-brand'
+          minDate={dayjs(new Date())}
+          defaultValue={[dayjs(),dayjs()]}
+          value={dateRange}
+          // panelRender={(menu) => (
+          //   <div test-id="test" ref={wrapperRef}>
+          //     {menu}
+          //   </div>
+          // )}
+          onChange={onDateChangeHandler}
+        />
       </div>
     </div>
   );

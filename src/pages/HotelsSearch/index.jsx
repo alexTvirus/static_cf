@@ -19,13 +19,11 @@ import GlobalSearchBox from '../../components/GlobalSearchBox';
  */
 const HotelsSearch = () => {
   // State for managing date picker visibility
-  const [isDatePickerVisible, setisDatePickerVisible] = useState(false);
 
   // State for managing location input value
-  const [locationInputValue, setLocationInputValue] = useState('pune');
 
   // State for managing number of guests input value
-  const [numGuestsInputValue, setNumGuestsInputValue] = useState('');
+
 
   // State for storing available cities
   const [availableCities, setAvailableCities] = useState([]);
@@ -120,17 +118,13 @@ const HotelsSearch = () => {
 
   const onSearchButtonAction = () => {
     const activeFilters = getActiveFilters();
-    const numGuest = Number(numGuestsInputValue);
+
     const checkInDate = formatDate(dateRange.startDate) ?? '';
     const checkOutDate = formatDate(dateRange.endDate) ?? '';
     setSearchParams({
-      city: locationInputValue,
-      numGuests: numGuestsInputValue,
     });
     fetchHotels({
-      city: locationInputValue,
       ...activeFilters,
-      guests: numGuest,
       checkInDate,
       checkOutDate,
     });
@@ -155,7 +149,6 @@ const HotelsSearch = () => {
 
   // Toggles the visibility of the date picker
   const onDatePickerIconClick = () => {
-    setisDatePickerVisible(!isDatePickerVisible);
   };
 
   /**
@@ -164,7 +157,6 @@ const HotelsSearch = () => {
    * @param {string} value - The new location value.
    */
   const onLocationChangeInput = async (newValue) => {
-    setLocationInputValue(newValue);
     // Debounce the queryResults function to avoid making too many requests
     debounceFn(newValue, availableCities);
   };
@@ -182,15 +174,6 @@ const HotelsSearch = () => {
     setFilteredTypeheadResults(filteredResults);
   }
 
-  /**
-   * Handles changes in the number of guests input.
-   * @param {String} numGuests - Number of guests.
-   */
-  const onNumGuestsInputChange = (numGuests) => {
-    if (numGuests < MAX_GUESTS_INPUT_VALUE && numGuests > 0) {
-      setNumGuestsInputValue(numGuests);
-    }
-  };
 
   const onClearFiltersAction = () => {
     const hasActiveFilters = selectedFiltersState.some((filterGroup) =>
@@ -292,13 +275,6 @@ const HotelsSearch = () => {
   // And update location input value if city is present in the URL
   // Also update number of guests input value if numGuests is present in the URL
   useEffect(() => {
-    if (searchParams.get('city')) {
-      setLocationInputValue(searchParams.get('city'));
-    }
-
-    if (searchParams.get('numGuests')) {
-      setNumGuestsInputValue(searchParams.get('numGuests'));
-    }
   }, [searchParams]);
 
   // Update selected filters state when filters data changes
@@ -318,11 +294,9 @@ const HotelsSearch = () => {
     if (selectedFiltersState.length > 0) {
       const activeFilters = getActiveFilters();
       if (activeFilters) {
-        activeFilters.city = locationInputValue.toLowerCase();
         fetchHotels(activeFilters);
       } else {
         fetchHotels({
-          city: locationInputValue,
         });
       }
     }
@@ -331,35 +305,14 @@ const HotelsSearch = () => {
 
   // Fetch hotels when location input value changes
   useEffect(() => {
-    if (location.state) {
-      const { city, numGuest, checkInDate, checkOutDate } = location.state;
-      if (numGuest) {
-        setNumGuestsInputValue(numGuest.toString());
-      }
-      setLocationInputValue(city);
-      if (checkInDate && checkOutDate) {
-        setDateRange([
-          {
-            startDate: parse(checkInDate, 'dd/MM/yyyy', new Date()),
-            endDate: parse(checkOutDate, 'dd/MM/yyyy', new Date()),
-            key: 'selection',
-          },
-        ]);
-      }
-    }
+
   }, [location]);
 
   return (
     <div className="hotels">
       <div className="bg-brand px-2 lg:h-[120px] h-[220px] flex items-center justify-center">
         <GlobalSearchBox
-          locationInputValue={locationInputValue}
           locationTypeheadResults={filteredTypeheadResults}
-          numGuestsInputValue={numGuestsInputValue}
-          isDatePickerVisible={isDatePickerVisible}
-          setisDatePickerVisible={setisDatePickerVisible}
-          onLocationChangeInput={onLocationChangeInput}
-          onNumGuestsInputChange={onNumGuestsInputChange}
           dateRange={dateRange}
           onDateChangeHandler={onDateChangeHandler}
           onDatePickerIconClick={onDatePickerIconClick}

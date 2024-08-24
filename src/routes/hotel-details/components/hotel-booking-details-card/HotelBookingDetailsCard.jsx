@@ -194,12 +194,8 @@ const HotelBookingDetailsCard = ({ hotelCode }) => {
           <div className="font-semibold text-gray-800">Dates & Time</div>
           <div className="text-gray-600">
             <DateRangePicker
-              isDatePickerVisible={isDatePickerVisible}
-              onDatePickerIconClick={onDatePickerIconClick}
               onDateChangeHandler={onDateChangeHandler}
-              setisDatePickerVisible={setisDatePickerVisible}
               dateRange={dateRange}
-              inputStyle="DARK"
             />
           </div>
         </div>

@@ -11,6 +11,12 @@ import _debounce from 'lodash/debounce';
 import { useDispatch, useSelector } from 'react-redux';
 import { actionGetAllRoom } from '../../redux/features/room/roomSlice';
 
+import { DatePicker, Radio } from 'antd';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+dayjs.extend(customParseFormat);
+const dateFormat = 'YYYY-MM-DD';
+
 /**
  * Home component that renders the main page of the application.
  * It includes a navigation bar, hero cover, popular locations, results container, and footer.
@@ -43,11 +49,7 @@ const Home = () => {
   const debounceFn = useCallback(_debounce(queryResults, 1000), []);
 
   const [dateRange, setDateRange] = useState([
-    {
-      startDate: null,
-      endDate: null,
-      key: 'selection',
-    },
+    dayjs(),dayjs()
   ]);
 
   const onDatePickerIconClick = () => {
@@ -83,7 +85,7 @@ const Home = () => {
   };
 
   const onDateChangeHandler = (ranges) => {
-    setDateRange([ranges.selection]);
+    setDateRange(ranges);
   };
 
   /**
@@ -133,7 +135,7 @@ const Home = () => {
       //   });
       // }
     };
-    getInitialData();
+    // getInitialData();
   }, []);
 
   return (
