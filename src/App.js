@@ -5,7 +5,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import HotelDetails from './routes/hotel-details/HotelDetails';
 import Login from './routes/login/Login';
 import Register from './routes/register/Register';
-import AboutUs from './routes/about-us/AboutUs';
+
 
 import ForgotPassword from './routes/forgot-password/ForgotPassword';
 import Checkout from './routes/checkout/Checkout';
@@ -16,6 +16,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import BaseLayout from './layouts/BaseLayout';
 import Home from './pages/Home';
 import HotelsSearch from './pages/HotelsSearch';
+import AboutUs from './pages/AboutUs';
 
 const router = createBrowserRouter([
   {
@@ -26,14 +27,14 @@ const router = createBrowserRouter([
         path: '/',
         element: <Home />,
       },
-      // {
-      //   path: '/hotels',
-      //   element: <HotelsSearch />,
-      // },
-      // {
-      //   path: '/about-us',
-      //   element: <AboutUs />,
-      // },
+      {
+        path: '/hotels',
+        element: <HotelsSearch />,
+      },
+      {
+        path: '/about-us',
+        element: <AboutUs />,
+      },
       // {
       //   path: '/user-profile',
       //   element: <UserProfile />,
