@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import GlobalSearchBox from '../../components/global-search-box/GlobalSearchbox';
-import ResultsContainer from '../../components/results-container/ResultsContainer';
+
+import ResultsContainer from '../../components/ResultsContainer';
 import { networkAdapter } from '../../services/NetworkAdapter';
 import isEmpty from '../../utils/helpers';
 import { MAX_GUESTS_INPUT_VALUE } from '../../utils/constants';
@@ -10,6 +10,7 @@ import { parse } from 'date-fns';
 import PaginationController from '../../components/ux/pagination-controller/PaginationController';
 import { SORTING_FILTER_LABELS } from '../../utils/constants';
 import _debounce from 'lodash/debounce';
+import GlobalSearchBox from '../../components/GlobalSearchBox';
 
 /**
  * Represents the hotels search component.

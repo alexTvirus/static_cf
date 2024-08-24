@@ -1,12 +1,14 @@
 import logo from '../../assests/logos/stay_booker_logo.png';
+
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import HamburgerMenu from '../../components/hamburger-menu/HamburgerMenu';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { AuthContext } from '../../contexts/AuthContext';
 import { useContext } from 'react';
-import NavbarItems from '../../components/navbar-items/NavbarItems';
+
+import NavbarItems from '../../components/NavbarItems';
+import HamburgerMenu from '../../components/HamburgerMenu';
 
 const GlobalNavbar = () => {
   const [isVisible, setIsVisible] = useState(false);

@@ -4,18 +4,22 @@ import './index.scss';
 import reportWebVitals from './reportWebVitals';
 import { makeServer } from './mirage/mirageServer';
 import App from './App';
-
+import { store } from './redux/store';
+import { Provider } from 'react-redux';
 
 // if (process.env.NODE_ENV === 'development') {
 //   makeServer();
 // }
 
-makeServer();
+//makeServer();
 
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <App></App>
+  <Provider store={store}>
+    <App></App>
+  </Provider>
+
 );
 
 // If you want to start measuring performance in your app, pass a function

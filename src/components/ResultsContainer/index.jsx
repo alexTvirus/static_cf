@@ -9,24 +9,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import Select from 'react-select';
 
-/**
- * ResultsContainer Component
- * Renders a container that displays hotel results, including hotel cards and filters.
- * It supports toggling of vertical filters and displays skeletons or empty states based on loading or data availability.
- *
- * @param {Object} props - Props for the component.
- * @param {Object} props.hotelsResults - Object containing hotel results data and loading state.
- * @param {boolean} props.enableFilters - Flag to enable or disable the filter feature.
- * @param {Array} props.filtersData - Array of filter data objects for the vertical filters.
- * @param {Array} props.selectedFiltersState - Array of selected filter states.
- * @param {Function} props.onFiltersUpdate - Callback function to handle filter updates.
- * @param {Function} props.onClearFiltersAction - Callback function to handle the action of clearing filters.
- * @param {Array} props.sortingFilterOptions - Array of sorting filter options.
- * @param {Object} props.sortByFilterValue - Object containing the selected sorting filter value.
- * @param {Function} props.onSortingFilterChange - Callback function to handle sorting filter changes.
- */
 const ResultsContainer = (props) => {
   const {
+    isLoading,
     hotelsResults,
     enableFilters,
     filtersData,
@@ -37,7 +22,7 @@ const ResultsContainer = (props) => {
     sortByFilterValue,
     onSortingFilterChange,
   } = props;
-
+  
   // Check if sorting filter is visible
   const isSortingFilterVisible =
     sortingFilterOptions && sortingFilterOptions.length > 0;
@@ -97,21 +82,21 @@ const ResultsContainer = (props) => {
             )}
           </div>
           <div className="hotels-results__container mx-2 md:mx-0 flex flex-col gap-y-2 w-full">
-            {hotelsResults.isLoading ? (
+            {isLoading ? (
               Array.from({ length: 5 }, (_, index) => (
                 <HotelViewCardSkeleton key={index} />
               ))
-            ) : hotelsResults.data.length > 0 ? (
-              hotelsResults.data.map((hotel) => (
+            ) : hotelsResults.length > 0 ? (
+              hotelsResults.map((hotel) => (
                 <HotelViewCard
-                  key={hotel.hotelCode}
-                  id={hotel.hotelCode}
-                  title={hotel.title}
-                  image={hotel.images[0]}
-                  subtitle={hotel.subtitle}
-                  benefits={hotel.benefits}
-                  ratings={hotel.ratings}
-                  price={hotel.price}
+                  key={hotel.id}
+                  id={hotel.id}
+                  title={hotel.name}
+                  image={hotel.room_type_images[0]}
+                  subtitle={hotel.description}
+                  // benefits={hotel.benefits}
+                  // ratings={hotel.ratings}
+                  price={hotel.base_price}
                 />
               ))
             ) : (

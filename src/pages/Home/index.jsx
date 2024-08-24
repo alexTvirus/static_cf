@@ -3,10 +3,13 @@ import PopularLocations from './components/popular-locations/popular-locations';
 import { networkAdapter } from '../../services/NetworkAdapter';
 import { useState, useEffect, useCallback } from 'react';
 import { MAX_GUESTS_INPUT_VALUE } from '../../utils/constants';
-import ResultsContainer from '../../components/results-container/ResultsContainer';
+import ResultsContainer from '../../components/ResultsContainer';
 import { formatDate } from '../../utils/date-helpers';
 import { useNavigate } from 'react-router-dom';
 import _debounce from 'lodash/debounce';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { actionGetAllRoom } from '../../redux/features/room/roomSlice';
 
 /**
  * Home component that renders the main page of the application.
@@ -14,6 +17,11 @@ import _debounce from 'lodash/debounce';
  */
 const Home = () => {
   const navigate = useNavigate();
+
+  const dispath = useDispatch()
+  const { rooms,isLoading } = useSelector(state => {
+    return state.room
+  })
 
   // State variables
   const [isDatePickerVisible, setisDatePickerVisible] = useState(false);
@@ -24,11 +32,7 @@ const Home = () => {
     data: [],
     errors: [],
   });
-  const [hotelsResults, setHotelsResults] = useState({
-    isLoading: true,
-    data: [],
-    errors: [],
-  });
+ 
 
   // State for storing available cities
   const [availableCities, setAvailableCities] = useState([]);
@@ -108,33 +112,26 @@ const Home = () => {
      * @returns {Promise<void>} A promise that resolves when the data is fetched.
      */
     const getInitialData = async () => {
-      const popularDestinationsResponse = await networkAdapter.get(
-        '/api/popularDestinations'
-      );
-      const hotelsResultsResponse =
-        await networkAdapter.get('/api/nearbyHotels');
+      // const popularDestinationsResponse = await networkAdapter.get(
+      //   '/api/popularDestinations'
+      // );
 
-      const availableCitiesResponse = await networkAdapter.get(
-        '/api/availableCities'
-      );
-      if (availableCitiesResponse) {
-        setAvailableCities(availableCitiesResponse.data.elements);
-      }
+      dispath(actionGetAllRoom())
 
-      if (popularDestinationsResponse) {
-        setPopularDestinationsData({
-          isLoading: false,
-          data: popularDestinationsResponse.data.elements,
-          errors: popularDestinationsResponse.errors,
-        });
-      }
-      if (hotelsResultsResponse) {
-        setHotelsResults({
-          isLoading: false,
-          data: hotelsResultsResponse.data.elements,
-          errors: hotelsResultsResponse.errors,
-        });
-      }
+      // const availableCitiesResponse = await networkAdapter.get(
+      //   '/api/availableCities'
+      // );
+      // if (availableCitiesResponse) {
+      //   setAvailableCities(availableCitiesResponse.data.elements);
+      // }
+
+      // if (popularDestinationsResponse) {
+      //   setPopularDestinationsData({
+      //     isLoading: false,
+      //     data: popularDestinationsResponse.data.elements,
+      //     errors: popularDestinationsResponse.errors,
+      //   });
+      // }
     };
     getInitialData();
   }, []);
@@ -161,7 +158,8 @@ const Home = () => {
             Handpicked nearby hotels for you
           </h2>
           <ResultsContainer
-            hotelsResults={hotelsResults}
+            isLoading={isLoading}
+            hotelsResults={rooms}
             enableFilters={false}
           />
         </div>

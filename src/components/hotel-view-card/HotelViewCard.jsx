@@ -43,8 +43,8 @@ const HotelViewCard = (props) => {
           className="block text-slate-700 hover:text-brand transition-colors duration-300"
         >
           <img
-            src={image.imageUrl}
-            alt={image.accessibleText}
+            src={image.url}
+            alt={image.name}
             className="md:w-[220px] md:h-[140px]"
           />
         </Link>
@@ -60,7 +60,7 @@ const HotelViewCard = (props) => {
           <p className="text-slate-600 text-sm">{subtitle}</p>
         </div>
         <ul>
-          {benefits.length > 0 &&
+          {benefits && benefits.length > 0 &&
             benefits.map((benefit, index) => (
               <li className="text-green-800 font-medium text-sm" key={index}>
                 <FontAwesomeIcon icon={faCheck} /> {benefit}
@@ -70,11 +70,13 @@ const HotelViewCard = (props) => {
       </div>
       <div className="flex flex-col ml-0 md:ml-auto justify-between border-l-0 md:border-l-2 items-stretch pl-0 md:pl-4">
         <div className="flex justify-between my-3 md:my-0 items-center md:flex-col md:justify-between w-full h-full">
-          <h4 className="font-medium text-sm text-white bg-brand p-2">
-            {ratings} <FontAwesomeIcon icon={faStar} />
-          </h4>
+          {ratings && <h4 className="font-medium text-sm text-white bg-brand p-2">
+            {ratings && ratings.length > 0 && ratings}
+            {ratings && ratings.length > 0 && <FontAwesomeIcon icon={faStar} />}
+          </h4>}
+                
           <p className="text-slate-600 font-bold whitespace-nowrap">
-            ₹ {formatPrice(price)}
+            {price && price.length > 0 && formatPrice(price)}
           </p>
         </div>
         <button

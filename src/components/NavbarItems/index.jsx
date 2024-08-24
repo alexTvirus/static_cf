@@ -1,8 +1,10 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import DropdownButton from '../../components/ux/dropdown-button/DropdownButton';
-import { networkAdapter } from '../../services/NetworkAdapter';
+
+// import { networkAdapter } from 'services/NetworkAdapter';
 import { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
+
+import DropdownButton from '../ux/DropdownButton';
 
 /**
  * A component that renders the navigation items for the navbar for both mobile/desktop view.
@@ -20,9 +22,9 @@ const NavbarItems = ({ isAuthenticated, onHamburgerMenuToggle }) => {
    * Handles the logout action by calling the logout API and updating the authentication state.
    */
   const handleLogout = async () => {
-    await networkAdapter.post('api/users/logout');
-    context.triggerAuthCheck();
-    navigate('/login');
+    // await networkAdapter.post('api/users/logout');
+    // context.triggerAuthCheck();
+    // navigate('/login');
   };
 
   const dropdownOptions = [
