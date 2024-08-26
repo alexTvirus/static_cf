@@ -5,8 +5,6 @@ import Input from '../../components/ux/input/Input';
 
 const GlobalSearchBox = (props) => {
   const {
-    onDatePickerIconClick,
-    locationTypeheadResults,
     onSearchButtonAction,
     onDateChangeHandler,
     dateRange,

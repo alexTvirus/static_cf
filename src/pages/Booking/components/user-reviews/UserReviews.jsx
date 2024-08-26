@@ -2,7 +2,7 @@ import Review from './components/Review';
 import React, { useState } from 'react';
 import RatingsOverview from './components/RatingsOverview';
 import UserRatingsSelector from './components/UserRatingsSelector';
-import { networkAdapter } from '../../../../services/NetworkAdapter';
+
 import Toast from '../../../../components/ux/toast/Toast';
 import PaginationController from '../../../../components/ux/pagination-controller/PaginationController';
 import Loader from '../../../../components/ux/loader/loader';
@@ -50,10 +50,7 @@ const UserReviews = ({
       return;
     }
     // TODO: Add validation for userRating and userReview
-    const response = await networkAdapter.put('/api/hotel/add-review', {
-      rating: userRating,
-      review: userReview,
-    });
+    const response = '/api/hotel/add-review'
     if (response && response.errors.length === 0 && response.data.status) {
       setToastMessage({
         type: 'success',

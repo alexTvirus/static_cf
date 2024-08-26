@@ -19,6 +19,7 @@ const inputSyleMap = {
 
 const DateRangePicker = (props) => {
   const {
+    isDisable,
     onDateChangeHandler,
     dateRange = [dayjs(),dayjs()],
   } = props;
@@ -27,8 +28,10 @@ const DateRangePicker = (props) => {
     <div className="relative flex" data-testid="date-range-picker">
       <div className="">
         <RangePicker
+          allowEmpty={[false,false]}
+          disabled={isDisable && [true,true]}
           placeholder={["check in","checkout"]}
-          className='custom-date bg-brand hover:bg-brand focus:bg-brand focus-within:bg-brand'
+          className='custom-date '
           minDate={dayjs(new Date())}
           defaultValue={[dayjs(),dayjs()]}
           value={dateRange}

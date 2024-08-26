@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { networkAdapter } from '../../services/NetworkAdapter';
+
 import validations from '../../utils/validations';
 import Toast from '../../components/ux/toast/Toast';
 
@@ -35,7 +35,7 @@ const ForgotPassword = () => {
     e.preventDefault();
 
     if (validations.validate('email', loginData.email)) {
-      const response = await networkAdapter.post('/api/forgot', loginData);
+      const response = '/api/forgot'
       if (response) {
         setsuccess(true);
       } else {

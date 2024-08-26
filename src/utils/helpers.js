@@ -1,3 +1,6 @@
-export default function isEmpty(obj) {
-  return Object.keys(obj).length === 0;
+
+export const isObjectEmpty = (object) => {
+  for (let o in object)
+    return false
+  return true
 }

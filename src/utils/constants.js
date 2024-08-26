@@ -1,7 +1,7 @@
 /**
  * Maximum number of guests allowed in the input
  */
-export const MAX_GUESTS_INPUT_VALUE = 10;
+export const MAX_GUESTS_INPUT_VALUE = 4;
 
 /**
  * Messages related to user registration.
@@ -21,7 +21,7 @@ export const LOGIN_MESSAGES = {
  * Represents the default tax details for hotel booking.
  */
 export const DEFAULT_TAX_DETAILS =
-  'GST: 12% on INR 0 - 2,500, 12% on INR 2,500-7,500, 18% on INR 7,500 and above';
+  'GST: 12% on VND 0 - 2,500, 12% on VND 2,500-7,500, 18% on VND 7,500 and above';
 
 /**
  * Sorting filter labels

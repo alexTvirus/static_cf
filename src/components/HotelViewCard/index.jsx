@@ -8,6 +8,9 @@ const HotelViewCard = (props) => {
     id: hotelCode,
     image,
     title,
+    maxOccupancy,
+    roomSize,
+    bathrooms,
     subtitle,
     benefits,
     price,
@@ -15,17 +18,17 @@ const HotelViewCard = (props) => {
   } = props;
   const navigate = useNavigate();
   const onBookNowClick = () => {
-    navigate(`/hotel/${hotelCode}`);
+    navigate(`/booking/${hotelCode}`);
   };
 
   return (
     <div
-      className="card border p-4 flex flex-col md:flex-row gap-x-2 w-full"
+      className="card border p-4 flex flex-col md:flex-row gap-x-2 gap-y-4 w-full"
       data-testid="hotel-view-card"
     >
       <div className="cursor-pointer">
         <Link
-          to={`/hotel/${hotelCode}`}
+          to={`/booking/${hotelCode}`}
           className="block text-slate-700 hover:text-brand transition-colors duration-300"
         >
           <img
@@ -38,12 +41,32 @@ const HotelViewCard = (props) => {
       <div className="flex flex-col justify-between ml-0 md:ml-2 flex-1">
         <div>
           <Link
-            to={`/hotel/${hotelCode}`}
+            to={`/booking/${hotelCode}`}
             className="block text-slate-700 hover:text-brand transition-colors duration-300"
           >
             <h4 className="text-2xl font-bold text-slate-600">{title}</h4>
           </Link>
-          <p className="text-slate-600 text-sm">{subtitle}</p>
+          <p className="text-slate-600 text-sm mb-2">{subtitle}</p>
+          <p className="text-sm text-gray-600">
+            <span className="text-slate-600 font-bold text-sm">
+              Sleep
+            </span>
+            <span >
+              {`: ${maxOccupancy}, `}
+            </span>
+            <span className="text-slate-600 font-bold text-sm">
+              Bathrooms
+            </span>
+            <span>
+              {`: ${bathrooms}, `} ,
+            </span>
+            <span className="text-slate-600 font-bold text-sm">
+              Size
+            </span>
+            <span>
+              {`: ${roomSize}m²`}
+            </span>
+          </p>
         </div>
         <ul>
           {benefits && benefits.length > 0 &&
@@ -60,8 +83,10 @@ const HotelViewCard = (props) => {
             {ratings && ratings.length > 0 && ratings}
             {ratings && ratings.length > 0 && <FontAwesomeIcon icon={faStar} />}
           </h4>}
-                
+
+
           <p className="text-slate-600 font-bold whitespace-nowrap">
+            <p>One night price</p> 
             {price && price.length > 0 && formatPrice(price)}
           </p>
         </div>

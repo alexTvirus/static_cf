@@ -20,9 +20,9 @@ const GlobalNavbar = () => {
   return (
     <div className="relative flex flex-wrap justify-between items-center px-4 md:px-12 global-navbar__container brand-divider-bottom shadow-md">
       <div className="flex">
-        <Link to="/">
+        {/* <Link to="/">
           <img src={logo} alt="site logo" className="site-logo__img" />
-        </Link>
+        </Link> */}
       </div>
       <ul className="list-none hidden md:flex">
         <NavbarItems isAuthenticated={isAuthenticated} />

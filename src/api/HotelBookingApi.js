@@ -6,7 +6,7 @@ const baseUrl = "http://localhost"
 async function apiGet(url, options = {}) {
     try {
         const opt = getCommonOptions()
-        const response = await axios.get(`${baseUrl}/api/v1/${url}`, opt)
+        const response = await axios.get(`${baseUrl}/api/v1/${url}`, Object.assign(opt, options))
         return response
     } catch (e) {
         throw e
@@ -50,7 +50,17 @@ const getPostFileOptions = () => {
 const HotelBookingApi = {
     getAllRoom: (payload = {}) => {
         return apiGet(`room-type/`, payload)
-    }
+    },
+    getRoom: (id,payload = {}) => {
+        return apiGet(`room-type/${id}`, payload)
+    },
+    checkoutRoom: (payload = {}) => {
+        // todo: thong tin booking, thong tin payment
+        return apiPost(`checkout`, payload)
+    },
+    getUserInfo: (id,payload = {}) => {
+        return apiGet(`user/${id}`, payload)
+    },
 }
 
 export default HotelBookingApi

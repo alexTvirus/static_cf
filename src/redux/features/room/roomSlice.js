@@ -3,9 +3,33 @@ import { message } from 'antd'
 import HotelBookingApi from '../../../api/HotelBookingApi'
 import Util from '../../../utils/util'
 
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+dayjs.extend(customParseFormat);
+
+
 const initialState = {
     rooms: [],
+    currentRoom: {},
     isLoading: false,
+    booking:{
+        packets:[
+            
+        ],
+        room:{
+            // id
+        }
+    },
+    dateRange: [
+        dayjs(), dayjs()
+    ],
+    pagination: {
+        defaultPage: 1,
+        defaultPerPage: 5,
+        currentPage: 1,
+        perPage: 5,
+        totalPages: 0,
+    }
 }
 
 export const actionGetAllRoom = createAsyncThunk(
@@ -13,6 +37,28 @@ export const actionGetAllRoom = createAsyncThunk(
     async (payload, thunkApi) => {
         try {
             return await HotelBookingApi.getAllRoom(payload)
+        } catch (error) {
+            return thunkApi.rejectWithValue(error)
+        }
+    }
+)
+
+export const actionGetRoom = createAsyncThunk(
+    "room/actionGetRoom",
+    async (payload, thunkApi) => {
+        try {
+            return await HotelBookingApi.getRoom(payload.id, payload)
+        } catch (error) {
+            return thunkApi.rejectWithValue(error)
+        }
+    }
+)
+
+export const actionCheckout = createAsyncThunk(
+    "room/actionCheckout",
+    async (payload, thunkApi) => {
+        try {
+            return await HotelBookingApi.checkoutRoom(payload)
         } catch (error) {
             return thunkApi.rejectWithValue(error)
         }
@@ -32,6 +78,12 @@ const roomSlice = createSlice({
     name: "room",
     initialState: initialState,
     reducers: {
+        actionSetDateRange:(state,actions)=>{
+            state.dateRange = actions.payload
+        },
+        actionSetBooking:(state,actions)=>{
+            state.booking = actions.payload
+        }
     },
     extraReducers: builder => {
         builder
@@ -47,9 +99,22 @@ const roomSlice = createSlice({
                 handleError(action.payload)
             })
 
+            .addCase(actionGetRoom.pending, (state, action) => {
+                state.isLoading = true
+            })
+            .addCase(actionGetRoom.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.currentRoom = action.payload.data.data
+            })
+            .addCase(actionGetRoom.rejected, (state, action) => {
+                state.isLoading = false
+                handleError(action.payload)
+            })
+
     }
 })
 
+export const { actionSetDateRange,actionSetBooking } = roomSlice.actions
 
 // xuất ra reducer
 export const roomReducer = roomSlice.reducer

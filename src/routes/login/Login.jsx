@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { networkAdapter } from '../../services/NetworkAdapter';
 import React, { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -44,7 +43,7 @@ const Login = () => {
     e.preventDefault();
 
     if (validations.validate('email', loginData.email)) {
-      const response = await networkAdapter.post('api/users/login', loginData);
+      const response = 'api/users/login'
       if (response && response.data.token) {
         context.triggerAuthCheck();
         navigate('/user-profile');

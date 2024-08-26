@@ -1,34 +1,39 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
 import ResultsContainer from '../../components/ResultsContainer';
-import { networkAdapter } from '../../services/NetworkAdapter';
-import isEmpty from '../../utils/helpers';
+import { isObjectEmpty } from '../../utils/helpers';
 import { MAX_GUESTS_INPUT_VALUE } from '../../utils/constants';
 import { formatDate } from '../../utils/date-helpers';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { parse } from 'date-fns';
 import PaginationController from '../../components/ux/pagination-controller/PaginationController';
 import { SORTING_FILTER_LABELS } from '../../utils/constants';
 import _debounce from 'lodash/debounce';
 import GlobalSearchBox from '../../components/GlobalSearchBox';
 
-/**
- * Represents the hotels search component.
- * @component
- * @returns {JSX.Element} The hotels search component.
- */
+
+import { useDispatch, useSelector } from 'react-redux';
+import { actionGetAllRoom, actionSetDateRange } from '../../redux/features/room/roomSlice';
+
+import moment from 'moment';
+import { DatePicker, Radio } from 'antd';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+dayjs.extend(customParseFormat);
+const dateFormat = 'YYYY-MM-DD';
+
+
 const HotelsSearch = () => {
-  // State for managing date picker visibility
+  const navigate = useNavigate();
 
-  // State for managing location input value
+  const dispath = useDispatch()
+  const { rooms, isLoading, pagination, dateRange } = useSelector(state => {
+    return state.room
+  })
 
-  // State for managing number of guests input value
-
-
-  // State for storing available cities
   const [availableCities, setAvailableCities] = useState([]);
 
-  // State for managing current results page
+
   const [currentResultsPage, setCurrentResultsPage] = useState(1);
 
   // State for managing filters data
@@ -45,51 +50,36 @@ const HotelsSearch = () => {
     errors: [],
   });
 
-  const [dateRange, setDateRange] = useState([
-    {
-      startDate: null,
-      endDate: null,
-      key: 'selection',
-    },
-  ]);
 
-  // State for managing sorting filter value
   const [sortByFilterValue, setSortByFilterValue] = useState({
     value: 'default',
     label: 'Sort by',
   });
 
-  // State for managing selected filters
+
   const [selectedFiltersState, setSelectedFiltersState] = useState({});
 
   const [filteredTypeheadResults, setFilteredTypeheadResults] = useState([]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+
   const debounceFn = useCallback(_debounce(queryResults, 1000), []);
 
   const [searchParams, setSearchParams] = useSearchParams();
 
   const location = useLocation();
 
-  // Options for sorting filter
   const sortingFilterOptions = [
     { value: 'default', label: 'Sort by' },
     { value: 'priceLowToHigh', label: SORTING_FILTER_LABELS.PRICE_LOW_TO_HIGH },
     { value: 'priceHighToLow', label: SORTING_FILTER_LABELS.PRICE_HIGH_TO_LOW },
   ];
 
-  /**
-   * Handles updates to sorting filter.
-   * @param {Object} selectedOption - The selected option.
-   */
+
   const onSortingFilterChange = (selectedOption) => {
     setSortByFilterValue(selectedOption);
   };
 
-  /**
-   * Handles updates to filters.
-   * @param {Object} updatedFilter - The filter object that is updated.
-   */
+
   const onFiltersUpdate = (updatedFilter) => {
     setSelectedFiltersState(
       selectedFiltersState.map((filterGroup) => {
@@ -113,21 +103,24 @@ const HotelsSearch = () => {
   };
 
   const onDateChangeHandler = (ranges) => {
-    setDateRange([ranges.selection]);
+    dispath(actionSetDateRange(ranges))
   };
 
   const onSearchButtonAction = () => {
     const activeFilters = getActiveFilters();
-
-    const checkInDate = formatDate(dateRange.startDate) ?? '';
-    const checkOutDate = formatDate(dateRange.endDate) ?? '';
+    const checkInDate = moment(dateRange[0].$d).format(dateFormat) ?? '';
+    const checkOutDate = moment(dateRange[1].$d).format(dateFormat) ?? '';
     setSearchParams({
     });
-    fetchHotels({
-      ...activeFilters,
-      checkInDate,
-      checkOutDate,
-    });
+
+    dispath(actionGetAllRoom({
+      params: {
+        ...activeFilters,
+        checkin_at: checkInDate,
+        checkout_at: checkOutDate
+      }
+    }))
+
   };
 
   const getActiveFilters = () => {
@@ -141,7 +134,7 @@ const HotelsSearch = () => {
         filters[category.filterId] = selectedValues;
       }
     });
-    if (!isEmpty(filters)) {
+    if (!isObjectEmpty(filters)) {
       return filters;
     }
     return null;
@@ -149,16 +142,6 @@ const HotelsSearch = () => {
 
   // Toggles the visibility of the date picker
   const onDatePickerIconClick = () => {
-  };
-
-  /**
-   * Handles changes in the location input.
-   * Refreshes hotel data if the location is valid.
-   * @param {string} value - The new location value.
-   */
-  const onLocationChangeInput = async (newValue) => {
-    // Debounce the queryResults function to avoid making too many requests
-    debounceFn(newValue, availableCities);
   };
 
   /**
@@ -200,35 +183,10 @@ const HotelsSearch = () => {
    * @async
    */
   const fetchHotels = async (filters) => {
-    setHotelsResults({
-      isLoading: true,
-      data: [],
-      errors: [],
-    });
-    const hotelsResultsResponse = await networkAdapter.get('/api/hotels', {
-      filters: JSON.stringify(filters),
-      currentPage: currentResultsPage,
-      advancedFilters: JSON.stringify([
-        {
-          sortBy: sortByFilterValue.value,
-        },
-      ]),
-    });
-    if (hotelsResultsResponse) {
-      setHotelsResults({
-        isLoading: false,
-        data: hotelsResultsResponse.data.elements,
-        errors: hotelsResultsResponse.errors,
-        metadata: hotelsResultsResponse.metadata,
-        pagination: hotelsResultsResponse.paging,
-      });
-    }
   };
 
   const getVerticalFiltersData = async () => {
-    const filtersDataResponse = await networkAdapter.get(
-      'api/hotels/verticalFilters'
-    );
+    const filtersDataResponse = 'api/hotels/verticalFilters'
     if (filtersDataResponse) {
       setFiltersData({
         isLoading: false,
@@ -251,33 +209,15 @@ const HotelsSearch = () => {
 
   const handleNextPageChange = () => {
     setCurrentResultsPage((prev) => {
-      if (prev >= hotelsResults.pagination.totalPages) return prev;
+      if (prev >= pagination.totalPages) return prev;
       return prev + 1;
     });
   };
 
-  // Fetches the list of available cities
-  const fetchAvailableCities = async () => {
-    const availableCitiesResponse = await networkAdapter.get(
-      '/api/availableCities'
-    );
-    if (availableCitiesResponse) {
-      setAvailableCities(availableCitiesResponse.data.elements);
-    }
-  };
 
-  // Fetch available cities and initial data on component mount
-  useEffect(() => {
-    fetchAvailableCities();
-    getVerticalFiltersData();
-  }, []);
-
-  // And update location input value if city is present in the URL
-  // Also update number of guests input value if numGuests is present in the URL
   useEffect(() => {
   }, [searchParams]);
 
-  // Update selected filters state when filters data changes
   useEffect(() => {
     setSelectedFiltersState(
       filtersData.data.map((filterGroup) => ({
@@ -290,25 +230,39 @@ const HotelsSearch = () => {
     );
   }, [filtersData]);
 
+  // useEffect(() => {
+  //   if (selectedFiltersState.length > 0) {
+  //     const activeFilters = getActiveFilters();
+  //     if (activeFilters) {
+  //       fetchHotels(activeFilters);
+  //     } else {
+  //       fetchHotels({
+  //       });
+  //     }
+  //   }
+
+  // }, [selectedFiltersState, currentResultsPage, sortByFilterValue]);
+
+
   useEffect(() => {
-    if (selectedFiltersState.length > 0) {
-      const activeFilters = getActiveFilters();
-      if (activeFilters) {
-        fetchHotels(activeFilters);
-      } else {
-        fetchHotels({
-        });
+    if (location.state) {
+      const { checkInDate, checkOutDate } = location.state;
+      if (checkInDate && checkOutDate) {
+        dispath(actionSetDateRange([dayjs(checkInDate, dateFormat),
+          dayjs(checkOutDate, dateFormat)]))
       }
+      
+      dispath(actionGetAllRoom({
+        params: {
+          checkin_at: checkInDate,
+          checkout_at: checkOutDate
+        }
+      }))
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedFiltersState, currentResultsPage, sortByFilterValue]);
-
-  // Fetch hotels when location input value changes
-  useEffect(() => {
-
   }, [location]);
 
   return (
+
     <div className="hotels">
       <div className="bg-brand px-2 lg:h-[120px] h-[220px] flex items-center justify-center">
         <GlobalSearchBox
@@ -319,30 +273,34 @@ const HotelsSearch = () => {
           onSearchButtonAction={onSearchButtonAction}
         />
       </div>
-      <div className="my-4"></div>
-      <div className="w-[180px]"></div>
-      <ResultsContainer
-        hotelsResults={hotelsResults}
-        enableFilters={true}
-        filtersData={filtersData}
-        onFiltersUpdate={onFiltersUpdate}
-        onClearFiltersAction={onClearFiltersAction}
-        selectedFiltersState={selectedFiltersState}
-        sortByFilterValue={sortByFilterValue}
-        onSortingFilterChange={onSortingFilterChange}
-        sortingFilterOptions={sortingFilterOptions}
-      />
-      {hotelsResults.pagination?.totalPages > 1 && (
-        <div className="my-4">
-          <PaginationController
-            currentPage={currentResultsPage}
-            totalPages={hotelsResults.pagination?.totalPages}
-            handlePageChange={handlePageChange}
-            handlePreviousPageChange={handlePreviousPageChange}
-            handleNextPageChange={handleNextPageChange}
-          />
-        </div>
-      )}
+      <div className="container mx-auto">
+        <div className="my-4"></div>
+        <div className="w-[180px]"></div>
+        <ResultsContainer
+          isLoading={isLoading}
+          hotelsResults={rooms}
+          enableFilters={true}
+          filtersData={filtersData}
+          onFiltersUpdate={onFiltersUpdate}
+          onClearFiltersAction={onClearFiltersAction}
+          selectedFiltersState={selectedFiltersState}
+          sortByFilterValue={sortByFilterValue}
+          onSortingFilterChange={onSortingFilterChange}
+          sortingFilterOptions={sortingFilterOptions}
+        />
+        {/* {pagination?.totalPages > 1 && (
+          <div className="my-4">
+            <PaginationController
+              currentPage={pagination?.currentPage}
+              totalPages={pagination?.totalPages}
+              handlePageChange={handlePageChange}
+              handlePreviousPageChange={handlePreviousPageChange}
+              handleNextPageChange={handleNextPageChange}
+            />
+          </div>
+        )} */}
+      </div>
+
     </div>
   );
 };

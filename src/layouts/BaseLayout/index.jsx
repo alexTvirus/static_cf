@@ -4,12 +4,6 @@ import GlobalNavbar from '../../components/GlobalNavbar';
 import GlobalFooter from '../../components/GlobalFooter';
 
 
-/**
- * BaseLayout Component
- * Renders the base layout for the application.
- * It includes the global navbar, the main content, and the global footer.
- * @returns {JSX.Element} - The BaseLayout component.
- */
 const BaseLayout = () => {
   return (
     <>
@@ -24,10 +18,6 @@ const BaseLayout = () => {
       <div className='container mx-auto'>
         <GlobalFooter />
       </div>
-
-
-
-
     </>
   );
 };

@@ -2,17 +2,10 @@
 import ReactDOM from 'react-dom/client';
 import './index.scss';
 import reportWebVitals from './reportWebVitals';
-import { makeServer } from './mirage/mirageServer';
+
 import App from './App';
 import { store } from './redux/store';
 import { Provider } from 'react-redux';
-
-// if (process.env.NODE_ENV === 'development') {
-//   makeServer();
-// }
-
-//makeServer();
-
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(

@@ -23,7 +23,6 @@ const ResultsContainer = (props) => {
     onSortingFilterChange,
   } = props;
   
-  // Check if sorting filter is visible
   const isSortingFilterVisible =
     sortingFilterOptions && sortingFilterOptions.length > 0;
 
@@ -39,7 +38,6 @@ const ResultsContainer = (props) => {
   });
 
   const toggleVerticalFiltersAction = () => {
-    // Toggle based on the current state
     setIsVerticalFiltersOpen((prevState) => !prevState);
   };
 
@@ -94,6 +92,9 @@ const ResultsContainer = (props) => {
                   title={hotel.name}
                   image={hotel.room_type_images[0]}
                   subtitle={hotel.description}
+                  maxOccupancy={hotel.max_occupancy}
+                  bathrooms={hotel.bathrooms}
+                  roomSize={hotel.room_size}
                   // benefits={hotel.benefits}
                   // ratings={hotel.ratings}
                   price={hotel.base_price}
