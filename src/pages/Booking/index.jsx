@@ -11,7 +11,7 @@ const Booking = () => {
   const { hotelId } = useParams();
 
   const dispath = useDispatch()
-  const { dateRange, currentRoom, isLoading } = useSelector(state => {
+  const { currentRoom, isLoading } = useSelector(state => {
     return state.room
   })
 

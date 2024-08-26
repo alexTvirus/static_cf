@@ -25,10 +25,10 @@ const dateFormat = 'YYYY-MM-DD';
 
 const HotelBookingDetailsCard = (props) => {
 
-  const { hotelCode, handleDeletePacket, packets } = props
+  const { hotelCode, handleDeletePacket, packets, handleSelectGuest } = props
   const navigate = useNavigate();
   const dispath = useDispatch()
-  const { dateRange, currentRoom } = useSelector(state => {
+  const { dateRange, currentRoom, booking } = useSelector(state => {
     return state.room
   })
 
@@ -73,8 +73,9 @@ const HotelBookingDetailsCard = (props) => {
   };
 
 
-  const handleSelectGuest = (selectedOption) => {
+  const handleSelectGuestOption = (selectedOption) => {
     setSelectedGuests(selectedOption);
+    handleSelectGuest(selectedOption.value)
   }
 
   const calculatePrices = () => {
@@ -151,7 +152,6 @@ const HotelBookingDetailsCard = (props) => {
           </div>
           <div className="text-xl font-bold text-indigo-600">{total}</div>
           <div className="text-sm text-green-600">
-            {/* {currentRoom.cancellationPolicy} */}
           </div>
         </div>
         <Divider></Divider>
@@ -178,7 +178,7 @@ const HotelBookingDetailsCard = (props) => {
 
           <Select
             options={guestOptions}
-            onChange={handleSelectGuest}
+            onChange={handleSelectGuestOption}
             value={selectedGuests}
           />
         </div>

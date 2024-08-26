@@ -8,9 +8,16 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { useContext } from 'react';
 import Loader from '../../components/ux/loader/loader';
 import Toast from '../../components/ux/toast/Toast';
-
+import { Card, Col, Row } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { actionCheckout } from '../../redux/features/room/roomSlice'
 
 const Checkout = () => {
+  const dispatch = useDispatch()
+  const { booking } = useSelector(state => {
+    return state.room
+  })
+
   const [errors, setErrors] = useState({});
 
   const location = useLocation();
@@ -20,8 +27,6 @@ const Checkout = () => {
   const [searchParams] = useSearchParams();
 
 
-  const { isAuthenticated, userDetails } = useContext(AuthContext);
-
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
 
   const [paymentConfirmationDetails, setPaymentConfirmationDetails] = useState({
@@ -29,11 +34,8 @@ const Checkout = () => {
     data: {},
   });
 
-
-
-  // Form state for collecting user payment and address information
   const [formData, setFormData] = useState({
-    email: userDetails?.email ? userDetails?.email : '',
+    email: '',
     address: '',
     city: '',
     state: '',
@@ -46,7 +48,7 @@ const Checkout = () => {
   const numberRooms = `${searchParams.get('rooms')}`
 
   useEffect(() => {
-
+    debugger
     const locationState = location.state;
     const checkIn = searchParams.get('checkIn');
     const checkOut = searchParams.get('checkOut');
@@ -54,6 +56,20 @@ const Checkout = () => {
       const hotelCode = searchParams.get('hotelCode');
       navigate(`/booking/${hotelCode}`);
     }
+
+    // if (booking.status.id == 2) {
+    //   setPaymentConfirmationDetails({
+    //     isLoading: false,
+    //     data: {},
+    //   })
+
+    //   const hotelName = searchParams.get('hotelName').replaceAll('-', '_');
+    //   navigate(`/booking-confirmation?payment=sucess&hotel=${hotelName}`, {
+    //     state: {
+    //       confirmationData: [{label:"ok",value:1}],
+    //     },
+    //   });
+    // }
   }, [location, navigate, searchParams]);
 
 
@@ -66,7 +82,6 @@ const Checkout = () => {
 
 
   const handleSubmit = async (e) => {
-    debugger
     e.preventDefault();
     let isValid = true;
     const newErrors = {};
@@ -88,30 +103,7 @@ const Checkout = () => {
       isLoading: true,
       data: {},
     });
-
-
-
-
-    // const response = '/api/payments/confirmation'
-    // if (response && response.data && response.errors.length === 0) {
-    //   setPaymentConfirmationDetails({
-    //     isLoading: false,
-    //     data: response.data,
-    //   });
-    //   const hotelName = searchParams.get('hotelName').replaceAll('-', '_');
-    //   navigate(`/booking-confirmation?payment=sucess&hotel=${hotelName}`, {
-    //     state: {
-    //       confirmationData: response.data,
-    //     },
-    //   });
-    // } else {
-    //   setToastMessage('Payment failed. Please try again.');
-    //   setIsSubmitDisabled(false);
-    //   setPaymentConfirmationDetails({
-    //     isLoading: false,
-    //     data: {},
-    //   });
-    // }
+    dispatch(actionCheckout(booking))
   };
 
   return (
@@ -122,10 +114,9 @@ const Checkout = () => {
         hotelName={searchParams.get('hotelName').replaceAll('-', ' ')}
         checkIn={checkInDateTime}
         checkOut={checkOutDateTime}
-        isAuthenticated={isAuthenticated}
-        phone={userDetails?.phone}
-        email={userDetails?.email}
-        fullName={userDetails?.fullName}
+        phone={123}
+        email={""}
+        fullName={""}
       />
       <div className="relative bg-white border shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-lg mx-auto">
         {paymentConfirmationDetails.isLoading && (

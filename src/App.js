@@ -12,6 +12,7 @@ import AboutUs from './pages/AboutUs';
 import HotelDetails from './pages/HotelDetails';
 import Booking from './pages/Booking';
 import Checkout from './pages/Checkout';
+// import BookingConfirmation from './routes/booking-confimation/BookingConifrmation';
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
         path: '/checkout',
         element: <Checkout />,
       },
+      // {
+      //   path: '/booking-confirmation',
+      //   element: <BookingConfirmation />,
+      // },
     ],
   },
 ]);

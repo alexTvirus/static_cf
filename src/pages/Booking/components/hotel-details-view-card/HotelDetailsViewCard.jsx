@@ -67,7 +67,11 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
     dispatch(actionSetBooking(newBooking))
   }
 
-
+  const handleSelectGuest = (guests) => {
+    let newBooking = {...booking}
+    newBooking.guests = guests
+    dispatch(actionSetBooking(newBooking))
+  }
 
   useEffect(() => {
     setReviewData({
@@ -219,6 +223,7 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
           {
             !isObjectEmpty(hotelDetails) &&
             <HotelBookingDetailsCard
+              handleSelectGuest={handleSelectGuest}
               packets={booking.packets}
               handleDeletePacket={handleDeletePacket}
               hotelCode={hotelDetails.id} />

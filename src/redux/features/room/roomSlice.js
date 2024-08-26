@@ -12,12 +12,17 @@ const initialState = {
     rooms: [],
     currentRoom: {},
     isLoading: false,
-    booking:{
-        packets:[
-            
+    booking: {
+        packets: [
+
         ],
-        room:{
+        room: {
             // id
+        },
+        guests: 0,
+        status: {
+            id: 1,
+            name: "pending"
         }
     },
     dateRange: [
@@ -78,10 +83,10 @@ const roomSlice = createSlice({
     name: "room",
     initialState: initialState,
     reducers: {
-        actionSetDateRange:(state,actions)=>{
+        actionSetDateRange: (state, actions) => {
             state.dateRange = actions.payload
         },
-        actionSetBooking:(state,actions)=>{
+        actionSetBooking: (state, actions) => {
             state.booking = actions.payload
         }
     },
@@ -111,10 +116,24 @@ const roomSlice = createSlice({
                 handleError(action.payload)
             })
 
+            .addCase(actionCheckout.pending, (state, action) => {
+                state.isLoading = true
+            })
+            .addCase(actionCheckout.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.currentRoom = {}
+                // state.booking.status = { id: 2, name: "complete" }
+                message.success(action.payload.data.data)
+            })
+            .addCase(actionCheckout.rejected, (state, action) => {
+                state.isLoading = false
+                handleError(action.payload)
+            })
+
     }
 })
 
-export const { actionSetDateRange,actionSetBooking } = roomSlice.actions
+export const { actionSetDateRange, actionSetBooking } = roomSlice.actions
 
 // xuất ra reducer
 export const roomReducer = roomSlice.reducer

@@ -6,6 +6,8 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
 const dateFormat = 'YYYY-MM-DD';
 
+
+
 const FinalBookingSummary = ({
   numberGuests,
   numberRooms,
@@ -52,16 +54,6 @@ const FinalBookingSummary = ({
           <p className="text-sm text-gray-800">{numberRooms}</p>
         </div>
       </div>
-      {/* {isAuthenticated && (
-        <div className="border-t border-gray-200 pt-4">
-          <p className="text-sm font-semibold text-gray-600">
-            Booking details will be sent to:
-          </p>
-          <p className="text-sm text-gray-800">{fullName} (Primary)</p>
-          <p className="text-sm text-gray-800">{email}</p>
-          <p className="text-sm text-gray-800">{phone}</p>
-        </div>
-      )} */}
     </div>
   );
 };

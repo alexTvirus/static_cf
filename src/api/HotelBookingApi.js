@@ -56,7 +56,7 @@ const HotelBookingApi = {
     },
     checkoutRoom: (payload = {}) => {
         // todo: thong tin booking, thong tin payment
-        return apiPost(`checkout`, payload)
+        return apiPost(`checkout/`, payload)
     },
     getUserInfo: (id,payload = {}) => {
         return apiGet(`user/${id}`, payload)
