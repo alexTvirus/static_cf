@@ -13,9 +13,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { actionCheckout, actionSetResultBooking } from '../../redux/features/room/roomSlice'
 import { BOOKING_STATUS } from '../../utils/constants'
 
+
+import moment from 'moment';
+import { DatePicker, Radio } from 'antd';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+dayjs.extend(customParseFormat);
+const dateFormat = 'YYYY-MM-DD';
+
 const Checkout = () => {
   const dispatch = useDispatch()
-  const { resultBooking,booking } = useSelector(state => {
+  const { resultBooking,booking,dateRange } = useSelector(state => {
     return state.room
   })
 
@@ -91,6 +99,7 @@ const Checkout = () => {
 
 
   const handleSubmit = async (e) => {
+	debugger
     e.preventDefault();
     let isValid = true;
     const newErrors = {};
@@ -112,7 +121,23 @@ const Checkout = () => {
       isLoading: true,
       data: {},
     });
-    dispatch(actionCheckout(booking))
+	
+	const checkInDate = moment(dateRange[0].$d).format(dateFormat) ?? '';
+    const checkOutDate = moment(dateRange[1].$d).format(dateFormat) ?? '';
+	let payment = {
+		"payment_method":"face pay",
+		"payment_date": moment(new Date()).format(dateFormat),
+		"payment_amount": 100,
+		"address": formData.address,
+		"email":formData.email,
+		"city":formData.city,
+		"post_code":formData.postalCode,
+		"state":formData.state
+	}
+	
+	let newBooking = {...booking,"checkin_at":checkInDate,"checkout_at":checkOutDate,"payment":payment}
+
+    dispatch(actionCheckout(newBooking))
   };
 
   return (

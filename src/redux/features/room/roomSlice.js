@@ -19,7 +19,19 @@ const initialState = {
         room: {
             // id
         },
-        guests: 1
+        guests: 1,
+		checkin_at:"",
+		checkout_at:"",
+		payment:{
+			"payment_method":"face pay",
+			"payment_date": "",
+			"payment_amount": 0,
+			"address": "",
+			"email":"",
+			"city":"",
+			"post_code":"",
+			"state":""
+		},
     },
     resultBooking:{
         status: {
@@ -131,11 +143,10 @@ const roomSlice = createSlice({
                 state.isLoading = true
             })
             .addCase(actionCheckout.fulfilled, (state, action) => {
-                debugger
                 state.isLoading = false
                 state.currentRoom = {}
-                state.resultBooking.status = { id: 2, name: "complete" }
-                message.success(action.payload.data.data)
+				state.resultBooking= action.payload.data.data
+                message.success("checkout success")
             })
             .addCase(actionCheckout.rejected, (state, action) => {
                 state.isLoading = false
