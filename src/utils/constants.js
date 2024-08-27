@@ -32,3 +32,20 @@ export const SORTING_FILTER_LABELS = Object.freeze({
   RATING_LOW_TO_HIGH: 'Rating: Low to High',
   RATING_HIGH_TO_LOW: 'Rating: High to Low',
 });
+
+const listBookingStatus = [
+  {
+      id: 1,
+      name: "pending",
+  },
+
+  {
+      id: 2,
+      name: "complete",
+  }
+]
+
+export const BOOKING_STATUS = Object.freeze({
+  PENDING:   { name: "PENDING", id: 1 },
+  COMPLETE:  { name: "COMPLETE", id: 2 },
+});

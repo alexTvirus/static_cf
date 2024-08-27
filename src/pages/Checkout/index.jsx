@@ -10,11 +10,12 @@ import Loader from '../../components/ux/loader/loader';
 import Toast from '../../components/ux/toast/Toast';
 import { Card, Col, Row } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { actionCheckout } from '../../redux/features/room/roomSlice'
+import { actionCheckout, actionSetResultBooking } from '../../redux/features/room/roomSlice'
+import { BOOKING_STATUS } from '../../utils/constants'
 
 const Checkout = () => {
   const dispatch = useDispatch()
-  const { booking } = useSelector(state => {
+  const { resultBooking,booking } = useSelector(state => {
     return state.room
   })
 
@@ -57,20 +58,28 @@ const Checkout = () => {
       navigate(`/booking/${hotelCode}`);
     }
 
-    // if (booking.status.id == 2) {
-    //   setPaymentConfirmationDetails({
-    //     isLoading: false,
-    //     data: {},
-    //   })
 
-    //   const hotelName = searchParams.get('hotelName').replaceAll('-', '_');
-    //   navigate(`/booking-confirmation?payment=sucess&hotel=${hotelName}`, {
-    //     state: {
-    //       confirmationData: [{label:"ok",value:1}],
-    //     },
-    //   });
-    // }
   }, [location, navigate, searchParams]);
+
+
+
+  useEffect(() => {
+    if (resultBooking?.status?.id == BOOKING_STATUS.COMPLETE.id) {
+      dispatch(actionSetResultBooking({}))
+      setPaymentConfirmationDetails({
+        isLoading: false,
+        data: {},
+      })
+
+      const hotelName = searchParams.get('hotelName').replaceAll('-', '_');
+      navigate(`/booking-confirmation?payment=sucess&hotel=${hotelName}`, {
+        state: {
+          confirmationData: [{ label: "ok", value: 1 }],
+        },
+      });
+    }
+  }, [resultBooking])
+
 
 
   const handleChange = (e) => {

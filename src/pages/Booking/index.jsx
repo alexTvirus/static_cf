@@ -11,17 +11,14 @@ const Booking = () => {
   const { hotelId } = useParams();
 
   const dispath = useDispatch()
-  const { currentRoom, isLoading } = useSelector(state => {
+  const { currentRoom, isLoading, booking } = useSelector(state => {
     return state.room
   })
 
   useEffect(() => {
-    dispath(actionSetBooking({
-      packets: [],
-      room: {
-        id: hotelId
-      }
-    }))
+    let newbooking = {...booking}
+    newbooking.room = {id: hotelId}
+    dispath(actionSetBooking(newbooking))
     dispath(actionGetRoom({
       id: hotelId
     }))

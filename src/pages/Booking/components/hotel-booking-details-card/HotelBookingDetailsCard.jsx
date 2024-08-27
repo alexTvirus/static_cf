@@ -33,8 +33,8 @@ const HotelBookingDetailsCard = (props) => {
   })
 
   const [selectedGuests, setSelectedGuests] = useState({
-    value: 2,
-    label: '2 guests',
+    value: 1,
+    label: '1 guests',
   });
   const [selectedRooms, setSelectedRooms] = useState({
     value: 1,

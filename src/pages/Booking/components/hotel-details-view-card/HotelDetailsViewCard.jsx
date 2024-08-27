@@ -27,7 +27,7 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
     data: [],
   });
   const [currentReviewsPage, setCurrentReviewPage] = useState(1);
-
+  console.log(booking)
   // const handlePageChange = (page) => {
   //   setCurrentReviewPage(page);
   // };
@@ -149,16 +149,16 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
               <h3 className="font-semibold text-gray-700 mb-2">
                 Amenities
               </h3>
-              <p className="text-sm text-gray-600 mb-4">
+              <div className="text-sm text-gray-600 mb-4">
                 {!isObjectEmpty(hotelDetails) && hotelDetails.amenities.map((item, index, { length }) => (
                   <>
                     <span key={index}>
                       {item.name}
                     </span>
-                    {(index + 1 < length) && <span> , </span>}
+                    {(index + 1 < length) && <span key={`${index}-${index}`}> , </span>}
                   </>
                 ))}
-              </p>
+              </div>
             </div>
 
             {!isObjectEmpty(hotelDetails) && hotelDetails.packets.map((packet, index, { length }) => (

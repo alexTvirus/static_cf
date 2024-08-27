@@ -13,10 +13,10 @@ async function apiGet(url, options = {}) {
     }
 }
 
-async function apiPost(context, url, params, options = {}) {
+async function apiPost(url, options = {}) {
     try {
         const opt = getCommonOptions()
-        const response = await axios.post(`${url}/api/v1/${url}`, params, Object.assign(opt, options))
+        const response = await axios.post(`${baseUrl}/api/v1/${url}`,options,opt)
         return response
     } catch (e) {
         throw e

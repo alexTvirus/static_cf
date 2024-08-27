@@ -19,7 +19,9 @@ const initialState = {
         room: {
             // id
         },
-        guests: 0,
+        guests: 1
+    },
+    resultBooking:{
         status: {
             id: 1,
             name: "pending"
@@ -63,7 +65,12 @@ export const actionCheckout = createAsyncThunk(
     "room/actionCheckout",
     async (payload, thunkApi) => {
         try {
-            return await HotelBookingApi.checkoutRoom(payload)
+            let booking = { ...payload }
+            let packets = booking.packets.map((packet)=>{
+                return {id:packet.id}
+            })
+            booking.packets = packets
+            return await HotelBookingApi.checkoutRoom(booking)
         } catch (error) {
             return thunkApi.rejectWithValue(error)
         }
@@ -87,6 +94,10 @@ const roomSlice = createSlice({
             state.dateRange = actions.payload
         },
         actionSetBooking: (state, actions) => {
+            state.booking = actions.payload
+        }
+        ,
+        actionSetResultBooking: (state, actions) => {
             state.booking = actions.payload
         }
     },
@@ -120,9 +131,10 @@ const roomSlice = createSlice({
                 state.isLoading = true
             })
             .addCase(actionCheckout.fulfilled, (state, action) => {
+                debugger
                 state.isLoading = false
                 state.currentRoom = {}
-                // state.booking.status = { id: 2, name: "complete" }
+                state.resultBooking.status = { id: 2, name: "complete" }
                 message.success(action.payload.data.data)
             })
             .addCase(actionCheckout.rejected, (state, action) => {
@@ -133,7 +145,7 @@ const roomSlice = createSlice({
     }
 })
 
-export const { actionSetDateRange, actionSetBooking } = roomSlice.actions
+export const { actionSetDateRange, actionSetBooking ,actionSetResultBooking} = roomSlice.actions
 
 // xuất ra reducer
 export const roomReducer = roomSlice.reducer
