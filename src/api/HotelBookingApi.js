@@ -52,7 +52,7 @@ const HotelBookingApi = {
         return apiGet(`room-type/`, payload)
     },
     getRoom: (id,payload = {}) => {
-        return apiGet(`room-type/${id}`, payload)
+        return apiGet(`room-type/${id}?checkin_at=${payload['checkin_at']}&checkout_at=${payload['checkout_at']}`, payload)
     },
     checkoutRoom: (payload = {}) => {
         // todo: thong tin booking, thong tin payment
