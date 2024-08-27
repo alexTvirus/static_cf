@@ -221,7 +221,7 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
         </div>
         <div className='sticky top-0'>
           {
-            !isObjectEmpty(hotelDetails) &&
+            !isObjectEmpty(hotelDetails) && !isObjectEmpty(booking) &&
             <HotelBookingDetailsCard
               handleSelectGuest={handleSelectGuest}
               packets={booking.packets}

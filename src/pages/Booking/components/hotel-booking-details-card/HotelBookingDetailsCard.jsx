@@ -28,7 +28,7 @@ const HotelBookingDetailsCard = (props) => {
   const { hotelCode, handleDeletePacket, packets, handleSelectGuest } = props
   const navigate = useNavigate();
   const dispath = useDispatch()
-  const { dateRange, currentRoom, booking } = useSelector(state => {
+  const { dateRange, currentRoom } = useSelector(state => {
     return state.room
   })
 
@@ -42,7 +42,7 @@ const HotelBookingDetailsCard = (props) => {
   });
 
   const [guestOptions, setGuestOptions] = useState(Array.from(
-    { length: currentRoom.max_occupancy },
+    { length: currentRoom.max_occupancy||4 },
     (_, i) => ({ value: i + 1, label: `${i + 1} guest` })
   ));
 
@@ -54,7 +54,7 @@ const HotelBookingDetailsCard = (props) => {
 
   const calGuestOptions = (packetNumber) => {
     setGuestOptions(Array.from(
-      { length: currentRoom.max_occupancy * packetNumber },
+      { length: (currentRoom.max_occupancy||4) * packetNumber },
       (_, i) => ({ value: i + 1, label: `${i + 1} guest` })
     ))
   }
@@ -112,7 +112,7 @@ const HotelBookingDetailsCard = (props) => {
       checkOut,
       rooms: packets.length,
       guests: selectedGuests.value,
-      hotelName: currentRoom.name.replaceAll(' ', '-'),
+      hotelName: currentRoom?.name?.replaceAll(' ', '-'),
     };
 
     const url = `/checkout?${queryString.stringify(queryParams)}`;

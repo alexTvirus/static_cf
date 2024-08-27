@@ -1,22 +1,16 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import React, { useContext } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
+
 import { useNavigate } from 'react-router-dom';
 import validations from '../../utils/validations';
 import Toast from '../../components/ux/toast/Toast';
 import { LOGIN_MESSAGES } from '../../utils/constants';
 
-/**
- * Login Component
- * Renders a login form allowing users to sign in to their account.
- * It handles user input for email and password, submits login credentials to the server,
- * and navigates the user to their profile upon successful authentication.
- * Displays an error message for invalid login attempts.
- */
+
 const Login = () => {
   const navigate = useNavigate();
-  const context = useContext(AuthContext);
+
   const [loginData, setLoginData] = useState({
     email: '',
     password: '',
@@ -24,43 +18,18 @@ const Login = () => {
 
   const [errorMessage, setErrorMessage] = useState(false);
 
-  /**
-   * Handles input changes for the login form fields.
-   * Updates the loginData state with the field values.
-   * @param {Object} e - The event object from the input field.
-   */
+
   const handleInputChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
   };
 
-  /**
-   * Handles the submission of the login form.
-   * Attempts to authenticate the user with the provided credentials.
-   * Navigates to the user profile on successful login or sets an error message on failure.
-   * @param {Object} e - The event object from the form submission.
-   */
+
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
 
-    if (validations.validate('email', loginData.email)) {
-      const response = 'api/users/login'
-      if (response && response.data.token) {
-        context.triggerAuthCheck();
-        navigate('/user-profile');
-      } else if (response && response.errors.length > 0) {
-        setErrorMessage(response.errors[0]);
-      }
-    } else {
-      setErrorMessage(LOGIN_MESSAGES.FAILED);
-    }
   };
 
-  /**
-   * Clears the current error message displayed to the user.
-   */
-  const dismissError = () => {
-    setErrorMessage('');
-  };
+
 
   return (
     <>
@@ -100,13 +69,6 @@ const Login = () => {
                 className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
               />
             </div>
-            {errorMessage && (
-              <Toast
-                type="error"
-                message={errorMessage}
-                dismissError={dismissError}
-              />
-            )}
             <div className="items-center">
               <div>
                 <button

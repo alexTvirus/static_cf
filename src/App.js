@@ -3,8 +3,6 @@ import './App.scss';
 import React, { useEffect } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import { AuthProvider } from './contexts/AuthContext';
-
 import BaseLayout from './layouts/BaseLayout';
 import Home from './pages/Home';
 import HotelsSearch from './pages/HotelsSearch';
@@ -12,7 +10,11 @@ import AboutUs from './pages/AboutUs';
 import HotelDetails from './pages/HotelDetails';
 import Booking from './pages/Booking';
 import Checkout from './pages/Checkout';
-import BookingConfirmation from './routes/booking-confimation/BookingConifrmation';
+import BookingConfirmation from './pages/BookingConifrmation';
+import ForgotPassword from './pages/ForgotPassword'
+import Login from './pages/Login'
+import Register from './pages/Register'
+import UserProfile from './pages/UserProfile'
 
 const router = createBrowserRouter([
   {
@@ -47,6 +49,24 @@ const router = createBrowserRouter([
         path: '/booking-confirmation',
         element: <BookingConfirmation />,
       },
+      ,
+      {
+        path: '/forgot-password',
+        element: <ForgotPassword />,
+      },
+      {
+        path: '/login',
+        element: <Login />,
+      },
+      {
+        path: '/register',
+        element: <Register />,
+      },
+      {
+        path: '/user-profile',
+        element: <UserProfile />,
+      },
+      
     ],
   },
 ]);
@@ -55,9 +75,7 @@ function App() {
 
   return (
     <>
-      <AuthProvider>
-        <RouterProvider router={router} />
-      </AuthProvider>
+      <RouterProvider router={router} />
     </>
   );
 }

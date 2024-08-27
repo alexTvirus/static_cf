@@ -1,33 +1,10 @@
 
 const listStatus = [
-    {
-        id: 1,
-        name: "new",
-        className: "status-new"
-    },
 
-    {
-        id: 2,
-        name: "doing",
-        className: "status-doing"
-    },
-    {
-        id: 3,
-        name: "done",
-        className: "status-done"
-    }
 ]
 
 const listChooseSearch = [
-    {
-        id: 1,
-        name: "title",
-    },
 
-    {
-        id: 2,
-        name: "createBy",
-    },
 ]
 
 const Util = {

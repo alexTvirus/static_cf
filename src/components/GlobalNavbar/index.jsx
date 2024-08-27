@@ -4,15 +4,13 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
-import { AuthContext } from '../../contexts/AuthContext';
-import { useContext } from 'react';
 
 import NavbarItems from '../../components/NavbarItems';
 import HamburgerMenu from '../../components/HamburgerMenu';
 
 const GlobalNavbar = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const { isAuthenticated } = useContext(AuthContext);
+
   const onHamburgerMenuToggle = () => {
     setIsVisible(!isVisible);
   };
@@ -25,7 +23,7 @@ const GlobalNavbar = () => {
         </Link> */}
       </div>
       <ul className="list-none hidden md:flex">
-        <NavbarItems isAuthenticated={isAuthenticated} />
+        <NavbarItems />
       </ul>
       <FontAwesomeIcon
         data-testid="menu-toggle__button"
@@ -38,7 +36,6 @@ const GlobalNavbar = () => {
       <HamburgerMenu
         isVisible={isVisible}
         onHamburgerMenuToggle={onHamburgerMenuToggle}
-        isAuthenticated={isAuthenticated}
       />
     </div>
   );

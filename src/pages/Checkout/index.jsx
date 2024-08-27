@@ -2,20 +2,16 @@ import React, { useEffect, useState } from 'react';
 import FinalBookingSummary from './components/final-booking-summary/FinalBookingSummary';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { getReadableMonthFormat } from '../../utils/date-helpers';
+
 import { useSearchParams } from 'react-router-dom';
-import { AuthContext } from '../../contexts/AuthContext';
-import { useContext } from 'react';
 import Loader from '../../components/ux/loader/loader';
-import Toast from '../../components/ux/toast/Toast';
-import { Card, Col, Row } from 'antd';
+
 import { useDispatch, useSelector } from 'react-redux';
-import { actionCheckout, actionSetResultBooking } from '../../redux/features/room/roomSlice'
+import { actionCheckout, actionSetResultBooking, actionClearBooking } from '../../redux/features/room/roomSlice'
 import { BOOKING_STATUS } from '../../utils/constants'
 
 
 import moment from 'moment';
-import { DatePicker, Radio } from 'antd';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
@@ -23,7 +19,7 @@ const dateFormat = 'YYYY-MM-DD';
 
 const Checkout = () => {
   const dispatch = useDispatch()
-  const { resultBooking,booking,dateRange } = useSelector(state => {
+  const { resultBooking, booking, dateRange } = useSelector(state => {
     return state.room
   })
 
@@ -34,7 +30,6 @@ const Checkout = () => {
   const navigate = useNavigate();
 
   const [searchParams] = useSearchParams();
-
 
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
 
@@ -72,8 +67,11 @@ const Checkout = () => {
 
 
   useEffect(() => {
-    if (resultBooking?.status?.id == BOOKING_STATUS.COMPLETE.id) {
-      dispatch(actionSetResultBooking({}))
+    if (resultBooking?.status == BOOKING_STATUS.COMPLETE.id
+      || resultBooking?.status == BOOKING_STATUS.PARTIALLY_PAID.id
+      || resultBooking?.status == BOOKING_STATUS.PENDING.id) {
+      dispatch(actionSetResultBooking(booking))
+      dispatch(actionClearBooking())
       setPaymentConfirmationDetails({
         isLoading: false,
         data: {},
@@ -85,6 +83,13 @@ const Checkout = () => {
           confirmationData: [{ label: "ok", value: 1 }],
         },
       });
+    }
+    if (resultBooking?.status == BOOKING_STATUS.CANCEL.id) {
+      setPaymentConfirmationDetails({
+        isLoading: false,
+        data: {},
+      })
+      setIsSubmitDisabled(false)
     }
   }, [resultBooking])
 
@@ -99,7 +104,6 @@ const Checkout = () => {
 
 
   const handleSubmit = async (e) => {
-	debugger
     e.preventDefault();
     let isValid = true;
     const newErrors = {};
@@ -113,7 +117,7 @@ const Checkout = () => {
     setErrors(newErrors);
 
     if (!isValid) {
-      return; // Stop form submission if there are errors
+      return; 
     }
 
     setIsSubmitDisabled(true);
@@ -121,21 +125,21 @@ const Checkout = () => {
       isLoading: true,
       data: {},
     });
-	
-	const checkInDate = moment(dateRange[0].$d).format(dateFormat) ?? '';
+
+    const checkInDate = moment(dateRange[0].$d).format(dateFormat) ?? '';
     const checkOutDate = moment(dateRange[1].$d).format(dateFormat) ?? '';
-	let payment = {
-		"payment_method":"face pay",
-		"payment_date": moment(new Date()).format(dateFormat),
-		"payment_amount": 100,
-		"address": formData.address,
-		"email":formData.email,
-		"city":formData.city,
-		"post_code":formData.postalCode,
-		"state":formData.state
-	}
-	
-	let newBooking = {...booking,"checkin_at":checkInDate,"checkout_at":checkOutDate,"payment":payment}
+    let payment = {
+      "payment_method": "face pay",
+      "payment_date": moment(new Date()).format(dateFormat),
+      "payment_amount": 100,
+      "address": formData.address,
+      "email": formData.email,
+      "city": formData.city,
+      "post_code": formData.postalCode,
+      "state": formData.state
+    }
+
+    let newBooking = { ...booking, "checkin_at": checkInDate, "checkout_at": checkOutDate, "payment": payment }
 
     dispatch(actionCheckout(newBooking))
   };

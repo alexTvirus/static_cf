@@ -6,7 +6,7 @@ import {
   faHotel,
   faCreditCard,
 } from '@fortawesome/free-solid-svg-icons';
-import { AuthContext } from '../../contexts/AuthContext';
+
 import { useContext } from 'react';
 import PaymentMethodsPanel from './components/PaymentsMethodsPanel';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,6 +16,7 @@ import useOutsideClickHandler from '../../hooks/useOutsideClickHandler';
 import { useNavigate } from 'react-router-dom';
 import BookingPanel from './components/BookingPanel';
 import ProfileDetailsPanel from './components/ProfileDetailsPanel';
+import { useDispatch, useSelector } from 'react-redux';
 
 /**
  * UserProfile
@@ -23,7 +24,11 @@ import ProfileDetailsPanel from './components/ProfileDetailsPanel';
  * @returns {JSX.Element} - The UserProfile component
  * */
 const UserProfile = () => {
-  const { userDetails } = useContext(AuthContext);
+  const dispath = useDispatch();
+  const {currentUser} =useSelector(state=>{
+    return state.auth
+  })
+
   const navigate = useNavigate();
 
   const wrapperRef = useRef();
@@ -55,34 +60,32 @@ const UserProfile = () => {
     setIsTabsVisible(!isTabsVisible);
   };
 
-  // effect to set initial state of user details
   useEffect(() => {
-    if (!userDetails) {
+    if (!currentUser) {
       navigate('/login');
     }
-  }, [navigate, userDetails]);
+  }, [navigate, currentUser]);
 
-  // effect to set initial state of user bookings data
   useEffect(() => {
-    const getInitialData = async () => {
-      const userBookingsDataResponse = '/api/users/bookings'
-      const userPaymentMethodsResponse = 'api/users/payment-methods'
-      if (userBookingsDataResponse && userBookingsDataResponse.data) {
-        setUserBookingsData({
-          isLoading: false,
-          data: userBookingsDataResponse.data.elements,
-          errors: userBookingsDataResponse.errors,
-        });
-      }
-      if (userPaymentMethodsResponse && userPaymentMethodsResponse.data) {
-        setUserPaymentMethodsData({
-          isLoading: false,
-          data: userPaymentMethodsResponse.data.elements,
-          errors: userPaymentMethodsResponse.errors,
-        });
-      }
-    };
-    getInitialData();
+    // const getInitialData = async () => {
+    //   const userBookingsDataResponse = '/api/users/bookings'
+    //   const userPaymentMethodsResponse = 'api/users/payment-methods'
+    //   if (userBookingsDataResponse && userBookingsDataResponse.data) {
+    //     setUserBookingsData({
+    //       isLoading: false,
+    //       data: userBookingsDataResponse.data.elements,
+    //       errors: userBookingsDataResponse.errors,
+    //     });
+    //   }
+    //   if (userPaymentMethodsResponse && userPaymentMethodsResponse.data) {
+    //     setUserPaymentMethodsData({
+    //       isLoading: false,
+    //       data: userPaymentMethodsResponse.data.elements,
+    //       errors: userPaymentMethodsResponse.errors,
+    //     });
+    //   }
+    // };
+    // getInitialData();
   }, []);
 
   return (
@@ -102,7 +105,7 @@ const UserProfile = () => {
         </div>
         <Tabs isTabsVisible={isTabsVisible} wrapperRef={wrapperRef}>
           <TabPanel label="Personal Details" icon={faAddressCard}>
-            <ProfileDetailsPanel userDetails={userDetails} />
+            <ProfileDetailsPanel userDetails={currentUser} />
           </TabPanel>
           <TabPanel label="Bookings" icon={faHotel}>
             <BookingPanel bookings={userBookingsData.data} />

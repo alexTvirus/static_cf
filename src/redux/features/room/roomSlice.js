@@ -5,6 +5,7 @@ import Util from '../../../utils/util'
 
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { number } from 'yup';
 dayjs.extend(customParseFormat);
 
 
@@ -20,24 +21,21 @@ const initialState = {
             // id
         },
         guests: 1,
-		checkin_at:"",
-		checkout_at:"",
-		payment:{
-			"payment_method":"face pay",
-			"payment_date": "",
-			"payment_amount": 0,
-			"address": "",
-			"email":"",
-			"city":"",
-			"post_code":"",
-			"state":""
-		},
+        checkin_at: "",
+        checkout_at: "",
+        payment: {
+            "payment_method": "face pay",
+            "payment_date": "",
+            "payment_amount": 0,
+            "address": "",
+            "email": "",
+            "city": "",
+            "post_code": "",
+            "state": ""
+        },
     },
-    resultBooking:{
-        status: {
-            id: 1,
-            name: "pending"
-        }
+    resultBooking: {
+        status: 0
     },
     dateRange: [
         dayjs(), dayjs()
@@ -78,8 +76,8 @@ export const actionCheckout = createAsyncThunk(
     async (payload, thunkApi) => {
         try {
             let booking = { ...payload }
-            let packets = booking.packets.map((packet)=>{
-                return {id:packet.id}
+            let packets = booking.packets.map((packet) => {
+                return { id: packet.id }
             })
             booking.packets = packets
             return await HotelBookingApi.checkoutRoom(booking)
@@ -91,7 +89,7 @@ export const actionCheckout = createAsyncThunk(
 
 
 const handleError = (e) => {
-    message.error(e)
+
     if (e.response && e.response.status === 401) {
         localStorage.removeItem('access_token')
         //   context.app.router.push({ path: '/login' })
@@ -108,9 +106,24 @@ const roomSlice = createSlice({
         actionSetBooking: (state, actions) => {
             state.booking = actions.payload
         }
+
+        ,
+        actionClearBooking: (state, actions) => {
+            state.booking = {
+                packets: [
+                ],
+                room: {
+                },
+                guests: 1,
+                checkin_at: "",
+                checkout_at: "",
+                payment: {
+                },
+            }
+        }
         ,
         actionSetResultBooking: (state, actions) => {
-            state.booking = actions.payload
+            state.resultBooking = actions.payload
         }
     },
     extraReducers: builder => {
@@ -142,21 +155,23 @@ const roomSlice = createSlice({
             .addCase(actionCheckout.pending, (state, action) => {
                 state.isLoading = true
             })
-            .addCase(actionCheckout.fulfilled, (state, action) => {
+            .addCase(actionCheckout.fulfilled, (state, action) => { 
                 state.isLoading = false
-                state.currentRoom = {}
-				state.resultBooking= action.payload.data.data
-                message.success("checkout success")
+                state.resultBooking = action.payload.data.data
+                message.success("Checkout Success")
             })
             .addCase(actionCheckout.rejected, (state, action) => {
+                debugger
                 state.isLoading = false
                 handleError(action.payload)
+                state.resultBooking = action.payload.response.data.data
+                message.error("Checkout Fail")
             })
 
     }
 })
 
-export const { actionSetDateRange, actionSetBooking ,actionSetResultBooking} = roomSlice.actions
+export const { actionSetDateRange, actionSetBooking, actionSetResultBooking,actionClearBooking } = roomSlice.actions
 
 // xuất ra reducer
 export const roomReducer = roomSlice.reducer

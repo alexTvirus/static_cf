@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { roomReducer } from './features/room/roomSlice'
-
+import { authReducer } from './features/auth/authSlice'
 import {
     persistStore,
     persistReducer,
@@ -15,7 +15,8 @@ import {
 
 export const store = configureStore({
     reducer: {
-        room: roomReducer
+        room: roomReducer,
+        auth: authReducer
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

@@ -5,31 +5,30 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useReactToPrint } from 'react-to-print';
 import { useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-/**
- * Represents the booking confirmation component.
- * @component
- * @returns {JSX.Element} The booking confirmation component.
- */
+
 const BookingConfirmation = () => {
   const contentToPrint = useRef(null);
   const location = useLocation();
   const navigate = useNavigate();
 
+  const dispatch = useDispatch();
+  const {booking} = useSelector(state=>{
+    return state.room
+  })
+
   const [bookingDetails, setBookingDetails] = useState(null);
 
-  /**
-   * Handles the print event.
-   * @function
-   * @returns {void}
-   */
+
   const handlePrint = useReactToPrint({
     documentTitle: 'Booking Confirmation',
     removeAfterPrint: true,
   });
 
-  // Set booking details from location state passed from the previous page(checkout page)
+
   useEffect(() => {
+    debugger
     if (location.state) {
       const { bookingDetails } = location.state.confirmationData;
       setBookingDetails(bookingDetails);
@@ -38,6 +37,7 @@ const BookingConfirmation = () => {
     }
   }, [bookingDetails, location.state, navigate]);
 
+  console.dir(bookingDetails)
   return (
     <div className="md:mx-auto max-w-[800px] my-40">
       <div className="flex justify-between mx-2 rounded-md my-2">
