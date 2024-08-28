@@ -2,13 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Toast from '../../../components/ux/toast/Toast';
 import Select from 'react-select';
 
-/**
- * Renders the user profile details panel.
- * @component
- * @param {Object} props - The component props.
- * @param {Object} props.userDetails - The user's details.
- * @returns {JSX.Element} The rendered component.
- * */
 const ProfileDetailsPanel = ({ userDetails }) => {
   // states to manage the edit mode and user details
   const [isEditMode, setIsEditMode] = useState(false);
@@ -36,12 +29,7 @@ const ProfileDetailsPanel = ({ userDetails }) => {
     setIsEditMode(!isEditMode);
   };
 
-  /**
-   * Handles the save button click event.
-   * Updates the user details and sets the edit mode to false.
-   * */
   const handleSaveClick = async () => {
-    // check if newstate is different from old state
     if (
       firstName === userDetails.firstName &&
       lastName === userDetails.lastName &&

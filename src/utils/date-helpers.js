@@ -1,5 +1,16 @@
 import { parse, format } from 'date-fns';
 
+import moment from 'moment';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+dayjs.extend(customParseFormat);
+const dateFormat = 'DD-MM-YYYY';
+
+
+function formatDate1(date){
+  date = dayjs(date)
+  return date.format(dateFormat)
+}
 
 function formatDate(date) {
   // Check if the date is undefined or not a valid Date object
@@ -23,4 +34,4 @@ function getReadableMonthFormat(dateString) {
   return format(parse(dateString, 'dd-MM-yyyy', new Date()), 'd MMMM yyyy');
 }
 
-export { formatDate, getReadableMonthFormat };
+export { formatDate,formatDate1, getReadableMonthFormat };

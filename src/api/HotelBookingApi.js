@@ -58,6 +58,9 @@ const HotelBookingApi = {
         // todo: thong tin booking, thong tin payment
         return apiPost(`checkout?XDEBUG_SESSION_START=15162`, payload)
     },
+    getBookingInfo: (id,payload = {}) => {
+        return apiGet(`customer/${id}/bookings/`, payload)
+    },
     getUserInfo: (id,payload = {}) => {
         return apiGet(`user/${id}`, payload)
     },

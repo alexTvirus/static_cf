@@ -50,18 +50,18 @@ const router = createBrowserRouter([
         element: <BookingConfirmation />,
       },
       ,
-      {
-        path: '/forgot-password',
-        element: <ForgotPassword />,
-      },
-      {
-        path: '/login',
-        element: <Login />,
-      },
-      {
-        path: '/register',
-        element: <Register />,
-      },
+      // {
+      //   path: '/forgot-password',
+      //   element: <ForgotPassword />,
+      // },
+      // {
+      //   path: '/login',
+      //   element: <Login />,
+      // },
+      // {
+      //   path: '/register',
+      //   element: <Register />,
+      // },
       {
         path: '/user-profile',
         element: <UserProfile />,

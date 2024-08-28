@@ -37,7 +37,6 @@ const BookingConfirmation = () => {
     }
   }, [bookingDetails, location.state, navigate]);
 
-  console.dir(bookingDetails)
   return (
     <div className="md:mx-auto max-w-[800px] my-40">
       <div className="flex justify-between mx-2 rounded-md my-2">
@@ -47,14 +46,14 @@ const BookingConfirmation = () => {
         >
           Back to home
         </Link>
-        <button
+        {/* <button
           onClick={() => {
             handlePrint(null, () => contentToPrint.current);
           }}
           className="border p-2 min-w-[120px] transition-all delay-75 hover:bg-gray-500 hover:text-white hover:animate-bounce"
         >
           Print
-        </button>
+        </button> */}
       </div>
       <div
         ref={contentToPrint}

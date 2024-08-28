@@ -60,7 +60,19 @@ const NavbarItems = ({ onHamburgerMenuToggle }) => {
           About us
         </Link>
       </li>
-      <li className='p-4 hover:bg-blue-900 md:hover:bg-brand'>
+
+      <li className="p-4 hover:bg-blue-900 md:hover:bg-brand">
+        <Link
+          to="/user-profile"
+          className={`uppercase font-medium text-slate-100 hover-underline-animation ${isActive('/user-profile') && 'active-link'
+            }`}
+          onClick={onHamburgerMenuToggle}
+        >
+          User Profile
+        </Link>
+      </li>       
+
+      {/* <li className='p-4 hover:bg-blue-900 md:hover:bg-brand'>
 
       <Link
         to="/login"
@@ -70,7 +82,7 @@ const NavbarItems = ({ onHamburgerMenuToggle }) => {
       >
         Login/Register
       </Link>
-      </li>
+      </li> */}
       {/* <li
         className={`${!isAuthenticated && 'p-4 hover:bg-blue-900 md:hover:bg-brand'}`}
       >

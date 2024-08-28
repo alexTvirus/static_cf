@@ -17,16 +17,19 @@ import { useNavigate } from 'react-router-dom';
 import BookingPanel from './components/BookingPanel';
 import ProfileDetailsPanel from './components/ProfileDetailsPanel';
 import { useDispatch, useSelector } from 'react-redux';
+import { actionBookingInfo } from '../../redux/features/room/roomSlice';
 
-/**
- * UserProfile
- * Renders the user profile page with tabs for personal details, bookings, and payment methods.
- * @returns {JSX.Element} - The UserProfile component
- * */
+
+import { isObjectEmpty } from '../../utils/helpers'
+
 const UserProfile = () => {
   const dispath = useDispatch();
-  const {currentUser} =useSelector(state=>{
+  const { currentUser } = useSelector(state => {
     return state.auth
+  })
+
+  const { userBookingsData, isLoading } = useSelector(state => {
+    return state.room
   })
 
   const navigate = useNavigate();
@@ -35,13 +38,6 @@ const UserProfile = () => {
   const buttonRef = useRef();
 
   const [isTabsVisible, setIsTabsVisible] = useState(false);
-
-  // Fetch user bookings data
-  const [userBookingsData, setUserBookingsData] = useState({
-    isLoading: true,
-    data: [],
-    errors: [],
-  });
 
   // Fetch user payment methods data
   const [userPaymentMethodsData, setUserPaymentMethodsData] = useState({
@@ -86,6 +82,7 @@ const UserProfile = () => {
     //   }
     // };
     // getInitialData();
+    dispath(actionBookingInfo())
   }, []);
 
   return (
@@ -103,20 +100,20 @@ const UserProfile = () => {
             />
           </button>
         </div>
-        <Tabs isTabsVisible={isTabsVisible} wrapperRef={wrapperRef}>
-          <TabPanel label="Personal Details" icon={faAddressCard}>
-            <ProfileDetailsPanel userDetails={currentUser} />
-          </TabPanel>
-          <TabPanel label="Bookings" icon={faHotel}>
-            <BookingPanel bookings={userBookingsData.data} />
-          </TabPanel>
-          <TabPanel label="Payment details" icon={faCreditCard}>
-            <PaymentMethodsPanel
-              userPaymentMethodsData={userPaymentMethodsData}
-              setUserPaymentMethodsData={setUserPaymentMethodsData}
-            />
-          </TabPanel>
-        </Tabs>
+        {
+          !isObjectEmpty(userBookingsData) &&
+          <Tabs isTabsVisible={isTabsVisible} wrapperRef={wrapperRef}>
+
+            <TabPanel
+              label="Bookings"
+            // icon={faHotel}
+            >
+              <BookingPanel bookings={userBookingsData} />
+            </TabPanel>
+
+          </Tabs>
+        }
+
       </div>
     </>
   );

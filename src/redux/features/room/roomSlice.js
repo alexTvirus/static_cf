@@ -34,6 +34,9 @@ const initialState = {
             "state": ""
         },
     },
+    userBookingsData: {
+
+    },
     resultBooking: {
         status: 0
     },
@@ -65,6 +68,18 @@ export const actionGetRoom = createAsyncThunk(
     async (payload, thunkApi) => {
         try {
             return await HotelBookingApi.getRoom(payload.id, payload)
+        } catch (error) {
+            return thunkApi.rejectWithValue(error)
+        }
+    }
+)
+
+export const actionBookingInfo = createAsyncThunk(
+    "room/actionBookingInfo",
+    async (payload, thunkApi) => {
+        try {
+            // todo : fake id customer = 1 , sau nay dung user login
+            return await HotelBookingApi.getBookingInfo(1,payload)
         } catch (error) {
             return thunkApi.rejectWithValue(error)
         }
@@ -155,7 +170,7 @@ const roomSlice = createSlice({
             .addCase(actionCheckout.pending, (state, action) => {
                 state.isLoading = true
             })
-            .addCase(actionCheckout.fulfilled, (state, action) => { 
+            .addCase(actionCheckout.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.resultBooking = action.payload.data.data
                 message.success("Checkout Success")
@@ -168,10 +183,23 @@ const roomSlice = createSlice({
                 message.error("Checkout Fail")
             })
 
+            .addCase(actionBookingInfo.pending, (state, action) => {
+                state.isLoading = true
+            })
+            .addCase(actionBookingInfo.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.userBookingsData = action.payload.data.data
+            })
+            .addCase(actionBookingInfo.rejected, (state, action) => {
+                state.isLoading = false
+                handleError(action.payload)
+                message.error("error")
+            })
+
     }
 })
 
-export const { actionSetDateRange, actionSetBooking, actionSetResultBooking,actionClearBooking } = roomSlice.actions
+export const { actionSetDateRange, actionSetBooking, actionSetResultBooking, actionClearBooking } = roomSlice.actions
 
 // xuất ra reducer
 export const roomReducer = roomSlice.reducer
