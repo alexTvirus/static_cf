@@ -103,10 +103,16 @@ const UserProfile = () => {
         {
           !isObjectEmpty(userBookingsData) &&
           <Tabs isTabsVisible={isTabsVisible} wrapperRef={wrapperRef}>
+            <ProfileDetailsPanel
+              label="Personal Details"
+              icon={faAddressCard}
+              currentUser={currentUser}
+            >
 
+            </ProfileDetailsPanel>
             <TabPanel
               label="Bookings"
-            // icon={faHotel}
+              icon={faHotel}
             >
               <BookingPanel bookings={userBookingsData} />
             </TabPanel>

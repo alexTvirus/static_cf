@@ -10,7 +10,6 @@ import AboutUs from './pages/AboutUs';
 import HotelDetails from './pages/HotelDetails';
 import Booking from './pages/Booking';
 import Checkout from './pages/Checkout';
-import BookingConfirmation from './pages/BookingConifrmation';
 import ForgotPassword from './pages/ForgotPassword'
 import Login from './pages/Login'
 import Register from './pages/Register'
@@ -45,11 +44,6 @@ const router = createBrowserRouter([
         path: '/checkout',
         element: <Checkout />,
       },
-      {
-        path: '/booking-confirmation',
-        element: <BookingConfirmation />,
-      },
-      ,
       // {
       //   path: '/forgot-password',
       //   element: <ForgotPassword />,

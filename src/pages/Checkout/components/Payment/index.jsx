@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Loader from '../../../../components/ux/loader/loader';
+
 
 const validationSchema = {
     email: (value) => /\S+@\S+\.\S+/.test(value),
@@ -18,9 +18,7 @@ const Payment = (
     {
         handleSubmit,
         isSubmitDisabled,
-        total,
         formData,
-        paymentConfirmationDetails,
         setFormData
     }) => {
 
@@ -55,17 +53,10 @@ const Payment = (
     }
 
     return (<>
-        <div className="relative bg-white border shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-lg mx-auto">
-            {paymentConfirmationDetails.isLoading && (
-                <Loader
-                    isFullScreen={true}
-                    loaderText={'Payment in progress, hold tight!'}
-                />
-            )}
+        <div className="relative bg-white border shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-lg mx-auto mt-4">
+
             <form
                 onSubmit={preHandleSubmit}
-                className={` ${paymentConfirmationDetails.isLoading ? 'opacity-40' : ''
-                    }`}
             >
                 <InputField
                     label="Email address"
@@ -128,7 +119,7 @@ const Payment = (
                         type="submit"
                         disabled={isSubmitDisabled}
                     >
-                        Pay  {total}
+                        Submit
                     </button>
                 </div>
             </form>

@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { actionCheckout, actionSetResultBooking, actionClearBooking } from '../../redux/features/room/roomSlice'
 import { BOOKING_STATUS } from '../../utils/constants'
 import Payment from './components/Payment';
-import BookingPacket from './components/BookingPacket';
+import BookingConfirm from './components/BookingConfirm';
 import BookingResult from './components/BookingResult';
 
 
@@ -56,7 +56,7 @@ const Checkout = () => {
     postalCode: '',
   });
 
-  const [currentStep,setCurrentStep] = useState(0)
+  const [currentStep, setCurrentStep] = useState(0)
 
   const checkInDateTime = `${searchParams.get('checkIn')} `
   const checkOutDateTime = `${searchParams.get('checkOut')}`
@@ -64,6 +64,7 @@ const Checkout = () => {
   const numberRooms = `${searchParams.get('rooms')}`
 
   useEffect(() => {
+    debugger
     const locationState = location.state;
     const checkIn = searchParams.get('checkIn');
     const checkOut = searchParams.get('checkOut');
@@ -71,8 +72,6 @@ const Checkout = () => {
       const hotelCode = searchParams.get('hotelCode');
       navigate(`/booking/${hotelCode}`);
     }
-
-
   }, [location, navigate, searchParams]);
 
   useEffect(() => {
@@ -86,12 +85,7 @@ const Checkout = () => {
         data: {},
       })
 
-      const hotelName = searchParams.get('hotelName').replaceAll('-', '_');
-      navigate(`/booking-confirmation?payment=sucess&hotel=${hotelName}`, {
-        state: {
-          confirmationData: [{ label: "ok", value: 1 }],
-        },
-      });
+      setCurrentStep(2)
     }
     if (resultBooking?.status == BOOKING_STATUS.CANCEL.id) {
       setPaymentConfirmationDetails({
@@ -102,9 +96,7 @@ const Checkout = () => {
     }
   }, [resultBooking])
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleConfirm = (e) => {
     setIsSubmitDisabled(true);
     setPaymentConfirmationDetails({
       isLoading: true,
@@ -127,28 +119,32 @@ const Checkout = () => {
     let newBooking = { ...tempBooking, "checkin_at": checkInDate, "checkout_at": checkOutDate, "payment": payment }
 
     dispatch(actionCheckout(newBooking))
-  };
 
-  const handleChangeStep = (e) => {
-    setCurrentStep(e)
   }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setCurrentStep(1)
+  };
 
   const hashStep = [
     <Payment
       setFormData={setFormData}
-      paymentConfirmationDetails={paymentConfirmationDetails}
       formData={formData}
-      total={location?.state?.total}
       isSubmitDisabled={isSubmitDisabled}
       handleSubmit={handleSubmit}
     ></Payment>,
-    <BookingPacket></BookingPacket>,
+    <BookingConfirm
+      paymentConfirmationDetails={paymentConfirmationDetails}
+      onConfirm={handleConfirm}
+    ></BookingConfirm>,
     <BookingResult></BookingResult>
   ]
 
   return (
     <div className="flex flex-col justify-center items-center">
       <FinalBookingSummary
+        total={location?.state?.total}
         numberGuests={numberGuests}
         numberRooms={numberRooms}
         hotelName={searchParams.get('hotelName').replaceAll('-', ' ')}
@@ -162,33 +158,24 @@ const Checkout = () => {
       max-w-4xl mx-auto mt-4">
 
         <Steps
-          onChange={handleChangeStep}
           current={currentStep}
           items={[
             {
-              // status: 'process',
               title: 'Payment Info',
             },
             {
-              // status: 'wait',
               title: 'Confirm Information',
             },
             {
-              // status: 'wait',
-              title: 'Waiting',
+              title: 'Finish',
             },
           ]}
         />
       </div>
-          {hashStep[currentStep]}
-
-
-
+      {hashStep[currentStep]}
     </div>
   );
 };
-
-
 
 
 export default Checkout;

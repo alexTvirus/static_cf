@@ -3,6 +3,7 @@ import { differenceInCalendarDays } from 'date-fns';
 
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { Divider } from 'antd';
 dayjs.extend(customParseFormat);
 const dateFormat = 'YYYY-MM-DD';
 
@@ -17,6 +18,7 @@ const FinalBookingSummary = ({
   phone,
   email,
   fullName,
+  total,
 }) => {
 
   const calDate = (checkIn, checkOut) => {
@@ -45,6 +47,7 @@ const FinalBookingSummary = ({
             <p className="text-sm text-gray-800">{checkOut}</p>
           </div>
         </div>
+        <Divider></Divider>
         <div className='flex flex-col items-start justify-start mt-2'>
           <p className="text-sm font-semibold text-gray-600">Guests</p>
           <p className="text-sm text-gray-800">{numberGuests}</p>
@@ -52,6 +55,11 @@ const FinalBookingSummary = ({
         <div className='flex flex-col items-start justify-start mt-2'>
           <p className="text-sm font-semibold text-gray-600">Rooms</p>
           <p className="text-sm text-gray-800">{numberRooms}</p>
+        </div>
+        <Divider></Divider>
+        <div className='flex flex-col items-start justify-start mt-2'>
+          <p className="text-sm font-semibold text-gray-600">Total</p>
+          <p className="text-sm text-gray-800">{total}</p>
         </div>
       </div>
     </div>
