@@ -13,7 +13,7 @@ import GlobalSearchBox from '../../components/GlobalSearchBox';
 
 
 import { useDispatch, useSelector } from 'react-redux';
-import { actionGetAllRoom, actionSetDateRange } from '../../redux/features/room/roomSlice';
+import { actionClearBooking, actionGetAllRoom, actionSetDateRange } from '../../redux/features/room/roomSlice';
 
 import moment from 'moment';
 import { DatePicker, Radio } from 'antd';
@@ -110,9 +110,7 @@ const HotelsSearch = () => {
     const activeFilters = getActiveFilters();
     const checkInDate = moment(dateRange[0].$d).format(dateFormat) ?? '';
     const checkOutDate = moment(dateRange[1].$d).format(dateFormat) ?? '';
-    setSearchParams({
-    });
-
+ 
     dispath(actionGetAllRoom({
       params: {
         ...activeFilters,

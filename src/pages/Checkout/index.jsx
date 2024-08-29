@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { actionCheckout, actionSetResultBooking, actionClearBooking } from '../../redux/features/room/roomSlice'
 import { BOOKING_STATUS } from '../../utils/constants'
 import Payment from './components/Payment';
+import BookingPacket from './components/BookingPacket';
+import BookingResult from './components/BookingResult';
 
 
 import { Steps } from 'antd';
@@ -28,6 +30,9 @@ const Checkout = () => {
     return state.room
   })
 
+  const { tempBooking } = useSelector(state => {
+    return state.room
+  })
 
 
   const location = useLocation();
@@ -51,13 +56,14 @@ const Checkout = () => {
     postalCode: '',
   });
 
+  const [currentStep,setCurrentStep] = useState(0)
+
   const checkInDateTime = `${searchParams.get('checkIn')} `
   const checkOutDateTime = `${searchParams.get('checkOut')}`
   const numberGuests = `${searchParams.get('guests')}`
   const numberRooms = `${searchParams.get('rooms')}`
 
   useEffect(() => {
-    debugger
     const locationState = location.state;
     const checkIn = searchParams.get('checkIn');
     const checkOut = searchParams.get('checkOut');
@@ -73,7 +79,7 @@ const Checkout = () => {
     if (resultBooking?.status == BOOKING_STATUS.COMPLETE.id
       || resultBooking?.status == BOOKING_STATUS.PARTIALLY_PAID.id
       || resultBooking?.status == BOOKING_STATUS.PENDING.id) {
-      dispatch(actionSetResultBooking(booking))
+      dispatch(actionSetResultBooking(tempBooking))
       dispatch(actionClearBooking())
       setPaymentConfirmationDetails({
         isLoading: false,
@@ -118,10 +124,27 @@ const Checkout = () => {
       "state": formData.state
     }
 
-    let newBooking = { ...booking, "checkin_at": checkInDate, "checkout_at": checkOutDate, "payment": payment }
+    let newBooking = { ...tempBooking, "checkin_at": checkInDate, "checkout_at": checkOutDate, "payment": payment }
 
     dispatch(actionCheckout(newBooking))
   };
+
+  const handleChangeStep = (e) => {
+    setCurrentStep(e)
+  }
+
+  const hashStep = [
+    <Payment
+      setFormData={setFormData}
+      paymentConfirmationDetails={paymentConfirmationDetails}
+      formData={formData}
+      total={location?.state?.total}
+      isSubmitDisabled={isSubmitDisabled}
+      handleSubmit={handleSubmit}
+    ></Payment>,
+    <BookingPacket></BookingPacket>,
+    <BookingResult></BookingResult>
+  ]
 
   return (
     <div className="flex flex-col justify-center items-center">
@@ -139,32 +162,26 @@ const Checkout = () => {
       max-w-4xl mx-auto mt-4">
 
         <Steps
-          current={1}
+          onChange={handleChangeStep}
+          current={currentStep}
           items={[
             {
-              status: 'process',
+              // status: 'process',
               title: 'Payment Info',
             },
             {
-              status: 'wait',
-              title: 'Checkout',
+              // status: 'wait',
+              title: 'Confirm Information',
             },
             {
-              status: 'wait',
+              // status: 'wait',
               title: 'Waiting',
             },
           ]}
         />
       </div>
+          {hashStep[currentStep]}
 
-      <Payment
-        setFormData={setFormData}
-        paymentConfirmationDetails={paymentConfirmationDetails}
-        formData={formData}
-        total={location?.state?.total}
-        isSubmitDisabled={isSubmitDisabled}
-        handleSubmit={handleSubmit}
-      ></Payment>
 
 
     </div>

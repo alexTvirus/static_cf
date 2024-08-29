@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import _debounce from 'lodash/debounce';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { actionGetAllRoom, actionSetDateRange  } from '../../redux/features/room/roomSlice';
+import { actionClearBooking, actionGetAllRoom, actionSetDateRange  } from '../../redux/features/room/roomSlice';
 
 import moment from 'moment';
 import { DatePicker, Radio } from 'antd';

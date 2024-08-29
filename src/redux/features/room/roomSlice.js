@@ -34,6 +34,7 @@ const initialState = {
             "state": ""
         },
     },
+    tempBooking:{},
     userBookingsData: {
 
     },
@@ -120,6 +121,9 @@ const roomSlice = createSlice({
         },
         actionSetBooking: (state, actions) => {
             state.booking = actions.payload
+        },
+        actionSetTempBooking: (state, actions) => {
+            state.tempBooking = actions.payload
         }
 
         ,
@@ -199,7 +203,7 @@ const roomSlice = createSlice({
     }
 })
 
-export const { actionSetDateRange, actionSetBooking, actionSetResultBooking, actionClearBooking } = roomSlice.actions
+export const { actionSetTempBooking,actionSetDateRange, actionSetBooking, actionSetResultBooking, actionClearBooking } = roomSlice.actions
 
 // xuất ra reducer
 export const roomReducer = roomSlice.reducer

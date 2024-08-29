@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import HotelDetailsViewCard from './components/hotel-details-view-card/HotelDetailsViewCard';
 import HotelDetailsViewCardSkeleton from './components/hotel-details-view-card-skeleton/HotelDetailsViewCardSkeleton';
-import {isObjectEmpty} from '../../utils/helpers'
+import { isObjectEmpty } from '../../utils/helpers'
 
 import { useDispatch, useSelector } from 'react-redux';
-import { actionGetRoom, actionSetBooking } from '../../redux/features/room/roomSlice';
+import { actionClearBooking, actionGetRoom, actionSetBooking } from '../../redux/features/room/roomSlice';
 
 import moment from 'moment';
 import dayjs from 'dayjs';
@@ -17,18 +17,24 @@ const Booking = () => {
   const { hotelId } = useParams();
 
   const dispath = useDispatch()
-  const { currentRoom, isLoading, booking,dateRange } = useSelector(state => {
+  const { currentRoom, isLoading, booking, dateRange } = useSelector(state => {
     return state.room
   })
 
   useEffect(() => {
+    return () => {
+      dispath(actionClearBooking())
+    }
+  }, [])
+
+  useEffect(() => {
     const checkIn = moment(dateRange[0].$d).format(dateFormat) ?? '';
     const checkOut = moment(dateRange[1].$d).format(dateFormat) ?? '';
-    let newbooking = {...booking,"room":{id: hotelId}}
+    let newbooking = { ...booking, "room": { id: hotelId } }
     dispath(actionSetBooking(newbooking))
     dispath(actionGetRoom({
-      "checkin_at":checkIn,
-      "checkout_at":checkOut,
+      "checkin_at": checkIn,
+      "checkout_at": checkOut,
       id: hotelId
     }))
   }, [hotelId]);

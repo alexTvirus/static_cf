@@ -18,7 +18,7 @@ import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { Input } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { actionSetDateRange } from '../../../../redux/features/room/roomSlice';
+import { actionSetDateRange, actionSetTempBooking } from '../../../../redux/features/room/roomSlice';
 dayjs.extend(customParseFormat);
 const dateFormat = 'YYYY-MM-DD';
 
@@ -28,7 +28,7 @@ const HotelBookingDetailsCard = (props) => {
   const { hotelCode, handleDeletePacket, packets, handleSelectGuest } = props
   const navigate = useNavigate();
   const dispath = useDispatch()
-  const { dateRange, currentRoom } = useSelector(state => {
+  const { dateRange, currentRoom ,booking} = useSelector(state => {
     return state.room
   })
 
@@ -66,11 +66,6 @@ const HotelBookingDetailsCard = (props) => {
         : 1
     setBookingPeriodDays(days || 1);
   }
-
-  const onDateChangeHandler = (ranges) => {
-    dispath(actionSetDateRange(ranges))
-    calDate(ranges[0], ranges[1])
-  };
 
 
   const handleSelectGuestOption = (selectedOption) => {
@@ -114,7 +109,7 @@ const HotelBookingDetailsCard = (props) => {
       guests: selectedGuests.value,
       hotelName: currentRoom?.name?.replaceAll(' ', '-'),
     };
-
+    dispath(actionSetTempBooking(booking))
     const url = `/checkout?${queryString.stringify(queryParams)}`;
     navigate(url, {
       state: {
@@ -161,7 +156,6 @@ const HotelBookingDetailsCard = (props) => {
           <div className="text-gray-600">
             <DateRangePicker
               isDisable={true}
-              onDateChangeHandler={onDateChangeHandler}
               dateRange={dateRange}
             />
           </div>
