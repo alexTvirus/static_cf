@@ -62,7 +62,7 @@ const BookingPanel = ({ bookings, onCancelBooking }) => {
                       </p>
                       <p className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
 
-                        Check-out:{formatDate1(booking.checkout_at)}
+                        Check-out: {formatDate1(booking.checkout_at)}
 
                       </p>
                       <p className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
@@ -87,9 +87,9 @@ const BookingPanel = ({ bookings, onCancelBooking }) => {
 
                       </p>
                     </div>
-                    <div className="mt-2 flex items-center gap-x-2 text-sm text-gray-500 sm:mt-0">
+                    <div className="mt-2 items-center gap-x-2 text-sm text-gray-500 sm:flex-col  sm:mt-0">
 
-                      <p className="flex items-center">
+                      <p className="flex items-center mb-2">
                         <span className="font-medium">Total price: </span>{' '}
                         <span className="ml-2">{formatPrice(booking.total_price)}</span>
                       </p>
@@ -149,7 +149,19 @@ const BookingPanel = ({ bookings, onCancelBooking }) => {
                               return (
                                 <span className='cursor-default'>{packet}</span>
                               );
-                            }
+                            },
+							responsive: ["sm"]
+                          },
+                          {
+                            title: 'room_type',
+                            dataIndex: 'room_type',
+                            key: 'room_type',
+                            render: (_, { room_type }) => {
+                              return (
+                                <span className='cursor-default'>{room_type}</span>
+                              );
+                            },
+							responsive: ["sm"]
                           }
                         ];
 
@@ -160,6 +172,7 @@ const BookingPanel = ({ bookings, onCancelBooking }) => {
                               key: index,
                               room_number: room?.room_number || "",
                               packet: room?.packet || "",
+                              room_type: room?.room_type || "",
                             }
                           })
 
@@ -211,7 +224,8 @@ const BookingPanel = ({ bookings, onCancelBooking }) => {
                               return (
                                 <span className='cursor-default'>{payment_date}</span>
                               );
-                            }
+                            },
+							responsive: ["sm","md"]
 
                           },
                           {
@@ -222,7 +236,8 @@ const BookingPanel = ({ bookings, onCancelBooking }) => {
                               return (
                                 <span className='cursor-default'>{payment_method}</span>
                               );
-                            }
+                            },
+							responsive: ["sm","md"]
                           },
                           {
                             title: 'payment_amount',

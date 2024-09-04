@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { history } from '../../../../routes/helper/history';
 import { Link } from 'react-router-dom';
 import { useReactToPrint } from 'react-to-print';
 import { useRef } from 'react';
@@ -10,8 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const BookingResult = () => {
   const contentToPrint = useRef(null);
-  const location = useLocation();
-  const navigate = useNavigate();
+  const navigate = history.navigate
+  const location = history.location
 
   const dispatch = useDispatch();
   const {booking} = useSelector(state=>{

@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useNavigate } from 'react-router-dom';
 import { formatPrice } from '../../utils/price-helpers';
 
+import { history } from '../../routes/helper/history';
+
 const HotelViewCard = (props) => {
   const {
     id: hotelCode,
@@ -16,7 +18,7 @@ const HotelViewCard = (props) => {
     price,
     ratings,
   } = props;
-  const navigate = useNavigate();
+  const navigate = history.navigate
   const onBookNowClick = () => {
     navigate(`/booking/${hotelCode}`);
   };

@@ -1,17 +1,14 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { history } from '../../routes/helper/history';
 
 import { useContext } from 'react';
 import DropdownButton from '../ux/DropdownButton';
 
 
 const NavbarItems = ({ onHamburgerMenuToggle }) => {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate = history.navigate
+  const location = history.location
 
-
-  /**
-   * Handles the logout action by calling the logout API and updating the authentication state.
-   */
   const handleLogout = async () => {
     // await networkAdapter.post('api/users/logout');
     // context.triggerAuthCheck();
@@ -70,20 +67,20 @@ const NavbarItems = ({ onHamburgerMenuToggle }) => {
         >
           User Profile
         </Link>
-      </li>       
+      </li>
 
       <li className='p-4 hover:bg-blue-900 md:hover:bg-brand'>
 
-      <Link
-        to="/login"
-        className={`uppercase font-medium text-slate-100 hover-underline-animation ${isActive('/login') && 'active-link'
-          }`}
-        onClick={onHamburgerMenuToggle}
-      >
-        Login/Register
-      </Link>
+        <Link
+          to="/login"
+          className={`uppercase font-medium text-slate-100 hover-underline-animation ${isActive('/login') && 'active-link'
+            }`}
+          onClick={onHamburgerMenuToggle}
+        >
+          Login/Register
+        </Link>
       </li>
-      
+
       {/* <li
         className={`${!isAuthenticated && 'p-4 hover:bg-blue-900 md:hover:bg-brand'}`}
       >

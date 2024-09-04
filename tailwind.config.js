@@ -9,7 +9,7 @@ module.exports = {
         'brand-danger': '#c71216'
       },
       fontFamily: {
-        sans: ['Jost', 'sans-serif'],
+        sans: ['Andale Mono','Jost', 'sans-serif'],
       },
     },
   },

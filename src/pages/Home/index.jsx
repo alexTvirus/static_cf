@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { MAX_GUESTS_INPUT_VALUE } from '../../utils/constants';
 import ResultsContainer from '../../components/ResultsContainer';
 import { formatDate } from '../../utils/date-helpers';
-import { useNavigate } from 'react-router-dom';
+import { history } from '../../routes/helper/history';
 import _debounce from 'lodash/debounce';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,15 +17,10 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
 const dateFormat = 'YYYY-MM-DD';
 
-
-
-/**
- * Home component that renders the main page of the application.
- * It includes a navigation bar, hero cover, popular locations, results container, and footer.
- */
 const Home = () => {
-  const navigate = useNavigate();
-
+  const navigate = history.navigate
+  const location = history.location
+  
   const dispath = useDispatch()
   const { rooms, isLoading,dateRange } = useSelector(state => {
     return state.room

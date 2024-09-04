@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import FinalBookingSummary from './components/final-booking-summary/FinalBookingSummary';
-import { useLocation } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { history } from '../../routes/helper/history';
 
 import { useSearchParams } from 'react-router-dom';
 
@@ -36,9 +35,8 @@ const Checkout = () => {
   })
 
 
-  const location = useLocation();
-
-  const navigate = useNavigate();
+  const navigate = history.navigate
+  const location = history.location
 
   const [searchParams] = useSearchParams();
 

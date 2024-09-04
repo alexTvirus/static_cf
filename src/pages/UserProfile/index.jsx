@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import useOutsideClickHandler from '../../hooks/useOutsideClickHandler';
-import { useNavigate } from 'react-router-dom';
+import { history } from '../../routes/helper/history';
 import BookingPanel from './components/BookingPanel';
 import ProfileDetailsPanel from './components/ProfileDetailsPanel';
 import { useDispatch, useSelector } from 'react-redux';
@@ -34,7 +34,7 @@ const UserProfile = () => {
     return state.room
   })
 
-  const navigate = useNavigate();
+  const navigate = history.navigate
 
   const wrapperRef = useRef();
   const buttonRef = useRef();

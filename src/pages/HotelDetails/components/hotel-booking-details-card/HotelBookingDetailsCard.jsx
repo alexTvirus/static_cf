@@ -3,7 +3,7 @@ import Select from 'react-select';
 import { differenceInCalendarDays } from 'date-fns';
 import DateRangePicker from '../../../../components/ux/data-range-picker/DateRangePicker';
 import { DEFAULT_TAX_DETAILS } from '../../../../utils/constants';
-import { useNavigate } from 'react-router-dom';
+import { history } from '../../../../routes/helper/history';
 import queryString from 'query-string';
 import { formatPrice } from '../../../../utils/price-helpers';
 import Toast from '../../../../components/ux/toast/Toast';
@@ -14,15 +14,9 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
 const dateFormat = 'YYYY-MM-DD';
 
-/**
- * A component that displays the booking details for a hotel, including date range, room type, and pricing.
- *
- * @param {Object} props - The component's props.
- * @param {string} props.hotelCode - The unique code for the hotel.
- */
 const HotelBookingDetailsCard = ({ hotelCode }) => {
 
-  const navigate = useNavigate();
+  const navigate = history.navigate
 
   // State for error message
   const [errorMessage, setErrorMessage] = useState('');

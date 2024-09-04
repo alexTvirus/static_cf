@@ -3,7 +3,7 @@ import Select from 'react-select';
 import { differenceInCalendarDays } from 'date-fns';
 import DateRangePicker from '../../../../components/ux/data-range-picker/DateRangePicker';
 import { DEFAULT_TAX_DETAILS } from '../../../../utils/constants';
-import { useNavigate } from 'react-router-dom';
+import { history } from '../../../../routes/helper/history';
 import queryString from 'query-string';
 import { formatPrice } from '../../../../utils/price-helpers';
 import Toast from '../../../../components/ux/toast/Toast';
@@ -26,7 +26,7 @@ const dateFormat = 'YYYY-MM-DD';
 const HotelBookingDetailsCard = (props) => {
 
   const { hotelCode, handleDeletePacket, packets, handleSelectGuest } = props
-  const navigate = useNavigate();
+  const navigate = history.navigate
   const dispath = useDispatch()
   const { dateRange, currentRoom ,booking} = useSelector(state => {
     return state.room

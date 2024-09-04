@@ -4,7 +4,8 @@ import ResultsContainer from '../../components/ResultsContainer';
 import { isObjectEmpty } from '../../utils/helpers';
 import { MAX_GUESTS_INPUT_VALUE } from '../../utils/constants';
 import { formatDate } from '../../utils/date-helpers';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import {  useSearchParams } from 'react-router-dom';
+import { history } from '../../routes/helper/history';
 import { parse } from 'date-fns';
 import PaginationController from '../../components/ux/pagination-controller/PaginationController';
 import { SORTING_FILTER_LABELS } from '../../utils/constants';
@@ -24,7 +25,8 @@ const dateFormat = 'YYYY-MM-DD';
 
 
 const HotelsSearch = () => {
-  const navigate = useNavigate();
+  const navigate = history.navigate
+  const location = history.location
 
   const dispath = useDispatch()
   const { rooms, isLoading, pagination, dateRange } = useSelector(state => {
@@ -65,9 +67,7 @@ const HotelsSearch = () => {
   const debounceFn = useCallback(_debounce(queryResults, 1000), []);
 
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const location = useLocation();
-
+  
   const sortingFilterOptions = [
     { value: 'default', label: 'Sort by' },
     { value: 'priceLowToHigh', label: SORTING_FILTER_LABELS.PRICE_LOW_TO_HIGH },

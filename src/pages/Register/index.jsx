@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { history } from '../../routes/helper/history';
 import Toast from '../../components/ux/toast/Toast';
 import { REGISTRATION_MESSAGES } from '../../utils/constants';
 import { Formik, Form, Field } from 'formik';
 import Schemas from '../../utils/validation-schemas';
 
 const Register = () => {
-  const navigate = useNavigate();
+  const navigate = history.navigate
+  const location = history.location
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState('success');
   const [showToast, setShowToast] = useState(false);

@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import React, { useContext } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { history } from '../../routes/helper/history';
 import validations from '../../utils/validations';
 import Toast from '../../components/ux/toast/Toast';
 import { LOGIN_MESSAGES } from '../../utils/constants';
 
 
 const Login = () => {
-  const navigate = useNavigate();
+  const navigate = history.navigate
 
   const [loginData, setLoginData] = useState({
     email: '',

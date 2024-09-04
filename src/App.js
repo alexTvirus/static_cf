@@ -1,7 +1,9 @@
 
 import './App.scss';
 import React, { useEffect } from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, useLocation, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
 
 import BaseLayout from './layouts/BaseLayout';
 import Home from './pages/Home';
@@ -15,61 +17,61 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import UserProfile from './pages/UserProfile'
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <BaseLayout />,
-    children: [
-      {
-        path: '/',
-        element: <Home />,
-      },
-      {
-        path: '/hotels',
-        element: <HotelsSearch />,
-      },
-      {
-        path: '/about-us',
-        element: <AboutUs />,
-      },
-      {
-        path: '/hotel/:hotelId',
-        element: <HotelDetails />,
-      },
-      {
-        path: '/booking/:hotelId',
-        element: <Booking />,
-      },
-      {
-        path: '/checkout',
-        element: <Checkout />,
-      },
-      {
-        path: '/forgot-password',
-        element: <ForgotPassword />,
-      },
-      {
-        path: '/login',
-        element: <Login />,
-      },
-      {
-        path: '/register',
-        element: <Register />,
-      },
-      {
-        path: '/user-profile',
-        element: <UserProfile />,
-      },
-      
-    ],
-  },
-]);
+import { history } from './routes/helper/history';
 
 function App() {
 
+  history.navigate = useNavigate();
+  history.location = useLocation();
+
   return (
     <>
-      <RouterProvider router={router} />
+      <Routes>
+        <Route path='/' element={<BaseLayout >
+        </BaseLayout>} >
+
+          <Route path='/' element={
+            <Home />
+          } />
+
+          <Route path='/hotels' element={
+            <HotelsSearch />
+          } />
+
+          <Route path='/about-us' element={
+            <AboutUs />
+          } />
+
+          <Route path='/hotel/:hotelId' element={
+            <HotelDetails />
+          } />
+
+          <Route path='/booking/:hotelId' element={
+            <Booking />
+          } />
+
+          <Route path='/checkout' element={
+            <Checkout />
+          } />
+
+          <Route path='/forgot-password' element={
+            <ForgotPassword />
+          } />
+
+          <Route path='/login' element={
+            <Login />
+          } />
+
+          <Route path='/register' element={
+            <Register />
+          } />
+
+          <Route path='/user-profile' element={
+            <UserProfile />
+          } />
+
+        </Route>
+      </Routes>
     </>
   );
 }
