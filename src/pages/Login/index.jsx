@@ -40,7 +40,7 @@ const Login = () => {
             className="w-full max-w-lg p-4 md:p-10 shadow-md"
           >
             <div className="text-center mb-10">
-              <h2 className="text-3xl font-extrabold text-brand">
+              <h2 className="text-3xl font-black text-brand">
                 Welcome Back
               </h2>
               <p className="text-gray-500">
@@ -90,7 +90,7 @@ const Login = () => {
                 <div className="absolute left-0 right-0 flex justify-center items-center">
                   <div className="border-t w-full absolute"></div>
                   <span className="bg-white px-3 text-gray-500 z-10">
-                    New to Stay Booker?
+                    Register ?
                   </span>
                 </div>
               </div>
@@ -105,11 +105,6 @@ const Login = () => {
             </div>
           </form>
         </div>
-      </div>
-      <div className="bg-slate-50 flex flex-col mx-auto w-full max-w-lg px-4">
-        <small className="text-slate-600">test user details</small>
-        <small className="text-slate-600">Email: user1@example.com</small>
-        <small className="text-slate-600">Password: password1</small>
       </div>
     </>
   );

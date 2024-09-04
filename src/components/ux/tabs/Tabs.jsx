@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 
 const Tabs = ({ children, isTabsVisible, wrapperRef }) => {
 
+  console.dir(children)
+
   const [activeTab, setActiveTab] = useState(() => {
     return (children && children.length > 0) ? children[0].props.label : children.props.label
   });
@@ -45,7 +47,7 @@ const Tabs = ({ children, isTabsVisible, wrapperRef }) => {
                   );
                 })
               ) : ((() => {
-                const { label, icon } = children.props;
+                const { label, icon } = children[0].props;
                 return (
                   <li
                     className={`flex items-center px-2 border-b ${activeTab === label ? 'border-blue-500' : ''
@@ -78,8 +80,8 @@ const Tabs = ({ children, isTabsVisible, wrapperRef }) => {
           return child.props.children;
         })) :
           ((() => {
-            if (children.props.label !== activeTab) return undefined;
-            return children.props.children;
+            if (children[0].props.label !== activeTab) return undefined;
+            return children[0].props.children;
           })())
         }
 

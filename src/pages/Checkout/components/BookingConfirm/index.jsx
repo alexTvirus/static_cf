@@ -1,7 +1,8 @@
 import React from 'react';
 import Loader from '../../../../components/ux/loader/loader';
+import PaymentInFo from '../PaymentInfo'
 
-const BookingConfirm = ({ onConfirm, paymentConfirmationDetails }) => {
+const BookingConfirm = ({ onConfirm, paymentConfirmationDetails, formData }) => {
   return (
     <div className="bg-white border-gray-200 border rounded-lg p-6 mb-6 shadow w-full max-w-lg mx-auto mt-4">
       {paymentConfirmationDetails.isLoading && (
@@ -11,9 +12,12 @@ const BookingConfirm = ({ onConfirm, paymentConfirmationDetails }) => {
         />
       )}
       <div className={` ${paymentConfirmationDetails.isLoading ? 'opacity-40' : ''
-                    } mb-4`}>
-        <button onClick={onConfirm}>confirm</button>
-        <h3 className="text-2xl font-bold text-gray-800">"result"</h3>
+        } mb-4`}>
+        <PaymentInFo
+          formData={formData}
+        ></PaymentInFo>
+        <button className='bg-brand transition duration-300 text-white py-2 rounded w-full' onClick={onConfirm}>confirm</button>
+
       </div>
     </div>
   );

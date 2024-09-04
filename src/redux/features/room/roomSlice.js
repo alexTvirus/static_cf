@@ -38,6 +38,10 @@ const initialState = {
     userBookingsData: {
 
     },
+	responseData:{
+		
+	},
+	
     resultBooking: {
         status: 0
     },
@@ -97,6 +101,17 @@ export const actionCheckout = createAsyncThunk(
             })
             booking.packets = packets
             return await HotelBookingApi.checkoutRoom(booking)
+        } catch (error) {
+            return thunkApi.rejectWithValue(error)
+        }
+    }
+)
+
+export const actionCancelBooking = createAsyncThunk(
+    "room/actionCancelBooking",
+    async (payload, thunkApi) => {
+        try {
+            return await HotelBookingApi.cancelBooking(1,payload)
         } catch (error) {
             return thunkApi.rejectWithValue(error)
         }
@@ -198,6 +213,22 @@ const roomSlice = createSlice({
                 state.isLoading = false
                 handleError(action.payload)
                 message.error("error")
+            })
+			
+			.addCase(actionCancelBooking.pending, (state, action) => {
+                state.isLoading = true
+            })
+            .addCase(actionCancelBooking.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.responseData = action.payload.data.data
+                message.success("CancelBooking Success")
+            })
+            .addCase(actionCancelBooking.rejected, (state, action) => {
+                debugger
+                state.isLoading = false
+                handleError(action.payload)
+                state.responseData = action.payload.response.data.data
+                message.error("CancelBooking Fail")
             })
 
     }

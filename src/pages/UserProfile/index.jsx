@@ -17,10 +17,12 @@ import { useNavigate } from 'react-router-dom';
 import BookingPanel from './components/BookingPanel';
 import ProfileDetailsPanel from './components/ProfileDetailsPanel';
 import { useDispatch, useSelector } from 'react-redux';
-import { actionBookingInfo } from '../../redux/features/room/roomSlice';
+import { actionBookingInfo, actionCancelBooking } from '../../redux/features/room/roomSlice';
 
 
 import { isObjectEmpty } from '../../utils/helpers'
+import { BOOKING_STATUS } from '../../utils/constants'
+
 
 const UserProfile = () => {
   const dispath = useDispatch();
@@ -39,12 +41,18 @@ const UserProfile = () => {
 
   const [isTabsVisible, setIsTabsVisible] = useState(false);
 
-  // Fetch user payment methods data
-  const [userPaymentMethodsData, setUserPaymentMethodsData] = useState({
-    isLoading: true,
-    data: [],
-    errors: [],
-  });
+  const handleCancelBooking = async (e) => {
+    const cancelBooking = async () => {
+      const data = {
+        "id": e,
+        "status": BOOKING_STATUS.PENDING_CANCEL.id
+      }
+      await dispath(actionCancelBooking(data))
+      dispath(actionBookingInfo())
+    }
+
+    cancelBooking()
+  }
 
   useOutsideClickHandler(wrapperRef, (event) => {
     if (!buttonRef.current.contains(event.target)) {
@@ -85,6 +93,8 @@ const UserProfile = () => {
     dispath(actionBookingInfo())
   }, []);
 
+  console.log("userBookingsData ", userBookingsData)
+
   return (
     <>
       <div className="container mx-auto p-4 my-10 min-h-[530px]">
@@ -101,7 +111,7 @@ const UserProfile = () => {
           </button>
         </div>
         {
-          !isObjectEmpty(userBookingsData) &&
+
           <Tabs isTabsVisible={isTabsVisible} wrapperRef={wrapperRef}>
             <ProfileDetailsPanel
               label="Personal Details"
@@ -114,9 +124,14 @@ const UserProfile = () => {
               label="Bookings"
               icon={faHotel}
             >
-              <BookingPanel bookings={userBookingsData} />
-            </TabPanel>
+              {
+                !isObjectEmpty(userBookingsData) &&
+                <BookingPanel
+                  onCancelBooking={handleCancelBooking}
+                  bookings={userBookingsData} />
+              }
 
+            </TabPanel>
           </Tabs>
         }
 

@@ -89,7 +89,7 @@ const HotelBookingDetailsCard = (props) => {
       parseFloat(totalGst) + pricePacket
     ).toFixed(2);
     if (!isNaN(totalPrice)) {
-      setTotal(`${formatPrice(totalPrice)} VND`);
+      setTotal(totalPrice);
     }
     setTaxes(`${formatPrice(totalGst)} VND`);
   };

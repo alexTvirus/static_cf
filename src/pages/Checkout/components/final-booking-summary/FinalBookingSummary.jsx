@@ -1,11 +1,14 @@
 import React from 'react';
 import { differenceInCalendarDays } from 'date-fns';
 
+import { formatPrice } from '../../../../utils/price-helpers';
+
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { Divider } from 'antd';
 dayjs.extend(customParseFormat);
 const dateFormat = 'YYYY-MM-DD';
+
 
 
 
@@ -59,7 +62,7 @@ const FinalBookingSummary = ({
         <Divider></Divider>
         <div className='flex flex-col items-start justify-start mt-2'>
           <p className="text-sm font-semibold text-gray-600">Total</p>
-          <p className="text-sm text-gray-800">{total}</p>
+          <p className="text-sm text-gray-800">{`${formatPrice(total)} VND`}</p>
         </div>
       </div>
     </div>

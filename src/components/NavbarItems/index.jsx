@@ -72,7 +72,7 @@ const NavbarItems = ({ onHamburgerMenuToggle }) => {
         </Link>
       </li>       
 
-      {/* <li className='p-4 hover:bg-blue-900 md:hover:bg-brand'>
+      <li className='p-4 hover:bg-blue-900 md:hover:bg-brand'>
 
       <Link
         to="/login"
@@ -82,7 +82,8 @@ const NavbarItems = ({ onHamburgerMenuToggle }) => {
       >
         Login/Register
       </Link>
-      </li> */}
+      </li>
+      
       {/* <li
         className={`${!isAuthenticated && 'p-4 hover:bg-blue-900 md:hover:bg-brand'}`}
       >

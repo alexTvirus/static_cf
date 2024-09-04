@@ -14,6 +14,7 @@ import BookingConfirm from './components/BookingConfirm';
 import BookingResult from './components/BookingResult';
 
 
+
 import { Steps } from 'antd';
 
 import moment from 'moment';
@@ -42,6 +43,8 @@ const Checkout = () => {
   const [searchParams] = useSearchParams();
 
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
+  
+  const [totalPrice, setTotalPrice]= useState(0)
 
   const [paymentConfirmationDetails, setPaymentConfirmationDetails] = useState({
     isLoading: false,
@@ -68,6 +71,7 @@ const Checkout = () => {
     const locationState = location.state;
     const checkIn = searchParams.get('checkIn');
     const checkOut = searchParams.get('checkOut');
+	setTotalPrice(location?.state?.total||0)
     if (!locationState || !checkIn || !checkOut) {
       const hotelCode = searchParams.get('hotelCode');
       navigate(`/booking/${hotelCode}`);
@@ -108,7 +112,7 @@ const Checkout = () => {
     let payment = {
       "payment_method": "face pay",
       "payment_date": moment(new Date()).format(dateFormat),
-      "payment_amount": 100,
+      "payment_amount": totalPrice,
       "address": formData.address,
       "email": formData.email,
       "city": formData.city,
@@ -137,6 +141,7 @@ const Checkout = () => {
     <BookingConfirm
       paymentConfirmationDetails={paymentConfirmationDetails}
       onConfirm={handleConfirm}
+      formData={formData}
     ></BookingConfirm>,
     <BookingResult></BookingResult>
   ]
@@ -144,7 +149,7 @@ const Checkout = () => {
   return (
     <div className="flex flex-col justify-center items-center">
       <FinalBookingSummary
-        total={location?.state?.total}
+        total={totalPrice}
         numberGuests={numberGuests}
         numberRooms={numberRooms}
         hotelName={searchParams.get('hotelName').replaceAll('-', ' ')}
@@ -161,10 +166,10 @@ const Checkout = () => {
           current={currentStep}
           items={[
             {
-              title: 'Payment Info',
+              title: 'Payment Information',
             },
             {
-              title: 'Confirm Information',
+              title: 'Confirm Payment Information',
             },
             {
               title: 'Finish',

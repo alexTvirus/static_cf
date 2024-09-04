@@ -50,4 +50,5 @@ export const BOOKING_STATUS = Object.freeze({
   COMPLETE:  { name: "COMPLETE", id: 2 },
   PARTIALLY_PAID:  { name: "PARTIALLY PAID", id: 3 },
   CANCEL:  { name: "CANCEL", id: 4 },
+  PENDING_CANCEL:  { name: "PENDING CANCEL", id: 5 },
 });

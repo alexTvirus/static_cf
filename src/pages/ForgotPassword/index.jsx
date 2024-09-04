@@ -4,46 +4,33 @@ import { Link } from 'react-router-dom';
 import validations from '../../utils/validations';
 import Toast from '../../components/ux/toast/Toast';
 
-/**
- * ForgotPassword component responsible for handling the forgot password form.
- * @returns {jsx}
- */
 const ForgotPassword = () => {
   const [success, setsuccess] = useState(false);
   const [loginData, setLoginData] = useState({
     email: '',
   });
   const [errorMessage, setErrorMessage] = useState(false);
-  /**
-   * Handles input changes for the login form fields.
-   * Updates the loginData state with the field values.
-   * @param {Object} e - The event object from the input field.
-   */
+
   const handleInputChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
   };
   const dismissError = () => {
     setErrorMessage('');
   };
-  /**
-   * Handles the submission of the login form.
-   * Attempts to authenticate the user with the provided credentials.
-   * Navigates to the user profile on successful login or sets an error message on failure.
-   * @param {Object} e - The event object from the form submission.
-   */
+
   const handleforgotsubmit = async (e) => {
     e.preventDefault();
 
-    if (validations.validate('email', loginData.email)) {
-      const response = '/api/forgot'
-      if (response) {
-        setsuccess(true);
-      } else {
-        setErrorMessage('Invalid email.');
-      }
-    } else {
-      setErrorMessage('Invalid email.');
-    }
+    // if (validations.validate('email', loginData.email)) {
+    //   const response = '/api/forgot'
+    //   if (response) {
+    //     setsuccess(true);
+    //   } else {
+    //     setErrorMessage('Invalid email.');
+    //   }
+    // } else {
+    //   setErrorMessage('Invalid email.');
+    // }
   };
   return (
     <>
