@@ -4,7 +4,7 @@ import ResultsContainer from '../../components/ResultsContainer';
 import { isObjectEmpty } from '../../utils/helpers';
 import { MAX_GUESTS_INPUT_VALUE } from '../../utils/constants';
 import { formatDate } from '../../utils/date-helpers';
-import {  useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { history } from '../../routes/helper/history';
 import { parse } from 'date-fns';
 import PaginationController from '../../components/ux/pagination-controller/PaginationController';
@@ -40,15 +40,34 @@ const HotelsSearch = () => {
 
   // State for managing filters data
   const [filtersData, setFiltersData] = useState({
-    isLoading: true,
-    data: [],
+    isLoading: false,
+    data: [      {
+      filterId: "star_ratings",
+      filters: [
+        { id: '1_star_rating', title: '1 Star', value: '1' },
+        { id: '2_star_rating', title: '2 Star', value: '2' },
+        { id: '3_star_rating', title: '3 Star', value: '3' }
+      ],
+      title:"Star ratings"
+    },
+    {
+      filterId: "star_ratings",
+      filters: [
+        { id: '1_star_rating', title: '1 Star', value: '1' },
+        { id: '2_star_rating', title: '2 Star', value: '2' },
+        { id: '3_star_rating', title: '3 Star', value: '3' }
+      ],
+      title:"Star ratings"
+    }],
     errors: [],
   });
 
   // State for storing hotels search results
   const [hotelsResults, setHotelsResults] = useState({
     isLoading: true,
-    data: [],
+    data: [
+
+    ],
     errors: [],
   });
 
@@ -63,11 +82,8 @@ const HotelsSearch = () => {
 
   const [filteredTypeheadResults, setFilteredTypeheadResults] = useState([]);
 
-
-  const debounceFn = useCallback(_debounce(queryResults, 1000), []);
-
   const [searchParams, setSearchParams] = useSearchParams();
-  
+
   const sortingFilterOptions = [
     { value: 'default', label: 'Sort by' },
     { value: 'priceLowToHigh', label: SORTING_FILTER_LABELS.PRICE_LOW_TO_HIGH },
@@ -110,7 +126,7 @@ const HotelsSearch = () => {
     const activeFilters = getActiveFilters();
     const checkInDate = moment(dateRange[0].$d).format(dateFormat) ?? '';
     const checkOutDate = moment(dateRange[1].$d).format(dateFormat) ?? '';
- 
+
     dispath(actionGetAllRoom({
       params: {
         ...activeFilters,
@@ -138,24 +154,6 @@ const HotelsSearch = () => {
     return null;
   };
 
-  // Toggles the visibility of the date picker
-  const onDatePickerIconClick = () => {
-  };
-
-  /**
-   * Queries the available cities based on the user's input.
-   * @param {string} query - The user's input.
-   * @returns {void}
-   *
-   */
-  function queryResults(query, availableCities) {
-    const filteredResults = availableCities
-      .filter((city) => city.toLowerCase().includes(query.toLowerCase()))
-      .slice(0, 5);
-    setFilteredTypeheadResults(filteredResults);
-  }
-
-
   const onClearFiltersAction = () => {
     const hasActiveFilters = selectedFiltersState.some((filterGroup) =>
       filterGroup.filters.some((filter) => filter.isSelected)
@@ -174,14 +172,6 @@ const HotelsSearch = () => {
     }
   };
 
-  /**
-   * Fetches hotels based on the provided filters.
-   * @param {Object} filters - The filters to apply.
-   * @returns {Promise<void>}
-   * @async
-   */
-  const fetchHotels = async (filters) => {
-  };
 
   const getVerticalFiltersData = async () => {
     const filtersDataResponse = 'api/hotels/verticalFilters'
@@ -217,6 +207,7 @@ const HotelsSearch = () => {
   }, [searchParams]);
 
   useEffect(() => {
+    debugger
     setSelectedFiltersState(
       filtersData.data.map((filterGroup) => ({
         ...filterGroup,
@@ -247,9 +238,9 @@ const HotelsSearch = () => {
       const { checkInDate, checkOutDate } = location.state;
       if (checkInDate && checkOutDate) {
         dispath(actionSetDateRange([dayjs(checkInDate, dateFormat),
-          dayjs(checkOutDate, dateFormat)]))
+        dayjs(checkOutDate, dateFormat)]))
       }
-      
+
       dispath(actionGetAllRoom({
         params: {
           checkin_at: checkInDate,
@@ -267,7 +258,6 @@ const HotelsSearch = () => {
           locationTypeheadResults={filteredTypeheadResults}
           dateRange={dateRange}
           onDateChangeHandler={onDateChangeHandler}
-          onDatePickerIconClick={onDatePickerIconClick}
           onSearchButtonAction={onSearchButtonAction}
         />
       </div>

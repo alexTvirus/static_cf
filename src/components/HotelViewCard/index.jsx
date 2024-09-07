@@ -87,10 +87,10 @@ const HotelViewCard = (props) => {
           </h4>}
 
 
-          <p className="text-slate-600 font-bold whitespace-nowrap">
+          <div className="text-slate-600 font-bold whitespace-nowrap">
             <p>One night price</p> 
             {price && price.length > 0 && formatPrice(price)}
-          </p>
+          </div>
         </div>
         <button
           className=" bg-brand-secondary px-4 py-2 text-white whitespace-nowrap"

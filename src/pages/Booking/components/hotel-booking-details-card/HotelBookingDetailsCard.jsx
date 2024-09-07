@@ -16,7 +16,6 @@ import { faStar, faCheck, faTrash } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import { Input } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { actionSetDateRange, actionSetTempBooking } from '../../../../redux/features/room/roomSlice';
 dayjs.extend(customParseFormat);

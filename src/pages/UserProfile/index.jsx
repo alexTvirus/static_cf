@@ -4,11 +4,8 @@ import TabPanel from '../../components/ux/tab-panel/TabPanel';
 import {
   faAddressCard,
   faHotel,
-  faCreditCard,
 } from '@fortawesome/free-solid-svg-icons';
 
-import { useContext } from 'react';
-import PaymentMethodsPanel from './components/PaymentsMethodsPanel';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';

@@ -1,7 +1,5 @@
 import HeroCover from './components/hero-cover/HeroCover';
-import PopularLocations from './components/popular-locations/popular-locations';
 import { useState, useEffect, useCallback } from 'react';
-import { MAX_GUESTS_INPUT_VALUE } from '../../utils/constants';
 import ResultsContainer from '../../components/ResultsContainer';
 import { formatDate } from '../../utils/date-helpers';
 import { history } from '../../routes/helper/history';
@@ -11,7 +9,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { actionClearBooking, actionGetAllRoom, actionSetDateRange  } from '../../redux/features/room/roomSlice';
 
 import moment from 'moment';
-import { DatePicker, Radio } from 'antd';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);

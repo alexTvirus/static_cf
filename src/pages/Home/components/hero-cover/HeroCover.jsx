@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import GlobalSearchBox from '../../../../components/GlobalSearchBox';
 
 const HeroCover = (props) => {
@@ -6,6 +7,8 @@ const HeroCover = (props) => {
     onDateChangeHandler,
     onSearchButtonAction,
   } = props;
+
+  const nextProps = {...props}
 
   return (
     <div className='bg-brand'>
@@ -23,9 +26,7 @@ const HeroCover = (props) => {
               </p>
             </div>
             <GlobalSearchBox
-              dateRange={dateRange}
-              onDateChangeHandler={onDateChangeHandler}
-              onSearchButtonAction={onSearchButtonAction}
+              {...nextProps}
             />
           </div>
         </div>

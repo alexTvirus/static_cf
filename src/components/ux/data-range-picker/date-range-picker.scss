@@ -38,14 +38,20 @@
     padding: 0;
 }
 
+.ant-picker-clear{
+    display: none !important;
+}
+
 .ant-picker-suffix {
-    visibility: hidden !important;
+    // visibility: hidden !important;
+    display: none !important;
 }
 
 .ant-picker-range-separator{
     padding: 0 !important;
+    display: none !important;
 }
 
 .ant-picker-range-separator .ant-picker-separator{
-    // visibility: hidden;
+    visibility: hidden;
 }

@@ -47,7 +47,7 @@ const Tabs = ({ children, isTabsVisible, wrapperRef }) => {
                   );
                 })
               ) : ((() => {
-                const { label, icon } = children[0].props;
+                const { label, icon } = children.props;
                 return (
                   <li
                     className={`flex items-center px-2 border-b ${activeTab === label ? 'border-blue-500' : ''
@@ -81,7 +81,7 @@ const Tabs = ({ children, isTabsVisible, wrapperRef }) => {
         })) :
           ((() => {
             if (children[0].props.label !== activeTab) return undefined;
-            return children[0].props.children;
+            return children.props.children;
           })())
         }
 

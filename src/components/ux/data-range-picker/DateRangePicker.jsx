@@ -12,10 +12,7 @@ dayjs.extend(customParseFormat);
 const dateFormat = 'YYYY-MM-DD';
 
 const { RangePicker } = DatePicker;
-const inputSyleMap = {
-  SECONDARY: 'stay-booker__input--secondary',
-  DARK: 'stay-booker__input--dark',
-};
+
 
 const DateRangePicker = (props) => {
   const {
