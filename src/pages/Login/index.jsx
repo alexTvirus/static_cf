@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import React, { useContext } from 'react';
 
@@ -6,6 +6,8 @@ import { history } from '../../routes/helper/history';
 import validations from '../../utils/validations';
 import Toast from '../../components/ux/toast/Toast';
 import { LOGIN_MESSAGES } from '../../utils/constants';
+import { useDispatch, useSelector } from 'react-redux';
+import { actionLogin } from '../../redux/features/auth/authSlice';
 
 
 const Login = () => {
@@ -15,6 +17,11 @@ const Login = () => {
     email: '',
     password: '',
   });
+
+  const dispatch = useDispatch();
+  const { isAuth, currentUser } = useSelector(state => {
+    return state.auth
+  })
 
   const [errorMessage, setErrorMessage] = useState(false);
 
@@ -26,8 +33,13 @@ const Login = () => {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-
+    dispatch(actionLogin(loginData))
   };
+
+  useEffect(() => {
+    if (isAuth)
+      navigate("/user-profile")
+  }, [isAuth])
 
 
 
@@ -73,7 +85,8 @@ const Login = () => {
               <div>
                 <button
                   type="submit"
-                  className="bg-brand hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+                  className="bg-brand hover:bg-blue-700 text-white font-bold py-2 px-4 rounded 
+                  focus:outline-none focus:shadow-outline w-full"
                 >
                   Log In
                 </button>

@@ -62,7 +62,7 @@ const UserProfile = () => {
   };
 
   useEffect(() => {
-    if (!currentUser) {
+    if (isObjectEmpty(currentUser)) {
       navigate('/login');
     }
   }, [navigate, currentUser]);
@@ -90,8 +90,6 @@ const UserProfile = () => {
     dispath(actionBookingInfo())
   }, []);
 
-  console.log("userBookingsData ", userBookingsData)
-
   return (
     <>
       <div className="container mx-auto p-4 my-10 min-h-[530px]">
@@ -110,13 +108,20 @@ const UserProfile = () => {
         {
 
           <Tabs isTabsVisible={isTabsVisible} wrapperRef={wrapperRef}>
-            <ProfileDetailsPanel
+            <TabPanel
               label="Personal Details"
               icon={faAddressCard}
-              currentUser={currentUser}
             >
+              {
+                !isObjectEmpty(currentUser) &&
+                <ProfileDetailsPanel
+                userDetails={currentUser}
+                >
+                </ProfileDetailsPanel>
+              }
 
-            </ProfileDetailsPanel>
+            </TabPanel>
+
             <TabPanel
               label="Bookings"
               icon={faHotel}

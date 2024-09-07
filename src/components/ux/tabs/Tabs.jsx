@@ -2,9 +2,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 
 const Tabs = ({ children, isTabsVisible, wrapperRef }) => {
-
-  console.dir(children)
-
   const [activeTab, setActiveTab] = useState(() => {
     return (children && children.length > 0) ? children[0].props.label : children.props.label
   });

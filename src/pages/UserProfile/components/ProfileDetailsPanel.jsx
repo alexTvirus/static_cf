@@ -71,8 +71,8 @@ const ProfileDetailsPanel = ({ userDetails }) => {
   // effect to set initial state of user details
   useEffect(() => {
     if (userDetails) {
-      setFirstName(userDetails.firstName || '');
-      setLastName(userDetails.lastName || '');
+      setFirstName(userDetails.first_name || '');
+      setLastName(userDetails.last_name || '');
       setEmail(userDetails.email || '');
       setPhoneNumber(userDetails.phone || '');
       setNationality(userDetails.country || '');

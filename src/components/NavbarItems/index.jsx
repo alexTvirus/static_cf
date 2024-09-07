@@ -1,18 +1,25 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { history } from '../../routes/helper/history';
 
-import { useContext } from 'react';
+import { act, useContext } from 'react';
 import DropdownButton from '../ux/DropdownButton';
+import { useDispatch, useSelector } from 'react-redux';
+import { actionLogout } from '../../redux/features/auth/authSlice';
 
 
 const NavbarItems = ({ onHamburgerMenuToggle }) => {
   const navigate = history.navigate
   const location = history.location
 
+  const dispatch = useDispatch()
+  const { isAuth } = useSelector(state => {
+    return state.auth
+  })
+
   const handleLogout = async () => {
-    // await networkAdapter.post('api/users/logout');
-    // context.triggerAuthCheck();
-    // navigate('/login');
+    if (isAuth)
+      await dispatch(actionLogout())
+    navigate("/login")
   };
 
   const dropdownOptions = [
@@ -57,34 +64,10 @@ const NavbarItems = ({ onHamburgerMenuToggle }) => {
           About us
         </Link>
       </li>
-
-      <li className="p-4 hover:bg-blue-900 md:hover:bg-brand">
-        <Link
-          to="/user-profile"
-          className={`uppercase font-medium text-slate-100 hover-underline-animation ${isActive('/user-profile') && 'active-link'
-            }`}
-          onClick={onHamburgerMenuToggle}
-        >
-          User Profile
-        </Link>
-      </li>
-
-      <li className='p-4 hover:bg-blue-900 md:hover:bg-brand'>
-
-        <Link
-          to="/login"
-          className={`uppercase font-medium text-slate-100 hover-underline-animation ${isActive('/login') && 'active-link'
-            }`}
-          onClick={onHamburgerMenuToggle}
-        >
-          Login/Register
-        </Link>
-      </li>
-
-      {/* <li
-        className={`${!isAuthenticated && 'p-4 hover:bg-blue-900 md:hover:bg-brand'}`}
+      <li
+        className={`${!isAuth && 'p-4 hover:bg-blue-900 md:hover:bg-brand'}`}
       >
-        {isAuthenticated ? (
+        {isAuth ? (
           <DropdownButton triggerType="click" options={dropdownOptions} />
         ) : (
           <Link
@@ -97,7 +80,7 @@ const NavbarItems = ({ onHamburgerMenuToggle }) => {
             Login/Register
           </Link>
         )}
-      </li> */}
+      </li>
     </>
   );
 };

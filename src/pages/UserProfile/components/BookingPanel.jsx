@@ -8,9 +8,6 @@ import { useEffect, useState } from 'react';
 import Expand from 'react-expand-animated';
 
 const BookingPanel = ({ bookings, onCancelBooking }) => {
-
-  console.log("bookings "+ bookings)
-
   const [isExpandRooms, setIsExpandRooms] = useState(() => {
     const rooms = bookings.map((booking, index) => {
       return false;

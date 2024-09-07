@@ -65,17 +65,25 @@ const HotelBookingApi = {
         return apiGet(`room-type/${id}?checkin_at=${payload['checkin_at']}&checkout_at=${payload['checkout_at']}`, payload)
     },
     checkoutRoom: (payload = {}) => {
-        // todo: thong tin booking, thong tin payment
-        return apiPost(`checkout?XDEBUG_SESSION_START=10691`, payload)
+        return apiPost(`checkout`, payload)
     },
     cancelBooking: (id, payload = {}) => {
         return apiPatch(`customer/${id}/bookings/${payload.id}`, payload)
     },
     getBookingInfo: (id, payload = {}) => {
-        return apiGet(`customer/${id}/bookings/?XDEBUG_SESSION_START=10691`, payload)
+        return apiGet(`customer/${id}/bookings/`, payload)
     },
     getUserInfo: (id, payload = {}) => {
         return apiGet(`user/${id}`, payload)
+    },
+    login: (payload = {}) => {
+        return apiPost(`auth/login`, payload)
+    },
+    logout: (payload = {}) => {
+        return apiPost(`auth/logout`, payload)
+    },
+    register: (payload = {}) => {
+        return apiPost(`auth/register`, payload)
     },
 }
 
