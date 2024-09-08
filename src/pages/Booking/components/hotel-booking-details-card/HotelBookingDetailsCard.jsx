@@ -8,6 +8,7 @@ import queryString from 'query-string';
 import { formatPrice } from '../../../../utils/price-helpers';
 import Toast from '../../../../components/ux/toast/Toast';
 import { Divider, message } from 'antd';
+import { RouteName } from '../../../../routes/RouteName';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faCheck, faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -109,7 +110,7 @@ const HotelBookingDetailsCard = (props) => {
       hotelName: currentRoom?.name?.replaceAll(' ', '-'),
     };
     dispath(actionSetTempBooking(booking))
-    const url = `/checkout?${queryString.stringify(queryParams)}`;
+    const url = `${RouteName.CHECKOUT.path}?${queryString.stringify(queryParams)}`;
     navigate(url, {
       state: {
         total
@@ -144,7 +145,7 @@ const HotelBookingDetailsCard = (props) => {
           <div className="text-lg font-semibold text-gray-800 mb-1">
             Total Price
           </div>
-          <div className="text-xl font-bold text-indigo-600">{total}</div>
+          <div className="text-xl font-bold text-indigo-600">{`${formatPrice(total)} VND`}</div>
           <div className="text-sm text-green-600">
           </div>
         </div>

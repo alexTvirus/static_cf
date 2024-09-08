@@ -14,7 +14,6 @@ const formatPrice = (price) => {
 };
 
 const formatPrice1 = (price, price1) => {
-  debugger
   let x = parseFloat(price) + parseFloat(price)
   if (!price) return parseFloat(0).toLocaleString('en-IN');
   return formatter.format(price);

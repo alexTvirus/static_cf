@@ -1,10 +1,15 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { history } from '../../routes/helper/history';
 import Toast from '../../components/ux/toast/Toast';
 import { REGISTRATION_MESSAGES } from '../../utils/constants';
 import { Formik, Form, Field } from 'formik';
 import Schemas from '../../utils/validation-schemas';
+import { useDispatch, useSelector } from 'react-redux';
+import { actionRegister } from '../../redux/features/auth/authSlice';
+import _debounce from 'lodash/debounce';
+import { RouteName } from '../../routes/RouteName';
+
 
 const Register = () => {
   const navigate = history.navigate
@@ -12,20 +17,25 @@ const Register = () => {
   const [toastMessage, setToastMessage] = useState('');
   const [toastType, setToastType] = useState('success');
   const [showToast, setShowToast] = useState(false);
+  const dispatch = useDispatch()
+  const { isLoading } = useSelector(state => state.auth)
+  const [registerData,setRegisterData] = useState({});
+  const [executeDebouncer, setExecuteDebouncer] = useState(false);
+
+
+  const debounceFn = useCallback(_debounce(() => setExecuteDebouncer(true), 1500), []);
 
   const handleSubmit = async (values) => {
-    // const response = '/api/users/register'
-    // console.log('response', response);
-    // if (response && response.errors && response.errors.length < 1) {
-    //   setToastMessage(REGISTRATION_MESSAGES.SUCCESS);
-    //   setShowToast(true);
-    //   setTimeout(() => navigate('/login'), 2000);
-    // } else {
-    //   setToastType('error');
-    //   setToastMessage(response.errors[0]);
-    //   setShowToast(true);
-    // }
+    setRegisterData(values)
+    debounceFn();
   };
+
+  useEffect(() => {
+    if (executeDebouncer) {
+      setExecuteDebouncer(false);
+      dispatch(actionRegister(registerData))
+    }
+  }, [executeDebouncer]);
 
   return (
     <>
@@ -33,12 +43,12 @@ const Register = () => {
         <div className="container mx-auto p-4 flex justify-center min-h-[600px] items-center">
           <Formik
             initialValues={{
-              firstName: '',
-              lastName: '',
+              first_name: '',
+              last_name: '',
               email: '',
-              phoneNumber: '',
+              phone: '',
               password: '',
-              confirmPassword: '',
+              password_confirmation: '',
             }}
             validationSchema={Schemas.signupSchema}
             onSubmit={(values) => handleSubmit(values)}
@@ -57,18 +67,18 @@ const Register = () => {
                   <div className="flex flex-wrap mb-6 -mx-3">
                     <div className="w-full px-3 mb-6 md:w-1/2 md:mb-0 relative">
                       <Field
-                        name="firstName"
+                        name="first_name"
                         placeholder="First Name"
                         autoComplete="given-name"
-                        className={`${errors.firstName && touched.firstName ? 'border-red-500' : ''} border block w-full px-4 py-3 mb leading-tight text-gray-700 bg-gray-200 rounded appearance-none focus:outline-none focus:bg-white`}
+                        className={`${errors.first_name && touched.first_name ? 'border-red-500' : ''} border block w-full px-4 py-3 mb leading-tight text-gray-700 bg-gray-200 rounded appearance-none focus:outline-none focus:bg-white`}
                       />
                     </div>
                     <div className="w-full px-3 md:w-1/2">
                       <Field
-                        name="lastName"
+                        name="last_name"
                         placeholder="Last Name"
                         autoComplete="family-name"
-                        className={`${errors.lastName && touched.lastName ? 'border-red-500' : ''} border block w-full px-4 py-3 mb leading-tight text-gray-700 bg-gray-200 rounded appearance-none focus:outline-none focus:bg-white`}
+                        className={`${errors.last_name && touched.last_name ? 'border-red-500' : ''} border block w-full px-4 py-3 mb leading-tight text-gray-700 bg-gray-200 rounded appearance-none focus:outline-none focus:bg-white`}
                       />
                     </div>
                   </div>
@@ -82,10 +92,10 @@ const Register = () => {
                   </div>
                   <div className="mb-6">
                     <Field
-                      name="phoneNumber"
+                      name="phone"
                       placeholder="Phone"
                       autoComplete="tel"
-                      className={`${errors.phoneNumber && touched.phoneNumber ? 'border-red-500' : ''} border block w-full px-4 py-3 mb leading-tight text-gray-700 bg-gray-200 rounded appearance-none focus:outline-none focus:bg-white`}
+                      className={`${errors.phone && touched.phone ? 'border-red-500' : ''} border block w-full px-4 py-3 mb leading-tight text-gray-700 bg-gray-200 rounded appearance-none focus:outline-none focus:bg-white`}
                     />
                   </div>
                   <div className="mb-6">
@@ -98,10 +108,10 @@ const Register = () => {
                   </div>
                   <div className="mb-6">
                     <Field
-                      name="confirmPassword"
+                      name="password_confirmation"
                       placeholder="Confirm Password"
                       autoComplete="new-password"
-                      className={`${errors.confirmPassword && touched.confirmPassword ? 'border-red-500' : ''} border block w-full px-4 py-3 mb leading-tight text-gray-700 bg-gray-200 rounded appearance-none focus:outline-none focus:bg-white`}
+                      className={`${errors.password_confirmation && touched.password_confirmation ? 'border-red-500' : ''} border block w-full px-4 py-3 mb leading-tight text-gray-700 bg-gray-200 rounded appearance-none focus:outline-none focus:bg-white`}
                     />
                   </div>
                   <div className="flex items-center w-full my-3">
@@ -113,7 +123,7 @@ const Register = () => {
                     </button>
                   </div>
                   <Link
-                    to="/login"
+                    to={RouteName.LOGIN.path}
                     className="inline-block w-full text-lg text-center text-gray-500 align-baseline hover:text-blue-800"
                   >
                     Back to login

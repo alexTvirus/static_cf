@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { message } from 'antd'
 import HotelBookingApi from '../../../api/HotelBookingApi'
+import {ServiceApi} from '../../../api/ServiceApi'
 import Util from '../../../utils/util'
 
 import dayjs from 'dayjs';
@@ -54,8 +55,33 @@ const initialState = {
         currentPage: 1,
         perPage: 5,
         totalPages: 0,
-    }
+    },
+    cities:[],
+    districs:[]
 }
+
+
+export const actionGetAllCities = createAsyncThunk(
+    "room/actionGetAllCities",
+    async (payload, thunkApi) => {
+        try {
+            return await ServiceApi.getAllCities(payload)
+        } catch (error) {
+            return thunkApi.rejectWithValue(error)
+        }
+    }
+)
+
+export const actionGetDistrics = createAsyncThunk(
+    "room/actionGetDistrics",
+    async (payload, thunkApi) => {
+        try {
+            return await ServiceApi.getDistrics(payload)
+        } catch (error) {
+            return thunkApi.rejectWithValue(error)
+        }
+    }
+)
 
 export const actionGetAllRoom = createAsyncThunk(
     "room/actionGetAllRoom",
@@ -83,8 +109,7 @@ export const actionBookingInfo = createAsyncThunk(
     "room/actionBookingInfo",
     async (payload, thunkApi) => {
         try {
-            // todo : fake id customer = 1 , sau nay dung user login
-            return await HotelBookingApi.getBookingInfo(1,payload)
+            return await HotelBookingApi.getBookingInfo(payload)
         } catch (error) {
             return thunkApi.rejectWithValue(error)
         }
@@ -120,10 +145,11 @@ export const actionCancelBooking = createAsyncThunk(
 
 
 const handleError = (e) => {
-
-    if (e.response && e.response.status === 401) {
+    let error = e?.response?.data?.errors
+    if(error)
+        message.error(error)
+    if (e?.response && e?.response?.status === 401) {
         localStorage.removeItem('access_token')
-        //   context.app.router.push({ path: '/login' })
     }
 }
 
@@ -195,7 +221,6 @@ const roomSlice = createSlice({
                 message.success("Checkout Success")
             })
             .addCase(actionCheckout.rejected, (state, action) => {
-                debugger
                 state.isLoading = false
                 handleError(action.payload)
                 state.resultBooking = action.payload.response.data.data
@@ -224,11 +249,34 @@ const roomSlice = createSlice({
                 message.success("CancelBooking Success")
             })
             .addCase(actionCancelBooking.rejected, (state, action) => {
-                debugger
                 state.isLoading = false
                 handleError(action.payload)
                 state.responseData = action.payload.response.data.data
                 message.error("CancelBooking Fail")
+            })
+
+            .addCase(actionGetAllCities.pending, (state, action) => {
+                state.isLoading = true
+            })
+            .addCase(actionGetAllCities.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.cities = action.payload.data
+            })
+            .addCase(actionGetAllCities.rejected, (state, action) => {
+                state.isLoading = false
+                handleError(action.payload)
+            })
+
+            .addCase(actionGetDistrics.pending, (state, action) => {
+                state.isLoading = true
+            })
+            .addCase(actionGetDistrics.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.districs = action.payload.data.districts
+            })
+            .addCase(actionGetDistrics.rejected, (state, action) => {
+                state.isLoading = false
+                handleError(action.payload)
             })
 
     }

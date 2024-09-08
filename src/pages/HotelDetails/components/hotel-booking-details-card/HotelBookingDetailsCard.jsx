@@ -8,6 +8,7 @@ import queryString from 'query-string';
 import { formatPrice } from '../../../../utils/price-helpers';
 import Toast from '../../../../components/ux/toast/Toast';
 import format from 'date-fns/format';
+import { RouteName } from '../../../../routes/RouteName';
 
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -23,7 +24,7 @@ const HotelBookingDetailsCard = ({ hotelCode }) => {
 
 
   const onBookingConfirm = () => {
-    navigate(`/booking/${hotelCode}`);
+    navigate(`${RouteName.BOOKING.path}/${hotelCode}`);
   };
 
   // Handler for dismissing error message

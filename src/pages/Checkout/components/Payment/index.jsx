@@ -1,12 +1,11 @@
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import { Select } from 'antd';
+import Loader from '../../../../components/ux/loader/loader';
+import { useDispatch, useSelector } from "react-redux";
+import { actionGetDistrics } from "../../../../redux/features/room/roomSlice";
 
 const validationSchema = {
     email: (value) => /\S+@\S+\.\S+/.test(value),
-    nameOnCard: (value) => value.trim() !== '',
-    cardNumber: (value) => /^\d{16}$/.test(value), // Simplistic validation: just check if it has 16 digits.
-    expiry: (value) => /^(0[1-9]|1[0-2])\/\d{2}$/.test(value), // MM/YY format
-    cvc: (value) => /^\d{3,4}$/.test(value), // 3 or 4 digits
     address: (value) => value.trim() !== '',
     city: (value) => value.trim() !== '',
     state: (value) => value.trim() !== '',
@@ -19,17 +18,69 @@ const Payment = (
         handleSubmit,
         isSubmitDisabled,
         formData,
-        setFormData
+        setFormData,
     }) => {
+
+    const dispatch = useDispatch()
+    const { cities, districs } = useSelector(state => {
+        return state.room
+    })
+
+    const [citiesOption, setCitiesOption] = useState({
+        isLoading: true,
+        data: [],
+    });
+
+    const [districsOption, setDistricsOption] = useState({
+        isLoading: true,
+        data: [],
+    });
+
+    useEffect(() => {
+        if (cities && cities.length > 0) {
+            setCitiesOption({
+                isLoading: false,
+                data: cities.map((city, index) => {
+                    return {
+                        label: city.name,
+                        value: city.code,
+                    }
+                })
+            })
+        }
+    }, [cities])
+
+    useEffect(() => {
+        if (districs && districs.length > 0) {
+            setDistricsOption({
+                isLoading: false,
+                data: districs.map((city, index) => {
+                    return {
+                        label: city.name,
+                        value: city.code,
+                    }
+                })
+            })
+        }
+    }, [districs])
 
     const [errors, setErrors] = useState({});
 
     const handleChange = (e) => {
-        debugger
         const { name, value } = e.target;
         const isValid = validationSchema[name](value);
         setFormData({ ...formData, [name]: value });
         setErrors({ ...errors, [name]: !isValid });
+    };
+
+    const handleCitySelect = (e,option) => {
+        setFormData({ ...formData, city: option.label });
+        dispatch(actionGetDistrics(option.value))
+    };
+
+    
+    const handleDistricSelect = (e,option) => {
+        setFormData({ ...formData, state: option.label });
     };
 
     const preHandleSubmit = (e) => {
@@ -54,7 +105,12 @@ const Payment = (
 
     return (<>
         <div className="relative bg-white border shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-lg mx-auto mt-4">
-
+            {citiesOption.isLoading && (
+                <Loader
+                    isFullScreen={true}
+                    loaderText={'Payment in progress, hold tight!'}
+                />
+            )}
             <form
                 onSubmit={preHandleSubmit}
             >
@@ -78,26 +134,25 @@ const Payment = (
                     required={true}
                     error={errors.address}
                 />
-                <InputField
+
+                <SelectField
                     label="City"
-                    type="text"
                     name="city"
-                    value={formData.city}
-                    onChange={handleChange}
+                    onChange={handleCitySelect}
                     placeholder="City"
                     required={true}
                     error={errors.city}
+                    options={citiesOption.data}
                 />
                 <div className="flex mb-4 justify-between">
-                    <InputField
+                    <SelectField
                         label="State / Province"
-                        type="text"
                         name="state"
-                        value={formData.state}
-                        onChange={handleChange}
+                        onChange={handleDistricSelect}
                         placeholder="State"
                         required={true}
                         error={errors.state}
+                        options={districsOption.data}
                     />
                     <InputField
                         label="Postal code"
@@ -127,6 +182,53 @@ const Payment = (
         </div>
     </>)
 }
+
+const SelectField = ({
+    label,
+    type,
+    name,
+    value,
+    onChange,
+    placeholder,
+    required,
+    error,
+    options
+}) => (
+    <div className="mb-4 md:flex-1">
+        <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor={name}
+        >
+            {label}
+        </label>
+
+        <Select
+            showSearch
+            className={`shadow appearance-none border ${error ? 'border-red-500' : 'border-gray-300'
+                } rounded w-full 
+                    py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
+
+            placeholder={placeholder}
+            optionFilterProp="label"
+            filterSort={(optionA, optionB) =>
+                (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+            }
+            options={options}
+
+            id={name}
+            type={type}
+            name={name}
+            value={value}
+            onChange={onChange}
+            required={required}
+            aria-invalid={error ? 'true' : 'false'}
+        />
+
+
+        {error && (
+            <p className="text-red-500 text-xs my-1">Please check this field.</p>
+        )}
+    </div>)
 
 const InputField = ({
     label,

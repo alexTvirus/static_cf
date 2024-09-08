@@ -8,6 +8,7 @@ import Toast from '../../components/ux/toast/Toast';
 import { LOGIN_MESSAGES } from '../../utils/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { actionLogin } from '../../redux/features/auth/authSlice';
+import { RouteName } from '../../routes/RouteName';
 
 
 const Login = () => {
@@ -38,7 +39,7 @@ const Login = () => {
 
   useEffect(() => {
     if (isAuth)
-      navigate("/user-profile")
+      navigate(RouteName.USER_PROFILE.path)
   }, [isAuth])
 
 
@@ -93,7 +94,7 @@ const Login = () => {
               </div>
               <div className="flex flex-wrap justify-center my-3 w-full">
                 <Link
-                  to="/forgot-password"
+                  to={RouteName.FORGOT_PASSWORD.path}
                   className="inline-block align-baseline text-md text-gray-500 hover:text-blue-800 text-right"
                 >
                   Forgot your password?
@@ -109,7 +110,7 @@ const Login = () => {
               </div>
               <div className="flex flex-wrap justify-center my-3 w-full mt-12">
                 <Link
-                  to="/register"
+                  to={RouteName.REGISTER.path}
                   className="inline-block align-baseline font-medium text-md text-brand hover:text-blue-800 text-right"
                 >
                   Create an account

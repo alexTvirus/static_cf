@@ -8,7 +8,7 @@ const PopularLocations = (props) => {
   const navigate = history.navigate
 
   const onPopularDestincationCardClick = (city) => {
-    navigate('/hotels', {
+    navigate(RouteName.HOTELS.path, {
       state: {
         city: city.toString().toLowerCase(),
       },

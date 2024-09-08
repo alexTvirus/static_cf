@@ -45,7 +45,7 @@ const UserProfile = () => {
         "status": BOOKING_STATUS.PENDING_CANCEL.id
       }
       await dispath(actionCancelBooking(data))
-      dispath(actionBookingInfo())
+      dispath(actionBookingInfo(currentUser.id))
     }
 
     cancelBooking()
@@ -60,12 +60,6 @@ const UserProfile = () => {
   const onTabsMenuButtonAction = () => {
     setIsTabsVisible(!isTabsVisible);
   };
-
-  useEffect(() => {
-    if (isObjectEmpty(currentUser)) {
-      navigate('/login');
-    }
-  }, [navigate, currentUser]);
 
   useEffect(() => {
     // const getInitialData = async () => {
@@ -87,8 +81,8 @@ const UserProfile = () => {
     //   }
     // };
     // getInitialData();
-    dispath(actionBookingInfo())
-  }, []);
+    !isObjectEmpty(currentUser) && dispath(actionBookingInfo(currentUser.id))
+  }, [currentUser]);
 
   return (
     <>

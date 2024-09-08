@@ -207,7 +207,6 @@ const HotelsSearch = () => {
   }, [searchParams]);
 
   useEffect(() => {
-    debugger
     setSelectedFiltersState(
       filtersData.data.map((filterGroup) => ({
         ...filterGroup,

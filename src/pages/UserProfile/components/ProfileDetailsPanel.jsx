@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Toast from '../../../components/ux/toast/Toast';
 import Select from 'react-select';
+import { useDispatch } from 'react-redux';
+import { actionUpdateUser } from '../../../redux/features/auth/authSlice';
 
 const ProfileDetailsPanel = ({ userDetails }) => {
-  // states to manage the edit mode and user details
+
   const [isEditMode, setIsEditMode] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -12,14 +14,9 @@ const ProfileDetailsPanel = ({ userDetails }) => {
   const [dateOfBirth, setDateOfBirth] = useState('');
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [isPhoneVerified, setIsPhoneVerified] = useState(false);
-  const [nationality, setNationality] = useState('');
-  const [countries, setCountries] = useState([]);
 
-  const [toastMessage, setToastMessage] = useState('');
 
-  const clearToastMessage = () => {
-    setToastMessage('');
-  };
+  const dispatch = useDispatch()
 
   const handleEditClick = () => {
     setIsEditMode(!isEditMode);
@@ -31,39 +28,40 @@ const ProfileDetailsPanel = ({ userDetails }) => {
 
   const handleSaveClick = async () => {
     if (
-      firstName === userDetails.firstName &&
-      lastName === userDetails.lastName &&
-      phoneNumber === userDetails.phone &&
-      nationality === userDetails.country
+      firstName === userDetails.first_name &&
+      lastName === userDetails.last_name &&
+      phoneNumber === userDetails.phone
     ) {
       setIsEditMode(false);
       return;
     }
 
     const updatedUserDetails = {
-      firstName,
-      lastName,
-      phoneNumber,
-      country: nationality,
+      id:userDetails.id,
+      first_name:firstName,
+      last_name:lastName,
+      phone:phoneNumber,
+      birthday:dateOfBirth,
     };
+    await dispatch(actionUpdateUser(updatedUserDetails))
     // Call the API to update the user details
-    const response = '/api/users/update-profile'
-    if (response && response.data.status) {
-      setToastMessage({
-        type: 'success',
-        message: response.data.status,
-      });
-    } else {
-      // revert to original state
-      setFirstName(userDetails.firstName);
-      setLastName(userDetails.lastName);
-      setPhoneNumber(userDetails.phone);
-      setNationality(userDetails.country);
-      setToastMessage({
-        type: 'error',
-        message: 'Oops, something went wrong. Please try again later.',
-      });
-    }
+    // const response = '/api/users/update-profile'
+    // if (response && response.data.status) {
+    //   setToastMessage({
+    //     type: 'success',
+    //     message: response.data.status,
+    //   });
+    // } else {
+    //   // revert to original state
+    //   setFirstName(userDetails.first_name);
+    //   setLastName(userDetails.last_name);
+    //   setPhoneNumber(userDetails.phone);
+    //   setNationality(userDetails.country);
+    //   setToastMessage({
+    //     type: 'error',
+    //     message: 'Oops, something went wrong. Please try again later.',
+    //   });
+    // }
 
     setIsEditMode(false);
   };
@@ -75,27 +73,11 @@ const ProfileDetailsPanel = ({ userDetails }) => {
       setLastName(userDetails.last_name || '');
       setEmail(userDetails.email || '');
       setPhoneNumber(userDetails.phone || '');
-      setNationality(userDetails.country || '');
-      setIsEmailVerified(userDetails.isEmailVerified || '');
-      setIsPhoneVerified(userDetails.isPhoneVerified || '');
-      setDateOfBirth(userDetails.dateOfBirth || '');
+      setIsEmailVerified(userDetails.email_verified_at || '');
+      setIsPhoneVerified(userDetails.phone_verified_at || '');
+      setDateOfBirth(userDetails.birthday || '');
     }
   }, [userDetails]);
-
-  useEffect(() => {
-    const fetchCountries = async () => {
-      const countriesData = '/api/misc/countries'
-      if (countriesData && countriesData.data) {
-        console.log('countriesData', countriesData.data);
-        const mappedValues = countriesData.data.elements.map((country) => ({
-          label: country.name,
-          value: country.name,
-        }));
-        setCountries(mappedValues);
-      }
-    };
-    fetchCountries();
-  }, []);
 
   return (
     <div className="bg-white shadow sm:rounded-lg flex flex-col">
@@ -104,8 +86,7 @@ const ProfileDetailsPanel = ({ userDetails }) => {
           Personal details
         </h3>
         <p className="mt-1 max-w-2xl text-gray-500">
-          Keep your details current to ensure seamless communication and
-          services
+          your details current
         </p>
       </div>
       <div className="border-t border-gray-200">
@@ -135,15 +116,6 @@ const ProfileDetailsPanel = ({ userDetails }) => {
                 value={dateOfBirth}
                 onChange={setDateOfBirth}
               />
-              <div className="relative">
-                <TextField
-                  label="Country"
-                  value={nationality}
-                  onChange={setNationality}
-                  isSelectable={true}
-                  selectableData={countries}
-                />
-              </div>
             </>
           ) : (
             // Display fields
@@ -164,7 +136,6 @@ const ProfileDetailsPanel = ({ userDetails }) => {
                 label="Date of birth"
                 value={dateOfBirth || 'Enter your date of birth'}
               />
-              <DisplayField label="Nationality" value={nationality} />
             </>
           )}
         </dl>
@@ -194,24 +165,15 @@ const ProfileDetailsPanel = ({ userDetails }) => {
           </button>
         )}
       </div>
-      {toastMessage && (
-        <div className="m-2">
-          <Toast
-            type={toastMessage.type}
-            message={toastMessage.message}
-            dismissError={clearToastMessage}
-          />
-        </div>
-      )}
+
     </div>
   );
 };
 
 const DisplayField = ({ label, value, verified }) => (
   <div
-    className={`bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 ${
-      verified ? 'bg-gray-50' : ''
-    }`}
+    className={`bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 ${verified ? 'bg-gray-50' : ''
+      }`}
   >
     <dt className="font-medium text-gray-500">{label}</dt>
     <dd className="mt-1 text-gray-900 sm:mt-0 sm:col-span-2">

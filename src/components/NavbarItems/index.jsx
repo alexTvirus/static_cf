@@ -5,7 +5,7 @@ import { act, useContext } from 'react';
 import DropdownButton from '../ux/DropdownButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { actionLogout } from '../../redux/features/auth/authSlice';
-
+import { RouteName } from '../../routes/RouteName';
 
 const NavbarItems = ({ onHamburgerMenuToggle }) => {
   const navigate = history.navigate
@@ -19,11 +19,11 @@ const NavbarItems = ({ onHamburgerMenuToggle }) => {
   const handleLogout = async () => {
     if (isAuth)
       await dispatch(actionLogout())
-    navigate("/login")
+    navigate(RouteName.LOGIN.path)
   };
 
   const dropdownOptions = [
-    { name: 'Profile', onClick: () => navigate('/user-profile') },
+    { name: 'Profile', onClick: () => navigate(RouteName.USER_PROFILE.path) },
     { name: 'Logout', onClick: handleLogout },
   ];
 
@@ -46,8 +46,8 @@ const NavbarItems = ({ onHamburgerMenuToggle }) => {
       </li>
       <li className="p-4 hover:bg-blue-900 md:hover:bg-brand">
         <Link
-          to="/hotels"
-          className={`uppercase font-medium text-slate-100 hover-underline-animation ${isActive('/hotels') && 'active-link'
+          to={RouteName.HOTELS.path}
+          className={`uppercase font-medium text-slate-100 hover-underline-animation ${isActive(RouteName.HOTELS.path) && 'active-link'
             }`}
           onClick={onHamburgerMenuToggle}
         >
@@ -56,8 +56,8 @@ const NavbarItems = ({ onHamburgerMenuToggle }) => {
       </li>
       <li className="p-4 hover:bg-blue-900 md:hover:bg-brand">
         <Link
-          to="/about-us"
-          className={`uppercase font-medium text-slate-100 hover-underline-animation ${isActive('/about-us') && 'active-link'
+          to={RouteName.ABOUT_US.path}
+          className={`uppercase font-medium text-slate-100 hover-underline-animation ${isActive(RouteName.ABOUT_US.path) && 'active-link'
             }`}
           onClick={onHamburgerMenuToggle}
         >
@@ -71,9 +71,9 @@ const NavbarItems = ({ onHamburgerMenuToggle }) => {
           <DropdownButton triggerType="click" options={dropdownOptions} />
         ) : (
           <Link
-            to="/login"
+            to={RouteName.LOGIN.path}
             className={`uppercase font-medium text-slate-100 hover-underline-animation ${
-              isActive('/login') && 'active-link'
+              isActive(RouteName.LOGIN.path) && 'active-link'
             }`}
             onClick={onHamburgerMenuToggle}
           >

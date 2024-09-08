@@ -1,8 +1,6 @@
 
 import './App.scss';
-import React, { useEffect } from 'react';
-import { createBrowserRouter, RouterProvider, useLocation, useNavigate } from 'react-router-dom';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import {  Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
 
 import BaseLayout from './layouts/BaseLayout';
@@ -18,6 +16,10 @@ import Register from './pages/Register'
 import UserProfile from './pages/UserProfile'
 
 import { history } from './routes/helper/history';
+import { RouteName } from './routes/RouteName';
+
+import { PrivateRoute } from './routes/PrivateRoutes';
+import { useDispatch } from 'react-redux';
 
 function App() {
 
@@ -34,40 +36,44 @@ function App() {
             <Home />
           } />
 
-          <Route path='/hotels' element={
+          <Route path={RouteName.HOTELS.path} element={
             <HotelsSearch />
           } />
 
-          <Route path='/about-us' element={
+          <Route path={RouteName.ABOUT_US.path} element={
             <AboutUs />
           } />
 
-          <Route path='/hotel/:hotelId' element={
+          <Route path={`${RouteName.HOTEL_DETAIL.path}/:hotelId`} element={
             <HotelDetails />
           } />
 
-          <Route path='/booking/:hotelId' element={
+          <Route path={`${RouteName.BOOKING.path}/:hotelId`} element={
             <Booking />
           } />
 
-          <Route path='/checkout' element={
-            <Checkout />
+          <Route path={RouteName.CHECKOUT.path} element={
+            <PrivateRoute>
+              <Checkout />
+            </PrivateRoute>
           } />
 
-          <Route path='/forgot-password' element={
+          <Route path={RouteName.FORGOT_PASSWORD.path} element={
             <ForgotPassword />
           } />
 
-          <Route path='/login' element={
+          <Route path={RouteName.LOGIN.path} element={
             <Login />
           } />
 
-          <Route path='/register' element={
+          <Route path={RouteName.REGISTER.path} element={
             <Register />
           } />
 
-          <Route path='/user-profile' element={
-            <UserProfile />
+          <Route path={RouteName.USER_PROFILE.path} element={
+            <PrivateRoute>
+              <UserProfile />
+            </PrivateRoute>
           } />
 
         </Route>

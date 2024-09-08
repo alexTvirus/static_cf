@@ -10,7 +10,6 @@ const VerticalFilters = (props) => {
   } = props;
 
   const isActiveFilterSelected = () => {
-    debugger
     for (const filterGroup of filtersData) {
       for (const subfilter of filterGroup.filters) {
         if (subfilter.isSelected) {

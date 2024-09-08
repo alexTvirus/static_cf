@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import validations from '../../utils/validations';
 import Toast from '../../components/ux/toast/Toast';
+import { RouteName } from '../../routes/RouteName';
 
 const ForgotPassword = () => {
   const [success, setsuccess] = useState(false);
@@ -105,7 +106,7 @@ const ForgotPassword = () => {
                   </button>
                   <div className="mt-5">
                     <Link
-                      to="/login"
+                      to={RouteName.LOGIN.path}
                       className="inline-block align-baseline text-lg text-gray-500 hover:text-blue-800 text-right"
                     >
                       Back to login

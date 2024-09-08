@@ -2,6 +2,7 @@ import { faStar, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useNavigate } from 'react-router-dom';
 import { formatPrice } from '../../utils/price-helpers';
+import { RouteName } from '../../routes/RouteName';
 
 import { history } from '../../routes/helper/history';
 
@@ -20,7 +21,7 @@ const HotelViewCard = (props) => {
   } = props;
   const navigate = history.navigate
   const onBookNowClick = () => {
-    navigate(`/booking/${hotelCode}`);
+    navigate(`${RouteName.BOOKING.path}/${hotelCode}`);
   };
 
   return (
@@ -30,7 +31,7 @@ const HotelViewCard = (props) => {
     >
       <div className="cursor-pointer">
         <Link
-          to={`/booking/${hotelCode}`}
+          to={`${RouteName.BOOKING.path}/${hotelCode}`}
           className="block text-slate-700 hover:text-brand transition-colors duration-300"
         >
           <img
@@ -43,7 +44,7 @@ const HotelViewCard = (props) => {
       <div className="flex flex-col justify-between ml-0 md:ml-2 flex-1">
         <div>
           <Link
-            to={`/booking/${hotelCode}`}
+            to={`${RouteName.BOOKING.path}/${hotelCode}`}
             className="block text-slate-700 hover:text-brand transition-colors duration-300"
           >
             <h4 className="text-2xl font-bold text-slate-600">{title}</h4>

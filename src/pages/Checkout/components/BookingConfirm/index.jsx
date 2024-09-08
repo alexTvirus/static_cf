@@ -16,7 +16,8 @@ const BookingConfirm = ({ onConfirm, paymentConfirmationDetails, formData }) => 
         <PaymentInFo
           formData={formData}
         ></PaymentInFo>
-        <button className='bg-brand transition duration-300 text-white py-2 rounded w-full' onClick={onConfirm}>confirm</button>
+        <button className='bg-brand transition duration-300 text-white py-2 rounded w-full' 
+        onClick={onConfirm}>confirm</button>
 
       </div>
     </div>

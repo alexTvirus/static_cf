@@ -65,16 +65,19 @@ const HotelBookingApi = {
         return apiGet(`room-type/${id}?checkin_at=${payload['checkin_at']}&checkout_at=${payload['checkout_at']}`, payload)
     },
     checkoutRoom: (payload = {}) => {
-        return apiPost(`checkout`, payload)
+        return apiPost(`checkout?XDEBUG_SESSION_START=16041`, payload)
     },
     cancelBooking: (id, payload = {}) => {
-        return apiPatch(`customer/${id}/bookings/${payload.id}`, payload)
+        return apiPatch(`user/${id}/bookings/${payload.id}`, payload)
     },
     getBookingInfo: (id, payload = {}) => {
-        return apiGet(`customer/${id}/bookings/`, payload)
+        return apiGet(`user/${id}/bookings/`, payload)
     },
     getUserInfo: (id, payload = {}) => {
         return apiGet(`user/${id}`, payload)
+    },
+    updateUser: (id, payload = {}) => {
+        return apiPatch(`user/${id}`, payload)
     },
     login: (payload = {}) => {
         return apiPost(`auth/login`, payload)
@@ -82,9 +85,15 @@ const HotelBookingApi = {
     logout: (payload = {}) => {
         return apiPost(`auth/logout`, payload)
     },
-    register: (payload = {}) => {
-        return apiPost(`auth/register`, payload)
+    reLogin: (payload = {}) => {
+        return apiPost(`auth/me`, payload)
     },
+    register: (payload = {}) => {
+        return apiPost(`auth/register?XDEBUG_SESSION_START=10557`, payload)
+    },
+    getUserProfile: (payload = {}) => {
+        return apiPost(`auth/me`, payload)
+    }
 }
 
 export default HotelBookingApi

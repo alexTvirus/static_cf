@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import FinalBookingSummary from './components/final-booking-summary/FinalBookingSummary';
 import { history } from '../../routes/helper/history';
-
+import { isObjectEmpty } from '../../utils/helpers'
 import { useSearchParams } from 'react-router-dom';
 
 
 import { useDispatch, useSelector } from 'react-redux';
-import { actionCheckout, actionSetResultBooking, actionClearBooking } from '../../redux/features/room/roomSlice'
+import { actionCheckout, actionSetResultBooking, actionClearBooking, actionGetAllCities } from '../../redux/features/room/roomSlice'
 import { BOOKING_STATUS } from '../../utils/constants'
 import Payment from './components/Payment';
 import BookingConfirm from './components/BookingConfirm';
 import BookingResult from './components/BookingResult';
-
+import { RouteName } from '../../routes/RouteName';
 
 
 import { Steps } from 'antd';
@@ -26,8 +26,12 @@ const dateFormat = 'YYYY-MM-DD';
 
 const Checkout = () => {
   const dispatch = useDispatch()
-  const { resultBooking, booking, dateRange } = useSelector(state => {
+  const { resultBooking, booking, dateRange, cities } = useSelector(state => {
     return state.room
+  })
+
+  const { currentUser } = useSelector(state => {
+    return state.auth
   })
 
   const { tempBooking } = useSelector(state => {
@@ -41,8 +45,10 @@ const Checkout = () => {
   const [searchParams] = useSearchParams();
 
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
-  
-  const [totalPrice, setTotalPrice]= useState(0)
+
+ 
+
+  const [totalPrice, setTotalPrice] = useState(0)
 
   const [paymentConfirmationDetails, setPaymentConfirmationDetails] = useState({
     isLoading: false,
@@ -65,14 +71,25 @@ const Checkout = () => {
   const numberRooms = `${searchParams.get('rooms')}`
 
   useEffect(() => {
-    debugger
+    dispatch(actionGetAllCities())
+  }, [])
+
+ 
+
+  useEffect(() => {
+    if (!isObjectEmpty(currentUser)) {
+      setFormData({ ...formData, email: currentUser.email })
+    }
+  }, [currentUser])
+
+  useEffect(() => {
     const locationState = location.state;
     const checkIn = searchParams.get('checkIn');
     const checkOut = searchParams.get('checkOut');
-	setTotalPrice(location?.state?.total||0)
+    setTotalPrice(location?.state?.total || 0)
     if (!locationState || !checkIn || !checkOut) {
       const hotelCode = searchParams.get('hotelCode');
-      navigate(`/booking/${hotelCode}`);
+      navigate(`${RouteName.BOOKING.path}/${hotelCode}`);
     }
   }, [location, navigate, searchParams]);
 
