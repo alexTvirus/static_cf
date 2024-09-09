@@ -83,10 +83,10 @@ const ProfileDetailsPanel = ({ userDetails }) => {
     <div className="bg-white shadow sm:rounded-lg flex flex-col">
       <div className="px-4 py-5 sm:px-6">
         <h3 className="text-xl leading-6 font-medium text-gray-900">
-          Personal details
+          Thông tin chi tiết
         </h3>
         <p className="mt-1 max-w-2xl text-gray-500">
-          your details current
+          Thông tin cá nhân
         </p>
       </div>
       <div className="border-t border-gray-200">
@@ -95,12 +95,12 @@ const ProfileDetailsPanel = ({ userDetails }) => {
             // Editable fields
             <>
               <TextField
-                label="Firstname"
+                label="Họ"
                 value={firstName}
                 onChange={setFirstName}
               />
               <TextField
-                label="Lastname"
+                label="Tên"
                 value={lastName}
                 onChange={setLastName}
               />
@@ -111,7 +111,7 @@ const ProfileDetailsPanel = ({ userDetails }) => {
                 onChange={setPhoneNumber}
               />
               <TextField
-                label="Date of birth"
+                label="Ngày sinh"
                 type="date"
                 value={dateOfBirth}
                 onChange={setDateOfBirth}
@@ -120,8 +120,8 @@ const ProfileDetailsPanel = ({ userDetails }) => {
           ) : (
             // Display fields
             <>
-              <DisplayField label="Firstname" value={firstName} />
-              <DisplayField label="Lastname" value={lastName} />
+              <DisplayField label="Họ" value={firstName} />
+              <DisplayField label="Tên" value={lastName} />
               <DisplayField
                 label="Email address"
                 value={email}
@@ -129,12 +129,12 @@ const ProfileDetailsPanel = ({ userDetails }) => {
               />
               <DisplayField
                 label="Phone number"
-                value={phoneNumber || 'Add your phone number'}
+                value={phoneNumber || 'Nhập phone number của bạn'}
                 verified={isPhoneVerified}
               />
               <DisplayField
-                label="Date of birth"
-                value={dateOfBirth || 'Enter your date of birth'}
+                label="Ngày sinh"
+                value={dateOfBirth || 'Nhập ngày sinh của bạn'}
               />
             </>
           )}
@@ -147,13 +147,13 @@ const ProfileDetailsPanel = ({ userDetails }) => {
               onClick={handleCancelClick}
               className="inline-flex items-center px-2.5 py-1.5 border border-gray-300 text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              Cancel
+              Hoàn tác
             </button>
             <button
               onClick={handleSaveClick}
               className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-brand hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
-              Save
+              Lưu
             </button>
           </>
         ) : (
@@ -161,7 +161,7 @@ const ProfileDetailsPanel = ({ userDetails }) => {
             onClick={handleEditClick}
             className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-brand hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
-            Edit
+            Sửa
           </button>
         )}
       </div>

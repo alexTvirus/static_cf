@@ -52,19 +52,19 @@ const HotelViewCard = (props) => {
           <p className="text-slate-600 text-sm mb-2">{subtitle}</p>
           <p className="text-sm text-gray-600">
             <span className="text-slate-600 font-bold text-sm">
-              Sleep
+              Giường
             </span>
             <span >
               {`: ${maxOccupancy}, `}
             </span>
             <span className="text-slate-600 font-bold text-sm">
-              Bathrooms
+              Phòng tắm
             </span>
             <span>
               {`: ${bathrooms}, `} ,
             </span>
             <span className="text-slate-600 font-bold text-sm">
-              Size
+              Diện tích
             </span>
             <span>
               {`: ${roomSize}m²`}
@@ -89,7 +89,7 @@ const HotelViewCard = (props) => {
 
 
           <div className="text-slate-600 font-bold whitespace-nowrap">
-            <p>One night price</p> 
+            <p>Giá 1 đêm</p> 
             {price && price.length > 0 && formatPrice(price)}
           </div>
         </div>
@@ -97,7 +97,7 @@ const HotelViewCard = (props) => {
           className=" bg-brand-secondary px-4 py-2 text-white whitespace-nowrap"
           onClick={onBookNowClick}
         >
-          Book now
+          Đặt ngay
         </button>
       </div>
     </div>

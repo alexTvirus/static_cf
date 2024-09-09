@@ -125,19 +125,19 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
               </h2>
               <p className="text-sm text-gray-600 mb-4">
                 <span className="text-slate-600 font-bold text-sm">
-                  Sleep
+                  Giường
                 </span>
                 <span >
                   {`: ${hotelDetails.max_occupancy}, `}
                 </span>
                 <span className="text-slate-600 font-bold text-sm">
-                  Bathrooms
+                  Phòng tắm
                 </span>
                 <span>
                   {`: ${hotelDetails.bathrooms}, `}
                 </span>
                 <span className="text-slate-600 font-bold text-sm">
-                  Size
+                  Diện tích
                 </span>
                 <span>
                   {`: ${hotelDetails.room_size}m²`}
@@ -147,7 +147,7 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
                 {!isObjectEmpty(hotelDetails) && hotelDetails.description}
               </p>
               <h3 className="font-semibold text-gray-700 mb-2">
-                Amenities
+                Tiện nghi
               </h3>
               <div className="text-sm text-gray-600 mb-4">
                 {!isObjectEmpty(hotelDetails) && hotelDetails.amenities.map((item, index, { length }) => (
@@ -191,14 +191,14 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
                           {formatPrice(parseFloat(hotelDetails.base_price) + parseFloat(packet.base_price))} VND
                         </p>
                         <p className="text-sm text-gray-600">
-                          Cost for 1 night, 2 guests
+                          Giá phòng 1 đêm
                         </p>
                       </div>
                       <button
                         onClick={() => handleSelectPacket(packet)}
                         className="hover:bg-yellow-600 transition duration-300 bg-brand-secondary px-4 py-2 text-white whitespace-nowrap"
                       >
-                        Select
+                        Chọn
                       </button>
                     </div>
                   </div>

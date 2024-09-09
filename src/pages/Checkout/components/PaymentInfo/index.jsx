@@ -17,7 +17,7 @@ const PaymentInFo = (
                 readOnly={true}
             />
             <InputField
-                label="address"
+                label="Địa chỉ"
                 type="text"
                 name="address"
                 value={formData.address}
@@ -25,7 +25,7 @@ const PaymentInFo = (
                 readOnly={true}
             />
             <InputField
-                label="city"
+                label="Thành phố"
                 type="text"
                 name="city"
                 value={formData.city}
@@ -34,7 +34,7 @@ const PaymentInFo = (
             />
             <div className="flex mb-4 justify-between">
                 <InputField
-                    label="state"
+                    label="Quận/Huyện"
                     type="text"
                     name="state"
                     value={formData.state}
@@ -42,7 +42,7 @@ const PaymentInFo = (
                     readOnly={true}
                 />
                 <InputField
-                    label="Postal code"
+                    label="Mã vùng"
                     type="text"
                     name="postalCode"
                     value={formData.postalCode}

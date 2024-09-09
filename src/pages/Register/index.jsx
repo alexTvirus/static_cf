@@ -58,10 +58,10 @@ const Register = () => {
                 <div className="w-full max-w-lg p-4 shadow-md md:p-10">
                   <div className="mb-10 text-center">
                     <h2 className="text-3xl font-extrabold text-brand">
-                      Register
+                      Đăng kí
                     </h2>
                     <p className="text-gray-500">
-                      Create your account
+                      Tạo tài khoản mới
                     </p>
                   </div>
                   <div className="flex flex-wrap mb-6 -mx-3">
@@ -119,14 +119,14 @@ const Register = () => {
                       type="submit"
                       className="w-full px-4 py-2 font-bold text-white rounded bg-brand hover:bg-blue-700 focus:outline-none focus:shadow-outline"
                     >
-                      Register
+                      Đăng kí
                     </button>
                   </div>
                   <Link
                     to={RouteName.LOGIN.path}
                     className="inline-block w-full text-lg text-center text-gray-500 align-baseline hover:text-blue-800"
                   >
-                    Back to login
+                    Quay về trang đăng nhập
                   </Link>
                   {showToast && (
                     <Toast

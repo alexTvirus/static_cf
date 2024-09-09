@@ -125,42 +125,42 @@ const Payment = (
                     error={errors.email}
                 />
                 <InputField
-                    label="Address"
+                    label="Địa chỉ"
                     type="text"
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
-                    placeholder="Street Address"
+                    placeholder="Địa chỉ"
                     required={true}
                     error={errors.address}
                 />
 
                 <SelectField
-                    label="City"
+                    label="Thành phố"
                     name="city"
                     onChange={handleCitySelect}
-                    placeholder="City"
+                    placeholder="Thành phố"
                     required={true}
                     error={errors.city}
                     options={citiesOption.data}
                 />
                 <div className="flex mb-4 justify-between">
                     <SelectField
-                        label="State / Province"
+                        label="Quận/Huyện"
                         name="state"
                         onChange={handleDistricSelect}
-                        placeholder="State"
+                        placeholder="Quận/Huyện"
                         required={true}
                         error={errors.state}
                         options={districsOption.data}
                     />
                     <InputField
-                        label="Postal code"
+                        label="Mã vùng"
                         type="text"
                         name="postalCode"
                         value={formData.postalCode}
                         onChange={handleChange}
-                        placeholder="Postal Code"
+                        placeholder="Mã vùng"
                         required={true}
                         error={errors.postalCode}
                     />
@@ -174,7 +174,7 @@ const Payment = (
                         type="submit"
                         disabled={isSubmitDisabled}
                     >
-                        Submit
+                        Tiếp tục
                     </button>
                 </div>
             </form>

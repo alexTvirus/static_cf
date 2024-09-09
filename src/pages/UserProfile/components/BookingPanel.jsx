@@ -52,7 +52,7 @@ const BookingPanel = ({ bookings, onCancelBooking }) => {
                             d="M8 7V3m8 4V3m-4 4V3m0 4v8m-4-4h8"
                           />
                         </svg>
-                        Booking Date: {formatDate1(booking.created_at)}
+                        Ngày đặt: {formatDate1(booking.created_at)}
                       </p>
                       <p className="flex items-center text-sm text-gray-500">
                         Check-in: {formatDate1(booking.checkin_at)}
@@ -64,7 +64,7 @@ const BookingPanel = ({ bookings, onCancelBooking }) => {
                       </p>
                       <p className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
 
-                        Guests: {booking.number_guests}
+                        Khách: {booking.number_guests}
                       </p>
                       <p className="mt-2 flex items-center text-sm text-gray-500 sm:mt-0 sm:ml-6">
                         {
@@ -75,8 +75,8 @@ const BookingPanel = ({ bookings, onCancelBooking }) => {
                               case BOOKING_STATUS.PARTIALLY_PAID.id: rs = (<Tag color="warning">{BOOKING_STATUS.PARTIALLY_PAID.name}</Tag>); break;
                               case BOOKING_STATUS.CANCEL.id: rs = (<Tag color="error">{BOOKING_STATUS.CANCEL.name}</Tag>); break;
                               case BOOKING_STATUS.PENDING.id: rs = (<Tag color="processing">{BOOKING_STATUS.PENDING.name}</Tag>); break;
-							  case BOOKING_STATUS.PENDING_CANCEL.id: rs = (<Tag color="processing">{BOOKING_STATUS.PENDING_CANCEL.name}</Tag>); break;
-							  
+                              case BOOKING_STATUS.PENDING_CANCEL.id: rs = (<Tag color="processing">{BOOKING_STATUS.PENDING_CANCEL.name}</Tag>); break;
+
                             }
                             return rs;
                           })()
@@ -87,7 +87,7 @@ const BookingPanel = ({ bookings, onCancelBooking }) => {
                     <div className="mt-2 items-center gap-x-2 text-sm text-gray-500 sm:flex-col  sm:mt-0">
 
                       <p className="flex items-center mb-2">
-                        <span className="font-medium">Total price: </span>{' '}
+                        <span className="font-medium">Tổng giá: </span>{' '}
                         <span className="ml-2">{formatPrice(booking.total_price)}</span>
                       </p>
                       {
@@ -98,7 +98,7 @@ const BookingPanel = ({ bookings, onCancelBooking }) => {
                         <button
                           onClick={() => onCancelBooking(booking.id)}
                           className='hover:bg-red-600 transition 
-                    duration-300 bg-brand-danger px-4 py-2 text-white whitespace-nowrap'>Cancel</button>
+                    duration-300 bg-brand-danger px-4 py-2 text-white whitespace-nowrap'>Hủy đặt</button>
                       }
 
                     </div>
@@ -118,7 +118,7 @@ const BookingPanel = ({ bookings, onCancelBooking }) => {
                           })())
                         }}
                         className="cursor-pointer px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                        Rooms
+                        Phòng
                       </p>
                     </div>
                   </div>
@@ -127,7 +127,7 @@ const BookingPanel = ({ bookings, onCancelBooking }) => {
                       (() => {
                         const columns = [
                           {
-                            title: 'room_number',
+                            title: 'Số phòng',
                             dataIndex: 'room_number',
                             key: 'room_number',
                             render: (_, { room_number }) => {
@@ -139,7 +139,7 @@ const BookingPanel = ({ bookings, onCancelBooking }) => {
                             }
                           },
                           {
-                            title: 'packet',
+                            title: 'Gói ưu đãi',
                             dataIndex: 'packet',
                             key: 'packet',
                             render: (_, { packet }) => {
@@ -147,10 +147,10 @@ const BookingPanel = ({ bookings, onCancelBooking }) => {
                                 <span className='cursor-default'>{packet}</span>
                               );
                             },
-							responsive: ["sm"]
+                            responsive: ["sm"]
                           },
                           {
-                            title: 'room_type',
+                            title: 'Loại phòng',
                             dataIndex: 'room_type',
                             key: 'room_type',
                             render: (_, { room_type }) => {
@@ -158,7 +158,7 @@ const BookingPanel = ({ bookings, onCancelBooking }) => {
                                 <span className='cursor-default'>{room_type}</span>
                               );
                             },
-							responsive: ["sm"]
+                            responsive: ["sm"]
                           }
                         ];
 
@@ -194,7 +194,7 @@ const BookingPanel = ({ bookings, onCancelBooking }) => {
                           })())
                         }}
                         className="cursor-pointer px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                        Payments
+                        Thanh toán
                       </p>
                     </div>
                   </div>
@@ -202,19 +202,19 @@ const BookingPanel = ({ bookings, onCancelBooking }) => {
                     {booking.payments && booking.payments.length > 0 &&
                       (() => {
                         const columns = [
-							{
-								title: 'email',
-								dataIndex: 'email',
-								key: 'email',
-								render: (_, { email }) => {
-								  return (
-									<span className='cursor-default'>{email}</span>
-								  );
-								}
-
-							  },
                           {
-                            title: 'payment_date',
+                            title: 'email',
+                            dataIndex: 'email',
+                            key: 'email',
+                            render: (_, { email }) => {
+                              return (
+                                <span className='cursor-default'>{email}</span>
+                              );
+                            }
+
+                          },
+                          {
+                            title: 'Ngày thanh toán',
                             dataIndex: 'payment_date',
                             key: 'payment_date',
                             render: (_, { payment_date }) => {
@@ -222,11 +222,11 @@ const BookingPanel = ({ bookings, onCancelBooking }) => {
                                 <span className='cursor-default'>{payment_date}</span>
                               );
                             },
-							responsive: ["sm","md"]
+                            responsive: ["sm", "md"]
 
                           },
                           {
-                            title: 'payment_method',
+                            title: 'Phương thức',
                             dataIndex: 'payment_method',
                             key: 'payment_method',
                             render: (_, { payment_method }) => {
@@ -234,10 +234,10 @@ const BookingPanel = ({ bookings, onCancelBooking }) => {
                                 <span className='cursor-default'>{payment_method}</span>
                               );
                             },
-							responsive: ["sm","md"]
+                            responsive: ["sm", "md"]
                           },
                           {
-                            title: 'payment_amount',
+                            title: 'Tiền đã thanh toán',
                             dataIndex: 'payment_amount',
                             key: 'payment_amount',
                             render: (_, { payment_amount }) => {
@@ -253,7 +253,7 @@ const BookingPanel = ({ bookings, onCancelBooking }) => {
                           booking.payments.map((payment, index) => {
                             return {
                               key: index,
-							  email: payment?.email || "",
+                              email: payment?.email || "",
                               payment_date: formatDate1(payment?.payment_date) || "",
                               payment_method: payment?.payment_method || "",
                               payment_amount: formatPrice(payment?.payment_amount) || 0,

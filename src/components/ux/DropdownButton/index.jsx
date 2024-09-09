@@ -34,7 +34,7 @@ const DropdownButton = (props) => {
         className={`dropdown-trigger__button text-white ${color} font-medium p-4 uppercase text-center inline-flex items-center`}
         type="button"
       >
-        MY ACCOUNT{' '}
+        TÀI KHOẢN{' '}
         <svg
           className="w-2.5 h-2.5 ms-3"
           aria-hidden="true"

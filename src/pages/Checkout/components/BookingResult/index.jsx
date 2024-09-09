@@ -38,7 +38,7 @@ const BookingResult = () => {
           to="/"
           className={`border p-2 min-w-[120px] text-center transition-all delay-100 hover:bg-brand hover:text-white`}
         >
-          Back to home
+          Quay về trang chủ
         </Link>
         {/* <button
           onClick={() => {
@@ -60,13 +60,12 @@ const BookingResult = () => {
           <FontAwesomeIcon icon={faStar} className="text-brand text-3xl" />
           <FontAwesomeIcon icon={faStar} className="text-brand text-xl" />
         </div>
-        <h1 className="text-gray-700 text-2xl font-bold">Booking Result</h1>
+        <h1 className="text-gray-700 text-2xl font-bold">Kết quả đặt phòng</h1>
         <p className="text-gray-600 mt-2">
-          Thank you for your booking! Your reservation has been confirmed.
+          Cảm ơn bạn đã đặt phòng! Thông tin đặt phòng của bạn đã được xác nhận.
         </p>
         <p className="text-gray-600">
-          Please check your email for the booking details and instructions for
-          your stay.
+          Hãy kiểm tra email để xem chi tiết đặt phòng và thông tin về phòng
         </p>
         <div className="mt-4 flex justify-center flex-wrap items-center">
           {bookingDetails &&

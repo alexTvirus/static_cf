@@ -10,20 +10,20 @@ import { RouteName } from '../../routes/RouteName';
 const NavbarItems = ({ onHamburgerMenuToggle }) => {
   const navigate = history.navigate
   const location = history.location
-
   const dispatch = useDispatch()
-  const { isAuth } = useSelector(state => {
-    return state.auth
-  })
+  
+  const isLogined = ()=>{
+	  return localStorage.getItem("access_token") || false
+  }
 
   const handleLogout = async () => {
-    if (isAuth)
+    if (isLogined())
       await dispatch(actionLogout())
     navigate(RouteName.LOGIN.path)
   };
 
   const dropdownOptions = [
-    { name: 'Profile', onClick: () => navigate(RouteName.USER_PROFILE.path) },
+    { name: 'Hồ sơ cá nhân', onClick: () => navigate(RouteName.USER_PROFILE.path) },
     { name: 'Logout', onClick: handleLogout },
   ];
 
@@ -41,7 +41,7 @@ const NavbarItems = ({ onHamburgerMenuToggle }) => {
             }`}
           onClick={onHamburgerMenuToggle}
         >
-          Home
+          GIỚI THIỆU
         </Link>
       </li>
       <li className="p-4 hover:bg-blue-900 md:hover:bg-brand">
@@ -51,7 +51,7 @@ const NavbarItems = ({ onHamburgerMenuToggle }) => {
             }`}
           onClick={onHamburgerMenuToggle}
         >
-          Hotels
+          CÁC LOẠI PHÒNG
         </Link>
       </li>
       <li className="p-4 hover:bg-blue-900 md:hover:bg-brand">
@@ -61,13 +61,13 @@ const NavbarItems = ({ onHamburgerMenuToggle }) => {
             }`}
           onClick={onHamburgerMenuToggle}
         >
-          About us
+          VỀ CHÚNG TÔI
         </Link>
       </li>
       <li
-        className={`${!isAuth && 'p-4 hover:bg-blue-900 md:hover:bg-brand'}`}
+        className={`${!isLogined() && 'p-4 hover:bg-blue-900 md:hover:bg-brand'}`}
       >
-        {isAuth ? (
+        {isLogined() ? (
           <DropdownButton triggerType="click" options={dropdownOptions} />
         ) : (
           <Link

@@ -181,13 +181,13 @@ const Checkout = () => {
           current={currentStep}
           items={[
             {
-              title: 'Payment Information',
+              title: 'Thông tin thanh toán',
             },
             {
-              title: 'Confirm Payment Information',
+              title: 'Xác nhận thông tin thanh toán',
             },
             {
-              title: 'Finish',
+              title: 'Hoàn thành',
             },
           ]}
         />

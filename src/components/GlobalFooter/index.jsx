@@ -17,12 +17,12 @@ const GlobalFooter = () => {
         <div className="flex flex-wrap justify-between">
           <div className="w-full md:w-1/3 mb-6 md:mb-0">
             <h4 className="font-bold text-lg mb-2">Company Info</h4>
-            <FooterLink to="/about-us" label="About Us" />
-            <FooterLink to="/" label="Contact" />
-            <FooterLink to="/" label="Privacy Policy" />
+            <FooterLink to="/about-us" label="Về chúng tôi" />
+            <FooterLink to="/" label="Liên hệ" />
+            <FooterLink to="/" label="Chính sách bảo mật" />
           </div>
           <div className="w-full md:w-1/3 mb-6 md:mb-0">
-            <h4 className="font-bold text-lg mb-2">Support</h4>
+            <h4 className="font-bold text-lg mb-2">Hỗ trợ</h4>
             <FooterLink to="/" label="FAQs" />
           </div>
           <div className="w-full md:w-1/3 mb-6 md:mb-0">
@@ -43,7 +43,7 @@ const GlobalFooter = () => {
         <div className="text-center mt-10">
           <p>Designed and styled by tester</p>
           <p>
-            &copy; {new Date().getFullYear()} izoogood. All rights reserved.
+            &copy; {new Date().getFullYear()} HotelBooking. All rights reserved.
           </p>
         </div>
       </div>

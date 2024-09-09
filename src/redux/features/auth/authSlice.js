@@ -112,6 +112,7 @@ const authSlice = createSlice({
         })
         .addCase(actionLogin.rejected, (state, action) => {
             state.isLoading = false
+			 state.isAuth = false
             handleError(action.payload)
         })
 
@@ -125,6 +126,7 @@ const authSlice = createSlice({
         })
         .addCase(actionReLogin.rejected, (state, action) => {
             state.isLoading = false
+			state.isAuth = false
             handleError(action.payload)
         })
 

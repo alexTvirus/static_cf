@@ -42,7 +42,7 @@ const FinalBookingSummary = ({
           </div>
           <div>
             <p className="text-sm text-gray-800 inline-flex py-1 px-5 rounded-2xl border">
-              {numNights} Nights
+              {numNights}  Đêm
             </p>
           </div>
           <div>
@@ -52,16 +52,16 @@ const FinalBookingSummary = ({
         </div>
         <Divider></Divider>
         <div className='flex flex-col items-start justify-start mt-2'>
-          <p className="text-sm font-semibold text-gray-600">Guests</p>
+          <p className="text-sm font-semibold text-gray-600">Khách</p>
           <p className="text-sm text-gray-800">{numberGuests}</p>
         </div>
         <div className='flex flex-col items-start justify-start mt-2'>
-          <p className="text-sm font-semibold text-gray-600">Rooms</p>
+          <p className="text-sm font-semibold text-gray-600">Phòng</p>
           <p className="text-sm text-gray-800">{numberRooms}</p>
         </div>
         <Divider></Divider>
         <div className='flex flex-col items-start justify-start mt-2'>
-          <p className="text-sm font-semibold text-gray-600">Total</p>
+          <p className="text-sm font-semibold text-gray-600">Tổng tiền</p>
           <p className="text-sm text-gray-800">{`${formatPrice(total)} VND`}</p>
         </div>
       </div>

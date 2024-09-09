@@ -103,7 +103,7 @@ const UserProfile = () => {
 
           <Tabs isTabsVisible={isTabsVisible} wrapperRef={wrapperRef}>
             <TabPanel
-              label="Personal Details"
+              label="Thông tin cá nhân"
               icon={faAddressCard}
             >
               {
@@ -117,7 +117,7 @@ const UserProfile = () => {
             </TabPanel>
 
             <TabPanel
-              label="Bookings"
+              label="Lịch sử đặt phòng"
               icon={faHotel}
             >
               {

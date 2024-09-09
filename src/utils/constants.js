@@ -46,9 +46,9 @@ const listBookingStatus = [
 ]
 
 export const BOOKING_STATUS = Object.freeze({
-  PENDING:   { name: "PENDING", id: 1 },
-  COMPLETE:  { name: "COMPLETE", id: 2 },
-  PARTIALLY_PAID:  { name: "PARTIALLY PAID", id: 3 },
-  CANCEL:  { name: "CANCEL", id: 4 },
-  PENDING_CANCEL:  { name: "PENDING CANCEL", id: 5 },
+  PENDING:   { name: "ĐANG KIỂM TRA", id: 1 },
+  COMPLETE:  { name: "HOÀN THÀNH", id: 2 },
+  PARTIALLY_PAID:  { name: "THANH TOÁN MỘT PHẦN", id: 3 },
+  CANCEL:  { name: "ĐÃ HỦY", id: 4 },
+  PENDING_CANCEL:  { name: "CHỜ HỦY", id: 5 },
 });

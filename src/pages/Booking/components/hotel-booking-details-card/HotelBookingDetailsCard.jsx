@@ -34,16 +34,16 @@ const HotelBookingDetailsCard = (props) => {
 
   const [selectedGuests, setSelectedGuests] = useState({
     value: 1,
-    label: '1 guests',
+    label: '1 người',
   });
   const [selectedRooms, setSelectedRooms] = useState({
     value: 1,
-    label: '1 room',
+    label: '1 phòng',
   });
 
   const [guestOptions, setGuestOptions] = useState(Array.from(
     { length: currentRoom.max_occupancy||4 },
-    (_, i) => ({ value: i + 1, label: `${i + 1} guest` })
+    (_, i) => ({ value: i + 1, label: `${i + 1} người` })
   ));
 
 
@@ -55,7 +55,7 @@ const HotelBookingDetailsCard = (props) => {
   const calGuestOptions = (packetNumber) => {
     setGuestOptions(Array.from(
       { length: (currentRoom.max_occupancy||4) * packetNumber },
-      (_, i) => ({ value: i + 1, label: `${i + 1} guest` })
+      (_, i) => ({ value: i + 1, label: `${i + 1} người` })
     ))
   }
 
@@ -121,7 +121,7 @@ const HotelBookingDetailsCard = (props) => {
   useEffect(() => {
     setSelectedRooms({
       value: packets.length || 1,
-      label: `${packets.length || 1} room`,
+      label: `${packets.length || 1} phòng`,
     })
     calGuestOptions(packets.length)
   }, [packets]);
@@ -137,13 +137,13 @@ const HotelBookingDetailsCard = (props) => {
   return (
     <div className="mx-2 bg-white shadow-xl rounded-xl overflow-auto mt-2 md:mt-0 w-full md:w-[380px]">
       <div className="px-6 py-4 bg-brand text-white">
-        <h2 className="text-xl font-bold">Booking Details</h2>
+        <h2 className="text-xl font-bold">Chi tiết đặt phòng</h2>
       </div>
       <div className="p-6 text-sm md:text-base  overflow-auto max-h-screen">
         {/* Total Price */}
         <div className="mb-4">
           <div className="text-lg font-semibold text-gray-800 mb-1">
-            Total Price
+            Tổng tiền
           </div>
           <div className="text-xl font-bold text-indigo-600">{`${formatPrice(total)} VND`}</div>
           <div className="text-sm text-green-600">
@@ -152,7 +152,7 @@ const HotelBookingDetailsCard = (props) => {
         <Divider></Divider>
         {/* Dates & Time */}
         <div className="mb-4">
-          <div className="font-semibold text-gray-800">Dates & Time</div>
+          <div className="font-semibold text-gray-800">Ngày tháng</div>
           <div className="text-gray-600">
             <DateRangePicker
               isDisable={true}
@@ -163,7 +163,7 @@ const HotelBookingDetailsCard = (props) => {
         <Divider></Divider>
         {/* Reservation */}
         <div className="mb-4">
-          <div className="font-semibold text-gray-800">Reservation</div>
+          <div className="font-semibold text-gray-800">Đặt phòng</div>
           <Select
             isDisabled={true}
             value={selectedRooms}
@@ -225,7 +225,7 @@ const HotelBookingDetailsCard = (props) => {
 
         {/* Taxes */}
         <div className="mb-4">
-          <div className="font-semibold text-gray-800">Taxes</div>
+          <div className="font-semibold text-gray-800">Thuế</div>
           <div className="text-gray-600">{taxes}</div>
           {/* <div className="text-xs text-gray-500">{DEFAULT_TAX_DETAILS}</div> */}
         </div>
@@ -239,7 +239,7 @@ const HotelBookingDetailsCard = (props) => {
           {(packets.length < 1 ? "bg-slate-700 cursor-not-allowed " : "bg-brand-secondary hover:bg-yellow-600 transition duration-300 ")
             + " transition duration-300 text-white py-2 rounded w-full"}
         >
-          Confirm Booking
+          Xác nhận đặt phòng
         </button>
       </div>
     </div>

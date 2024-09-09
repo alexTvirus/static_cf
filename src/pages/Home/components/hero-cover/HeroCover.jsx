@@ -18,11 +18,10 @@ const HeroCover = (props) => {
             <></>
             <div className="hero-content__text py-4">
               <h3 className="text-4xl font-medium">
-                Discover your perfect stay around the globe
+                KHÁM PHÁ KÌ NGHỈ CỦA BẠN CÙNG CHÚNG TÔI
               </h3>
-              <p className="my-1">
-                Enter your dates to see the latest prices and begin your journey of
-                relaxation and adventure today.
+              <p className="my-1 text-center">
+                Nhập ngày để tìm phòng ưng ý và bắt đầu nghĩ dưỡng
               </p>
             </div>
             <GlobalSearchBox

@@ -4,15 +4,15 @@ import React from 'react';
 const AboutUs = () => {
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-extrabold text-brand mb-2">About Us</h1>
+      <h1 className="text-4xl font-extrabold text-brand mb-2">Về chúng tôi</h1>
       <p className="text-lg mb-8">
-        Welcome to <span className="text-brand">HOTEL BOOKING</span>
+        Chào mừng đến <span className="text-brand">HOTEL BOOKING</span>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat, quam harum
         debitis, ex eius vitae dicta cum molestiae ipsam ea animi tempore tenetur
         sapiente exercitationem velit a veritatis inventore minus?
       </p>
 
-      <h2 className="text-3xl font-extrabold text-brand mb-2">Our Vision</h2>
+      <h2 className="text-3xl font-extrabold text-brand mb-2">Định hướng</h2>
       <p className="text-lg mb-8">
         At <span className="text-brand">HOTEL BOOKING</span>,
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat, quam harum
@@ -21,7 +21,7 @@ const AboutUs = () => {
       </p>
 
       <h2 className="text-3xl font-extrabold text-brand mb-2">
-        Why Choose Us?
+        Tại sao lại chọn chúng tôi?
       </h2>
       <ul className="list-disc ml-6 mb-8">
         <li className="text-lg mb-3">
@@ -46,7 +46,7 @@ const AboutUs = () => {
         </li>
       </ul>
 
-      <h2 className="text-3xl font-extrabold text-brand mb-2">Contact Us</h2>
+      <h2 className="text-3xl font-extrabold text-brand mb-2">Liên hệ với chúng tôi</h2>
       <p className="text-lg mb-4">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat, quam harum
         debitis, ex eius vitae dicta cum molestiae ipsam ea animi tempore tenetur
@@ -57,10 +57,10 @@ const AboutUs = () => {
         >
           info@booking.com
         </a>
-        . We're here to help!
+        . Chúng tôi luôn sẳn sàng giúp bạn!
       </p>
       <p className="text-lg">
-        Thank you for choosing <span className="text-brand">HOTEL BOOKING</span>.
+        Cảm ơn sự lựa chọn của quý khách <span className="text-brand">HOTEL BOOKING</span>.
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat, quam harum
         debitis, ex eius vitae dicta cum molestiae ipsam ea animi tempore tenetur
         sapiente exercitationem velit a veritatis inventore minus?

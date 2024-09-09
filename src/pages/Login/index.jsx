@@ -54,10 +54,10 @@ const Login = () => {
           >
             <div className="text-center mb-10">
               <h2 className="text-3xl font-black text-brand">
-                Welcome Back
+                Chào mừng bạn trở lại
               </h2>
               <p className="text-gray-500">
-                Log in to continue to your account
+                Đăng nhập để tiếp tục
               </p>
             </div>
             <div className="mb-6">
@@ -89,7 +89,7 @@ const Login = () => {
                   className="bg-brand hover:bg-blue-700 text-white font-bold py-2 px-4 rounded 
                   focus:outline-none focus:shadow-outline w-full"
                 >
-                  Log In
+                  Đăng nhập
                 </button>
               </div>
               <div className="flex flex-wrap justify-center my-3 w-full">
@@ -97,14 +97,14 @@ const Login = () => {
                   to={RouteName.FORGOT_PASSWORD.path}
                   className="inline-block align-baseline text-md text-gray-500 hover:text-blue-800 text-right"
                 >
-                  Forgot your password?
+                  Quên mật khẩu?
                 </Link>
               </div>
               <div className="relative">
                 <div className="absolute left-0 right-0 flex justify-center items-center">
                   <div className="border-t w-full absolute"></div>
                   <span className="bg-white px-3 text-gray-500 z-10">
-                    Register ?
+                    Đăng kí ?
                   </span>
                 </div>
               </div>
@@ -113,7 +113,7 @@ const Login = () => {
                   to={RouteName.REGISTER.path}
                   className="inline-block align-baseline font-medium text-md text-brand hover:text-blue-800 text-right"
                 >
-                  Create an account
+                  Tạo tài khoản mới
                 </Link>
               </div>
             </div>
