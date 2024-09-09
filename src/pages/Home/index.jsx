@@ -13,6 +13,8 @@ import { actionClearBooking, actionGetAllRoom, actionSetDateRange  } from '../..
 import moment from 'moment';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import Test from './components/Test';
+import PacketReview from './components/Test/PacketReview';
 dayjs.extend(customParseFormat);
 const dateFormat = 'YYYY-MM-DD';
 
@@ -65,6 +67,12 @@ const Home = () => {
             hotelsResults={rooms}
             enableFilters={false}
           />
+        </div>
+        <div className='my-8'>
+          <Test></Test>
+        </div>
+        <div className='my-8'>
+          <PacketReview></PacketReview>
         </div>
       </div>
     </>

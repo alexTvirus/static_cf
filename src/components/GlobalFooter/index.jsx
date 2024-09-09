@@ -12,7 +12,7 @@ const FooterLink = ({ to, label }) => (
 
 const GlobalFooter = () => {
   return (
-    <footer className="bg-slate-50 text-slate-700 mt-6">
+    <footer className="bg-slate-50 text-slate-700 mt-6 rounded-none">
       <div className="container mx-auto px-6 py-6">
         <div className="flex flex-wrap justify-between">
           <div className="w-full md:w-1/3 mb-6 md:mb-0">

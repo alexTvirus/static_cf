@@ -7,7 +7,7 @@ export const MAX_GUESTS_INPUT_VALUE = 4;
  * Messages related to user registration.
  */
 export const REGISTRATION_MESSAGES = {
-  SUCCESS: 'User created successfully. Redirecting to login...',
+  SUCCESS: 'Tài khoản đã tạo thành công, hãy kiểm tra email để xác thực tài khoản',
 };
 
 /**
@@ -27,10 +27,10 @@ export const DEFAULT_TAX_DETAILS =
  * Sorting filter labels
  */
 export const SORTING_FILTER_LABELS = Object.freeze({
-  PRICE_LOW_TO_HIGH: 'Price: Low to High',
-  PRICE_HIGH_TO_LOW: 'Price: High to Low',
-  RATING_LOW_TO_HIGH: 'Rating: Low to High',
-  RATING_HIGH_TO_LOW: 'Rating: High to Low',
+  PRICE_LOW_TO_HIGH: 'Giá: Thấp đến Cao',
+  PRICE_HIGH_TO_LOW: 'Giá: Cao đến Thấp',
+  RATING_LOW_TO_HIGH: 'Đánh giá: Thấp đến Cao',
+  RATING_HIGH_TO_LOW: 'Đánh giá: Cao đến Thấp',
 });
 
 const listBookingStatus = [
@@ -47,7 +47,7 @@ const listBookingStatus = [
 
 export const BOOKING_STATUS = Object.freeze({
   PENDING:   { name: "ĐANG KIỂM TRA", id: 1 },
-  COMPLETE:  { name: "HOÀN THÀNH", id: 2 },
+  COMPLETE:  { name: "ĐÃ THANH TOÁN", id: 2 },
   PARTIALLY_PAID:  { name: "THANH TOÁN MỘT PHẦN", id: 3 },
   CANCEL:  { name: "ĐÃ HỦY", id: 4 },
   PENDING_CANCEL:  { name: "CHỜ HỦY", id: 5 },

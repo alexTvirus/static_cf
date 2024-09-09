@@ -48,16 +48,7 @@ const HotelsSearch = () => {
         { id: '2_star_rating', title: '2 Star', value: '2' },
         { id: '3_star_rating', title: '3 Star', value: '3' }
       ],
-      title:"Star ratings"
-    },
-    {
-      filterId: "star_ratings",
-      filters: [
-        { id: '1_star_rating', title: '1 Star', value: '1' },
-        { id: '2_star_rating', title: '2 Star', value: '2' },
-        { id: '3_star_rating', title: '3 Star', value: '3' }
-      ],
-      title:"Star ratings"
+      title:"Đánh giá"
     }],
     errors: [],
   });

@@ -70,7 +70,7 @@ const ResultsContainer = (props) => {
                   focus:ring-indigo-500"
                 >
                   <FontAwesomeIcon icon={faFilter} size="sm" className="mr-1" />{' '}
-                  Filters
+                  Bộ lọc
                 </button>
               </div>
             )}

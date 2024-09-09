@@ -29,7 +29,7 @@ const VerticalFilters = (props) => {
     >
       <div className="hotels-filters__header flex justify-between items-center py-2 border-b-2  px-4">
         <h4 className="text-base font-bold text-slate-600 uppercase">
-          Filters
+          Bộ lọc
         </h4>
         <button
           className={`text-sm inline-flex items-center px-2.5 py-1.5 border border-gray-300 font-medium rounded text-gray-700 bg-white ${
@@ -39,7 +39,7 @@ const VerticalFilters = (props) => {
           }`}
           onClick={onClearFiltersAction}
         >
-          Clear
+          Xóa
         </button>
       </div>
       {filtersData.map((filter) => (
