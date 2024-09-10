@@ -20,6 +20,7 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
     return state.room
   })
 
+  const [currentPacketIndex, setCurrentPacketIndex] = useState({});
   const [images, setImages] = useState([])
 
   const [reviewData, setReviewData] = useState({
@@ -46,9 +47,12 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
   //   });
   // };
 
-  const handleSelectPacket = (packet) => {
+  const handleSelectPacket = (params) => {
+    let newSet = {...currentPacketIndex}
+    newSet[`${params.packet.id}`] = (newSet[`${params.packet.id}`]||0) +1
+    setCurrentPacketIndex(newSet)
     let newPacket = [...booking.packets]
-    newPacket.push(packet)
+    newPacket.push(params.packet)
     let newBooking = {
       ...booking,
       packets: newPacket
@@ -57,9 +61,12 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
 
   }
 
-  const handleDeletePacket = (index) => {
+  const handleDeletePacket = (params) => {
+    let newSet = {...currentPacketIndex}
+    newSet[`${params.packet.id}`] = (newSet[`${params.packet.id}`]||0) - 1
+    setCurrentPacketIndex(newSet)
     let newPacket = [...booking.packets]
-    newPacket.splice(index, 1)
+    newPacket.splice(params.index, 1)
     let newBooking = {
       ...booking,
       packets: newPacket
@@ -68,7 +75,7 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
   }
 
   const handleSelectGuest = (guests) => {
-    let newBooking = {...booking}
+    let newBooking = { ...booking }
     newBooking.guests = guests
     dispatch(actionSetBooking(newBooking))
   }
@@ -105,7 +112,7 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
     // fetchHotelReviews();
   }, [hotelDetails, currentReviewsPage]);
 
-
+  console.log(currentPacketIndex)
 
   return (
     <>
@@ -163,8 +170,10 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
 
             {!isObjectEmpty(hotelDetails) && hotelDetails.packets.map((packet, index, { length }) => (
               <>
-                <Divider></Divider>
-                <div key={index} className="px-4 py-0">
+                <div key={index} className={`
+                ${(index === 0) ? "border-y-2 " : "border-b-2"}
+                ${(!!currentPacketIndex[`${packet.id}`]) ? "border-x-2 border-t-2 border-brand" : " border-slate-400 "}
+                px-4 py-8  `}>
                   <div
                     className="flex flex-col md:flex-row gap-y-4 gap-x-2 w-full"
                   >
@@ -195,7 +204,7 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
                         </p>
                       </div>
                       <button
-                        onClick={() => handleSelectPacket(packet)}
+                        onClick={() => handleSelectPacket({ packet: packet, index: index })}
                         className="hover:bg-yellow-600 transition duration-300 bg-brand-secondary px-4 py-2 text-white whitespace-nowrap"
                       >
                         Chọn
@@ -204,10 +213,7 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
                   </div>
 
                 </div>
-                {
-                  (index + 1 == length) &&
-                  <div className='mb-5'></div>
-                }
+
               </>
 
             ))}

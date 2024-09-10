@@ -2,15 +2,14 @@ import React, { useState, useEffect, useCallback } from 'react';
 
 import ResultsContainer from '../../components/ResultsContainer';
 import { isObjectEmpty } from '../../utils/helpers';
-import { MAX_GUESTS_INPUT_VALUE } from '../../utils/constants';
-import { formatDate } from '../../utils/date-helpers';
+
 import { useSearchParams } from 'react-router-dom';
 import { history } from '../../routes/helper/history';
-import { parse } from 'date-fns';
 import PaginationController from '../../components/ux/pagination-controller/PaginationController';
 import { SORTING_FILTER_LABELS } from '../../utils/constants';
 import _debounce from 'lodash/debounce';
 import GlobalSearchBox from '../../components/GlobalSearchBox';
+import OverlayComponent  from '../../components/OverLay'
 
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -33,22 +32,19 @@ const HotelsSearch = () => {
     return state.room
   })
 
-  const [availableCities, setAvailableCities] = useState([]);
-
-
   const [currentResultsPage, setCurrentResultsPage] = useState(1);
 
   // State for managing filters data
   const [filtersData, setFiltersData] = useState({
     isLoading: false,
-    data: [      {
+    data: [{
       filterId: "star_ratings",
       filters: [
         { id: '1_star_rating', title: '1 Star', value: '1' },
         { id: '2_star_rating', title: '2 Star', value: '2' },
         { id: '3_star_rating', title: '3 Star', value: '3' }
       ],
-      title:"Đánh giá"
+      title: "Đánh giá"
     }],
     errors: [],
   });
@@ -224,49 +220,48 @@ const HotelsSearch = () => {
 
 
   useEffect(() => {
-    if (location.state) {
-      const { checkInDate, checkOutDate } = location.state;
-      if (checkInDate && checkOutDate) {
-        dispath(actionSetDateRange([dayjs(checkInDate, dateFormat),
-        dayjs(checkOutDate, dateFormat)]))
-      }
+    const checkInDate = moment(dateRange[0].$d).format(dateFormat) ?? '';
+    const checkOutDate = moment(dateRange[1].$d).format(dateFormat) ?? '';
 
-      dispath(actionGetAllRoom({
-        params: {
-          checkin_at: checkInDate,
-          checkout_at: checkOutDate
-        }
-      }))
-    }
-  }, [location]);
+    dispath(actionGetAllRoom({
+      params: {
+        checkin_at: checkInDate,
+        checkout_at: checkOutDate
+      }
+    }))
+  }, []);
 
   return (
+    <>
+      {/* <OverlayComponent
+        isLoading={isLoading}
+      ></OverlayComponent> */}
 
-    <div className="hotels">
-      <div className="bg-brand px-2 lg:h-[120px] h-[220px] flex items-center justify-center">
-        <GlobalSearchBox
-          locationTypeheadResults={filteredTypeheadResults}
-          dateRange={dateRange}
-          onDateChangeHandler={onDateChangeHandler}
-          onSearchButtonAction={onSearchButtonAction}
-        />
-      </div>
-      <div className="container mx-auto">
-        <div className="my-4"></div>
-        <div className="w-[180px]"></div>
-        <ResultsContainer
-          isLoading={isLoading}
-          hotelsResults={rooms}
-          enableFilters={true}
-          filtersData={filtersData}
-          onFiltersUpdate={onFiltersUpdate}
-          onClearFiltersAction={onClearFiltersAction}
-          selectedFiltersState={selectedFiltersState}
-          sortByFilterValue={sortByFilterValue}
-          onSortingFilterChange={onSortingFilterChange}
-          sortingFilterOptions={sortingFilterOptions}
-        />
-        {/* {pagination?.totalPages > 1 && (
+      <div className="hotels">
+        <div className="bg-brand px-2 lg:h-[120px] h-[220px] flex items-center justify-center">
+          <GlobalSearchBox
+            locationTypeheadResults={filteredTypeheadResults}
+            dateRange={dateRange}
+            onDateChangeHandler={onDateChangeHandler}
+            onSearchButtonAction={onSearchButtonAction}
+          />
+        </div>
+        <div className="container mx-auto">
+          <div className="my-4"></div>
+          <div className="w-[180px]"></div>
+          <ResultsContainer
+            isLoading={isLoading}
+            hotelsResults={rooms}
+            enableFilters={true}
+            filtersData={filtersData}
+            onFiltersUpdate={onFiltersUpdate}
+            onClearFiltersAction={onClearFiltersAction}
+            selectedFiltersState={selectedFiltersState}
+            sortByFilterValue={sortByFilterValue}
+            onSortingFilterChange={onSortingFilterChange}
+            sortingFilterOptions={sortingFilterOptions}
+          />
+          {/* {pagination?.totalPages > 1 && (
           <div className="my-4">
             <PaginationController
               currentPage={pagination?.currentPage}
@@ -277,9 +272,10 @@ const HotelsSearch = () => {
             />
           </div>
         )} */}
-      </div>
+        </div>
 
-    </div>
+      </div>
+    </>
   );
 };
 

@@ -77,7 +77,7 @@ const NavbarItems = ({ onHamburgerMenuToggle }) => {
             }`}
             onClick={onHamburgerMenuToggle}
           >
-            Login/Register
+            Đăng nhập/Đăng kí
           </Link>
         )}
       </li>

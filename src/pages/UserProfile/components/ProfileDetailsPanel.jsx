@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Toast from '../../../components/ux/toast/Toast';
 import Select from 'react-select';
-import { useDispatch } from 'react-redux';
-import { actionUpdateUser } from '../../../redux/features/auth/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { actionResetIsUserUpdated, actionUpdateUser } from '../../../redux/features/auth/authSlice';
 
-const ProfileDetailsPanel = ({ userDetails }) => {
+import OverlayComponent from '../../../components/OverLay'
+
+const ProfileDetailsPanel = ({isUserUpdated, userDetails }) => {
 
   const [isEditMode, setIsEditMode] = useState(false);
   const [firstName, setFirstName] = useState('');
@@ -17,6 +19,7 @@ const ProfileDetailsPanel = ({ userDetails }) => {
 
 
   const dispatch = useDispatch()
+  const { isLoading, currentUser } = useSelector(state => state.auth)
 
   const handleEditClick = () => {
     setIsEditMode(!isEditMode);
@@ -37,36 +40,18 @@ const ProfileDetailsPanel = ({ userDetails }) => {
     }
 
     const updatedUserDetails = {
-      id:userDetails.id,
-      first_name:firstName,
-      last_name:lastName,
-      phone:phoneNumber,
-      birthday:dateOfBirth,
+      id: userDetails.id,
+      first_name: firstName,
+      last_name: lastName,
+      phone: phoneNumber,
+      birthday: dateOfBirth,
     };
     await dispatch(actionUpdateUser(updatedUserDetails))
-    // Call the API to update the user details
-    // const response = '/api/users/update-profile'
-    // if (response && response.data.status) {
-    //   setToastMessage({
-    //     type: 'success',
-    //     message: response.data.status,
-    //   });
-    // } else {
-    //   // revert to original state
-    //   setFirstName(userDetails.first_name);
-    //   setLastName(userDetails.last_name);
-    //   setPhoneNumber(userDetails.phone);
-    //   setNationality(userDetails.country);
-    //   setToastMessage({
-    //     type: 'error',
-    //     message: 'Oops, something went wrong. Please try again later.',
-    //   });
-    // }
 
     setIsEditMode(false);
   };
 
-  // effect to set initial state of user details
+
   useEffect(() => {
     if (userDetails) {
       setFirstName(userDetails.first_name || '');
@@ -77,96 +62,102 @@ const ProfileDetailsPanel = ({ userDetails }) => {
       setIsPhoneVerified(userDetails.phone_verified_at || '');
       setDateOfBirth(userDetails.birthday || '');
     }
-  }, [userDetails]);
+  }, [userDetails,isUserUpdated]);
 
   return (
-    <div className="bg-white shadow sm:rounded-lg flex flex-col">
-      <div className="px-4 py-5 sm:px-6">
-        <h3 className="text-xl leading-6 font-medium text-gray-900">
-          Thông tin chi tiết
-        </h3>
-        <p className="mt-1 max-w-2xl text-gray-500">
-          Thông tin cá nhân
-        </p>
-      </div>
-      <div className="border-t border-gray-200">
-        <dl>
+    <>
+      <OverlayComponent
+        isLoading={isLoading}
+      ></OverlayComponent>
+      <div className="bg-white shadow sm:rounded-lg flex flex-col">
+        <div className="px-4 py-5 sm:px-6">
+          <h3 className="text-xl leading-6 font-medium text-gray-900">
+            Thông tin chi tiết
+          </h3>
+          <p className="mt-1 max-w-2xl text-gray-500">
+            Thông tin cá nhân
+          </p>
+        </div>
+        <div className="border-t border-gray-200">
+          <dl>
+            {isEditMode ? (
+              // Editable fields
+              <>
+                <TextField
+                  label="Họ"
+                  value={firstName}
+                  onChange={setFirstName}
+                />
+                <TextField
+                  label="Tên"
+                  value={lastName}
+                  onChange={setLastName}
+                />
+                <TextField
+                  label="Phone number"
+                  type="tel"
+                  value={phoneNumber}
+                  onChange={setPhoneNumber}
+                />
+                <TextField
+                  label="Ngày sinh"
+                  type="date"
+                  value={dateOfBirth}
+                  onChange={setDateOfBirth}
+                />
+              </>
+            ) : (
+              // Display fields
+              <>
+                <DisplayField label="Họ" value={firstName} />
+                <DisplayField label="Tên" value={lastName} />
+                <DisplayField
+                  label="Email address"
+                  value={email}
+                  verified={isEmailVerified}
+                />
+                <DisplayField
+                  label="Phone number"
+                  value={phoneNumber || 'Nhập phone number của bạn'}
+                  verified={isPhoneVerified}
+                />
+                <DisplayField
+                  label="Ngày sinh"
+                  value={dateOfBirth || 'Nhập ngày sinh của bạn'}
+                />
+              </>
+            )}
+          </dl>
+        </div>
+        <div className="flex justify-between px-4 py-3 bg-gray-50 text-right sm:px-6">
           {isEditMode ? (
-            // Editable fields
             <>
-              <TextField
-                label="Họ"
-                value={firstName}
-                onChange={setFirstName}
-              />
-              <TextField
-                label="Tên"
-                value={lastName}
-                onChange={setLastName}
-              />
-              <TextField
-                label="Phone number"
-                type="tel"
-                value={phoneNumber}
-                onChange={setPhoneNumber}
-              />
-              <TextField
-                label="Ngày sinh"
-                type="date"
-                value={dateOfBirth}
-                onChange={setDateOfBirth}
-              />
+              <button
+                onClick={handleCancelClick}
+                className="inline-flex items-center px-2.5 py-1.5 border border-gray-300 text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                Hoàn tác
+              </button>
+              <button
+                onClick={handleSaveClick}
+                className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-brand hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
+                Lưu
+              </button>
             </>
           ) : (
-            // Display fields
-            <>
-              <DisplayField label="Họ" value={firstName} />
-              <DisplayField label="Tên" value={lastName} />
-              <DisplayField
-                label="Email address"
-                value={email}
-                verified={isEmailVerified}
-              />
-              <DisplayField
-                label="Phone number"
-                value={phoneNumber || 'Nhập phone number của bạn'}
-                verified={isPhoneVerified}
-              />
-              <DisplayField
-                label="Ngày sinh"
-                value={dateOfBirth || 'Nhập ngày sinh của bạn'}
-              />
-            </>
-          )}
-        </dl>
-      </div>
-      <div className="flex justify-between px-4 py-3 bg-gray-50 text-right sm:px-6">
-        {isEditMode ? (
-          <>
             <button
-              onClick={handleCancelClick}
-              className="inline-flex items-center px-2.5 py-1.5 border border-gray-300 text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              Hoàn tác
-            </button>
-            <button
-              onClick={handleSaveClick}
+              onClick={handleEditClick}
               className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-brand hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
-              Lưu
+              Sửa
             </button>
-          </>
-        ) : (
-          <button
-            onClick={handleEditClick}
-            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-brand hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          >
-            Sửa
-          </button>
-        )}
-      </div>
+          )}
+        </div>
 
-    </div>
+      </div>
+    </>
+
   );
 };
 

@@ -204,7 +204,7 @@ const HotelBookingDetailsCard = (props) => {
                   </div>
                   <div className="flex flex-col gap-y-2 ml-0 md:ml-auto border-l-0 items-stretch pl-0 md:pl-4">
                     <button
-                      onClick={() => handleDeletePacket(index)}
+                      onClick={() => handleDeletePacket({packet:packet,index:index})}
                     >
                       <FontAwesomeIcon icon={faTrash} />
 

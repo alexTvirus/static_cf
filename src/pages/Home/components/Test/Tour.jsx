@@ -6,7 +6,7 @@ import './page-builder.scss'
 import './gdlr-custom-icon.scss'
 
 
-const PacketReview = () => {
+const Tour = () => {
     return (<>
         <div class="gdlr-core-pbf-wrapper" id="gdlr-core-wrapper-7">
 
@@ -19,7 +19,7 @@ const PacketReview = () => {
                             <div class=" text-center pb-[30px] px-[20px]" >
                                 <div class="">
                                     <h3 class="text-3xl font-medium text-slate-700 text-center my-2" >
-                                        ƯU ĐÃI
+                                        CÁC TOUR
                                     </h3>
                                 </div>
                             </div>
@@ -27,20 +27,22 @@ const PacketReview = () => {
 
                     </div>
 
-                    <div class="test2 w-[100%] md:w-[60%]" id="gdlr-core-column-20">
-
-                        <div class="">
-                            <div class="leading-none text-center px-[20px]  pb-[0px]" >
-                                <div class="gdlr-core-image-item-wrap gdlr-core-media-image gdlr-core-image-item-style-round" >
-                                    <img src="http://localhost/upload/chef-cook.jpg" alt="" width="1300" height="716" title="chef-cook" />
+                    <div class="test2 gdlr-core-column-36" id="gdlr-core-column-20">
+                        <div class="test2 " >
+                            <div class="test2 clearfix ">
+                                <div class="">
+                                    <div class="leading-none text-center px-[20px]  pb-[0px]" >
+                                        <div class="gdlr-core-image-item-wrap gdlr-core-media-image gdlr-core-image-item-style-round" >
+                                            <img src="http://localhost/upload/chef-cook.jpg" alt="" width="1300" height="716" title="chef-cook" />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
-                    <div class="test2 w-[100%] md:w-[40%]" id="gdlr-core-column-21">
-                        <div class="pt-[42px]" >
-                            <div class=""  >
+                    <div class="test2 gdlr-core-column-24" id="gdlr-core-column-21">
+                        <div class="test2 pt-[42px]" >
+                            <div class="clearfix"  >
                                 <div class="">
                                     <div class="text-left px-[20px]  pb-[30px] clearfix
                                     " >
@@ -52,7 +54,7 @@ const PacketReview = () => {
                                     </div>
                                 </div>
                                 <div class="">
-                                    <div class="text-left px-[20px]  md:pb-[30px] clearfix" >
+                                    <div class="text-left px-[20px]  pb-[30px] clearfix" >
                                         <div class="text-lg font-normal tracking-normal normal-case text-slate-400" >
                                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur dolorem beatae accusamus
                                                 soluta accusantium rerum, quas atque dolor
@@ -71,38 +73,41 @@ const PacketReview = () => {
                         </div>
                     </div>
 
-                    <div class="test2 w-[100%] md:pt-[50px] md:w-[40%]" id="gdlr-core-column-22">
-                        <div class="pt-[42px] ">
-                            <div class="">
-                                <div class="text-left px-[20px]  pb-[30px] clearfix
+                    <div class="test2 gdlr-core-column-24" id="gdlr-core-column-22">
+                        <div class="gdlr-core-pbf-column-content-margin test3" >
+
+                            <div class="gdlr-core-pbf-column-content clearfix ">
+                                <div class="">
+                                    <div class="text-left px-[20px]  pb-[30px] clearfix
                                     " >
-                                    <div class="">
-                                        <h3 class="text-3xl font-medium tracking-normal normal-case" >
-                                            Kỳ nghỉ Gia đình - 3 Ngày 2 Đêm<span class="gdlr-core-title-item-title-divider gdlr-core-skin-divider"></span>
-                                        </h3>
+                                        <div class="">
+                                            <h3 class="text-3xl font-medium tracking-normal normal-case" >
+                                                Kỳ nghỉ Gia đình - 3 Ngày 2 Đêm<span class="gdlr-core-title-item-title-divider gdlr-core-skin-divider"></span>
+                                            </h3>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="">
-                                <div class="text-left px-[20px]  md:pb-[30px] clearfix" >
-                                    <div class="text-lg font-normal tracking-normal normal-case text-slate-400" >
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur dolorem beatae accusamus
-                                            soluta accusantium rerum, quas atque dolor
-                                            laboriosam, quasi adipisci a ?.</p>
+                                <div class="">
+                                    <div class="text-left px-[20px]  pb-[30px] clearfix" >
+                                        <div class="text-lg font-normal tracking-normal normal-case text-slate-400" >
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur dolorem beatae accusamus
+                                                soluta accusantium rerum, quas atque dolor
+                                                laboriosam, quasi adipisci a ?.</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="">
-                                <div class="text-left px-[20px]  pb-[30px] clearfix" >
-                                    <a class="hover:border-[#000000] xemthem border-solid inline-block bg-transparent " href="#" id="">
-                                        <span class="gdlr-core-content">Xem thêm<i class=" icon-arrow-right" ></i></span>
-                                    </a>
+                                <div class="">
+                                    <div class="text-left px-[20px]  pb-[30px] clearfix" >
+                                        <a class="hover:border-[#000000] xemthem border-solid inline-block bg-transparent " href="#" id="">
+                                            <span class="gdlr-core-content">Xem thêm<i class=" icon-arrow-right" ></i></span>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="test2 w-[100%] md:pt-[50px] md:w-[60%]" id="gdlr-core-column-23">
-                        <div class=" test3" >
+                    <div class="test2 gdlr-core-column-36" id="gdlr-core-column-23">
+                        <div class="gdlr-core-pbf-column-content-margin test3" >
                             <div class="gdlr-core-pbf-column-content clearfix">
                                 <div class="">
                                     <div class="leading-none text-center px-[20px]  pb-[0px]" >
@@ -115,7 +120,7 @@ const PacketReview = () => {
                         </div>
                     </div>
 
-                    <div class="test2 w-[100%] md:pt-[50px] md:w-[60%]" id="gdlr-core-column-24">
+                    <div class="test2 gdlr-core-column-36" id="gdlr-core-column-24">
                         <div class="test2 " >
                             <div class="test2 clearfix ">
                                 <div class="">
@@ -128,7 +133,7 @@ const PacketReview = () => {
                             </div>
                         </div>
                     </div>
-                    <div class="test2 w-[100%] md:pt-[50px] md:w-[40%]" id="gdlr-core-column-25">
+                    <div class="test2 gdlr-core-column-24" id="gdlr-core-column-25">
                         <div class="test2 pt-[42px]" >
                             <div class="clearfix"  >
                                 <div class="">
@@ -142,7 +147,7 @@ const PacketReview = () => {
                                     </div>
                                 </div>
                                 <div class="">
-                                    <div class="text-left px-[20px]  md:pb-[30px] clearfix" >
+                                    <div class="text-left px-[20px]  pb-[30px] clearfix" >
                                         <div class="text-lg font-normal tracking-normal normal-case text-slate-400" >
                                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur dolorem beatae accusamus
                                                 soluta accusantium rerum, quas atque dolor
@@ -178,4 +183,4 @@ const PacketReview = () => {
     </>)
 }
 
-export default PacketReview
+export default Tour

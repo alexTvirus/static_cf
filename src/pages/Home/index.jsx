@@ -1,13 +1,15 @@
 import HeroCover from './components/hero-cover/HeroCover';
 import { useState, useEffect, useCallback } from 'react';
 import ResultsContainer from '../../components/ResultsContainer';
-import { formatDate } from '../../utils/date-helpers';
+
 import { history } from '../../routes/helper/history';
-import _debounce from 'lodash/debounce';
+
 import { RouteName } from '../../routes/RouteName';
 
+import OverlayComponent from '../../components/OverLay'
+
 import { useDispatch, useSelector } from 'react-redux';
-import { actionClearBooking, actionGetAllRoom, actionSetDateRange  } from '../../redux/features/room/roomSlice';
+import { actionGetAllRoom, actionSetDateRange } from '../../redux/features/room/roomSlice';
 
 
 import moment from 'moment';
@@ -15,15 +17,16 @@ import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import Test from './components/Test';
 import PacketReview from './components/Test/PacketReview';
+import Tour from './components/Test/Tour';
 dayjs.extend(customParseFormat);
 const dateFormat = 'YYYY-MM-DD';
 
 const Home = () => {
   const navigate = history.navigate
   const location = history.location
-  
+
   const dispath = useDispatch()
-  const { rooms, isLoading,dateRange } = useSelector(state => {
+  const { rooms, isLoading, dateRange } = useSelector(state => {
     return state.room
   })
 
@@ -52,6 +55,10 @@ const Home = () => {
 
   return (
     <>
+      {/* <OverlayComponent
+        isLoading={isLoading}
+      ></OverlayComponent> */}
+
       <HeroCover
         dateRange={dateRange}
         onDateChangeHandler={onDateChangeHandler}
@@ -69,10 +76,14 @@ const Home = () => {
           />
         </div>
         <div className='my-8'>
-          <Test></Test>
+          {!isLoading && <Test></Test>}
+
         </div>
         <div className='my-8'>
-          <PacketReview></PacketReview>
+          {!isLoading && <PacketReview></PacketReview>}
+        </div>
+        <div className='my-8'>
+          {!isLoading && <Tour></Tour>}
         </div>
       </div>
     </>

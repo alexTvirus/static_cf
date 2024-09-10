@@ -1,13 +1,15 @@
 import { formatDate1 } from '../../../utils/date-helpers'
 import { formatPrice } from '../../../utils/price-helpers'
 import { BOOKING_STATUS } from '../../../utils/constants'
+import OverlayComponent from '../../../components/OverLay'
+
 
 import { Tag } from 'antd';
 import { Table } from 'antd';
 import { useEffect, useState } from 'react';
 import Expand from 'react-expand-animated';
 
-const BookingPanel = ({ bookings, onCancelBooking }) => {
+const BookingPanel = ({ isLoading,bookings, onCancelBooking }) => {
   const [isExpandRooms, setIsExpandRooms] = useState(() => {
     const rooms = bookings.map((booking, index) => {
       return false;
@@ -23,6 +25,9 @@ const BookingPanel = ({ bookings, onCancelBooking }) => {
 
   return (
     <>
+      <OverlayComponent
+        isLoading={isLoading}
+      ></OverlayComponent>
       <div className="bg-white shadow overflow-hidden sm:rounded-md">
         <ul className="divide-y divide-gray-200">
           {bookings.map((booking, index) => (

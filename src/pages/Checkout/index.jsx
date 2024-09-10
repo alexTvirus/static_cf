@@ -125,7 +125,7 @@ const Checkout = () => {
     const checkInDate = moment(dateRange[0].$d).format(dateFormat) ?? '';
     const checkOutDate = moment(dateRange[1].$d).format(dateFormat) ?? '';
     let payment = {
-      "payment_method": "face pay",
+      "payment_method": "Tiền mặt",
       "payment_date": moment(new Date()).format(dateFormat),
       "payment_amount": totalPrice,
       "address": formData.address,

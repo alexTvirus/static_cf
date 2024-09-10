@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { actionLogin } from '../../redux/features/auth/authSlice';
 import { RouteName } from '../../routes/RouteName';
 
+import OverlayComponent  from '../../components/OverLay'
+
 
 const Login = () => {
   const navigate = history.navigate
@@ -20,12 +22,9 @@ const Login = () => {
   });
 
   const dispatch = useDispatch();
-  const { isAuth, currentUser } = useSelector(state => {
+  const { isAuth, currentUser, isLoading } = useSelector(state => {
     return state.auth
   })
-
-  const [errorMessage, setErrorMessage] = useState(false);
-
 
   const handleInputChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
@@ -46,6 +45,10 @@ const Login = () => {
 
   return (
     <>
+      <OverlayComponent
+        isLoading = {isLoading}
+      ></OverlayComponent>
+
       <div className="login__form">
         <div className="container mx-auto p-4 flex justify-center min-h-[600px] items-center">
           <form
@@ -120,6 +123,7 @@ const Login = () => {
           </form>
         </div>
       </div>
+
     </>
   );
 };

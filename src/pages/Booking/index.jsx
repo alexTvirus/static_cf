@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import HotelDetailsViewCard from './components/hotel-details-view-card/HotelDetailsViewCard';
 import HotelDetailsViewCardSkeleton from './components/hotel-details-view-card-skeleton/HotelDetailsViewCardSkeleton';
 import { isObjectEmpty } from '../../utils/helpers'
+import OverlayComponent from '../../components/OverLay'
 
 import { useDispatch, useSelector } from 'react-redux';
 import { actionClearBooking, actionGetRoom, actionSetBooking } from '../../redux/features/room/roomSlice';

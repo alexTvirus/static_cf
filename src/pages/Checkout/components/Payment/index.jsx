@@ -4,6 +4,8 @@ import Loader from '../../../../components/ux/loader/loader';
 import { useDispatch, useSelector } from "react-redux";
 import { actionGetDistrics } from "../../../../redux/features/room/roomSlice";
 
+import OverlayComponent from '../../../../components/OverLay'
+
 const validationSchema = {
     email: (value) => /\S+@\S+\.\S+/.test(value),
     address: (value) => value.trim() !== '',
@@ -73,13 +75,13 @@ const Payment = (
         setErrors({ ...errors, [name]: !isValid });
     };
 
-    const handleCitySelect = (e,option) => {
+    const handleCitySelect = (e, option) => {
         setFormData({ ...formData, city: option.label });
         dispatch(actionGetDistrics(option.value))
     };
 
-    
-    const handleDistricSelect = (e,option) => {
+
+    const handleDistricSelect = (e, option) => {
         setFormData({ ...formData, state: option.label });
     };
 
@@ -104,13 +106,11 @@ const Payment = (
     }
 
     return (<>
+        <OverlayComponent
+            isLoading={citiesOption.isLoading}
+        ></OverlayComponent>
         <div className="relative bg-white border shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full max-w-lg mx-auto mt-4">
-            {citiesOption.isLoading && (
-                <Loader
-                    isFullScreen={true}
-                    loaderText={'Payment in progress, hold tight!'}
-                />
-            )}
+
             <form
                 onSubmit={preHandleSubmit}
             >

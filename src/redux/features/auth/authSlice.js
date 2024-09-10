@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { message } from 'antd'
 import HotelBookingApi from '../../../api/HotelBookingApi'
 import Util from '../../../utils/util'
-import {REGISTRATION_MESSAGES} from '../../../utils/constants'
+import {REGISTRATION_MESSAGES,FORGOTPASSWORD_MESSAGES,CHANGEPASSWORD_MESSAGES} from '../../../utils/constants'
 import {history} from '../../../routes/helper/history'
 import { RouteName } from '../../../routes/RouteName';
 
@@ -15,6 +15,10 @@ dayjs.extend(customParseFormat);
 const initialState = {
     isLoading: false,
     isAuth:false,
+    isUserUpdated:{
+        value:false,
+        time:dayjs().unix()
+    },
     currentUser: {},
 }
 
@@ -94,10 +98,35 @@ export const actionUpdateUser = createAsyncThunk(
     }
 )
 
+export const actionForgotPassword = createAsyncThunk(
+    "user/actionForgotPassword",
+    async (payload, thunkApi) => {
+        try {
+            return await HotelBookingApi.forgotPassword(payload)
+        } catch (error) {
+            return thunkApi.rejectWithValue(error)
+        }
+    }
+)
+
+export const actionChangePassword = createAsyncThunk(
+    "user/actionChangePassword",
+    async (payload, thunkApi) => {
+        try {
+            return await HotelBookingApi.changePassword(payload)
+        } catch (error) {
+            return thunkApi.rejectWithValue(error)
+        }
+    }
+)
+
 const authSlice = createSlice({
     name: "auth",
     initialState: initialState,
     reducers: {
+        actionResetIsUserUpdated: (state, actions) => {
+            state.isUserUpdated = false
+        },
     },
     extraReducers: builder => { 
         builder
@@ -175,14 +204,50 @@ const authSlice = createSlice({
         })
         .addCase(actionUpdateUser.fulfilled, (state, action) => {
             state.isLoading = false
+            state.isUserUpdated = {
+                value:true,
+                time:dayjs().unix()
+            }
             state.currentUser = action.payload.data.data
         })
         .addCase(actionUpdateUser.rejected, (state, action) => {
             state.isLoading = false
+            state.isUserUpdated = {
+                value:false,
+                time:dayjs().unix()
+            }
             handleError(action.payload)
         })
+
+        .addCase(actionForgotPassword.pending, (state, action) => {
+            state.isLoading = true
+        })
+        .addCase(actionForgotPassword.fulfilled, (state, action) => {
+            state.isLoading = false
+            message.success(FORGOTPASSWORD_MESSAGES.SUCCESS)
+        })
+        .addCase(actionForgotPassword.rejected, (state, action) => {
+            state.isLoading = false
+            handleError(action.payload)
+        })
+
+        .addCase(actionChangePassword.pending, (state, action) => {
+            state.isLoading = true
+        })
+        .addCase(actionChangePassword.fulfilled, (state, action) => {
+            state.isLoading = false
+            localStorage.setItem('access_token', action.payload.data.data.access_token)
+            message.success(CHANGEPASSWORD_MESSAGES.SUCCESS)
+        })
+        .addCase(actionChangePassword.rejected, (state, action) => {
+            state.isLoading = false
+            handleError(action.payload)
+        })
+        
     }
 })
+
+export const { actionResetIsUserUpdated } = authSlice.actions
 
 
 // xuất ra reducer

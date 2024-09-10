@@ -4,6 +4,7 @@ import TabPanel from '../../components/ux/tab-panel/TabPanel';
 import {
   faAddressCard,
   faHotel,
+  faKey
 } from '@fortawesome/free-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -19,17 +20,20 @@ import { actionBookingInfo, actionCancelBooking } from '../../redux/features/roo
 
 import { isObjectEmpty } from '../../utils/helpers'
 import { BOOKING_STATUS } from '../../utils/constants'
+import ChangePasswordPanel from './components/ChangePasswordPanel';
 
 
 const UserProfile = () => {
   const dispath = useDispatch();
-  const { currentUser } = useSelector(state => {
+  const { currentUser, isUserUpdated, isLoading } = useSelector(state => {
     return state.auth
   })
 
-  const { userBookingsData, isLoading } = useSelector(state => {
+  const { userBookingsData, isLoading: roomLoading } = useSelector(state => {
     return state.room
   })
+
+  debugger
 
   const navigate = history.navigate
 
@@ -62,25 +66,6 @@ const UserProfile = () => {
   };
 
   useEffect(() => {
-    // const getInitialData = async () => {
-    //   const userBookingsDataResponse = '/api/users/bookings'
-    //   const userPaymentMethodsResponse = 'api/users/payment-methods'
-    //   if (userBookingsDataResponse && userBookingsDataResponse.data) {
-    //     setUserBookingsData({
-    //       isLoading: false,
-    //       data: userBookingsDataResponse.data.elements,
-    //       errors: userBookingsDataResponse.errors,
-    //     });
-    //   }
-    //   if (userPaymentMethodsResponse && userPaymentMethodsResponse.data) {
-    //     setUserPaymentMethodsData({
-    //       isLoading: false,
-    //       data: userPaymentMethodsResponse.data.elements,
-    //       errors: userPaymentMethodsResponse.errors,
-    //     });
-    //   }
-    // };
-    // getInitialData();
     !isObjectEmpty(currentUser) && dispath(actionBookingInfo(currentUser.id))
   }, [currentUser]);
 
@@ -109,13 +94,27 @@ const UserProfile = () => {
               {
                 !isObjectEmpty(currentUser) &&
                 <ProfileDetailsPanel
-                userDetails={currentUser}
+                  isUserUpdated={isUserUpdated}
+                  userDetails={currentUser}
                 >
                 </ProfileDetailsPanel>
               }
 
             </TabPanel>
+            <TabPanel
+              label="Thay đổi mật khẩu"
+              icon={faKey}
+            >
+              {
+                !isObjectEmpty(currentUser) &&
+                <ChangePasswordPanel
+                  isLoading={isLoading}
+                  userDetails={currentUser}
+                >
+                </ChangePasswordPanel>
+              }
 
+            </TabPanel>
             <TabPanel
               label="Lịch sử đặt phòng"
               icon={faHotel}
@@ -123,6 +122,7 @@ const UserProfile = () => {
               {
                 !isObjectEmpty(userBookingsData) &&
                 <BookingPanel
+                  isLoading = {roomLoading}
                   onCancelBooking={handleCancelBooking}
                   bookings={userBookingsData} />
               }

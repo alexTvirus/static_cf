@@ -85,6 +85,12 @@ const HotelBookingApi = {
     logout: (payload = {}) => {
         return apiPost(`auth/logout`, payload)
     },
+    forgotPassword: (payload = {}) => {
+        return apiPost(`auth/forgot-password`, payload)
+    },
+    changePassword: (payload = {}) => {
+        return apiPost(`auth/change-password`, payload)
+    },
     reLogin: (payload = {}) => {
         return apiPost(`auth/me`, payload)
     },

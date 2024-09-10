@@ -23,6 +23,15 @@ export const LOGIN_MESSAGES = {
 export const DEFAULT_TAX_DETAILS =
   'GST: 12% on VND 0 - 2,500, 12% on VND 2,500-7,500, 18% on VND 7,500 and above';
 
+export const FORGOTPASSWORD_MESSAGES = {
+  SUCCESS: 'Tài khoản đã reset password thành công, hãy kiểm tra email để nhận password mới',
+};
+
+
+export const CHANGEPASSWORD_MESSAGES = {
+  SUCCESS: 'Tài khoản đã thay đổi mật khẩu thành công',
+};
+
 /**
  * Sorting filter labels
  */
@@ -35,20 +44,20 @@ export const SORTING_FILTER_LABELS = Object.freeze({
 
 const listBookingStatus = [
   {
-      id: 1,
-      name: "pending",
+    id: 1,
+    name: "pending",
   },
 
   {
-      id: 2,
-      name: "complete",
+    id: 2,
+    name: "complete",
   }
 ]
 
 export const BOOKING_STATUS = Object.freeze({
-  PENDING:   { name: "ĐANG KIỂM TRA", id: 1 },
-  COMPLETE:  { name: "ĐÃ THANH TOÁN", id: 2 },
-  PARTIALLY_PAID:  { name: "THANH TOÁN MỘT PHẦN", id: 3 },
-  CANCEL:  { name: "ĐÃ HỦY", id: 4 },
-  PENDING_CANCEL:  { name: "CHỜ HỦY", id: 5 },
+  PENDING: { name: "ĐANG KIỂM TRA", id: 1 },
+  COMPLETE: { name: "ĐÃ THANH TOÁN", id: 2 },
+  PARTIALLY_PAID: { name: "THANH TOÁN MỘT PHẦN", id: 3 },
+  CANCEL: { name: "ĐÃ HỦY", id: 4 },
+  PENDING_CANCEL: { name: "CHỜ HỦY", id: 5 },
 });

@@ -48,17 +48,17 @@ const ResultsContainer = (props) => {
   return (
     <div className="relative">
       <div className="flex gap-x-0 md:gap-x-4 items-start mx-2">
-        {enableFilters && selectedFiltersState.length > 0 && (
+        {!isLoading && enableFilters && selectedFiltersState.length > 0 && (
           <div ref={wrapperRef}>
             <VerticalFilters
               {...nextProps}
             />
           </div>
         )}
-        {enableFilters && filtersData.isLoading && <VerticalFiltersSkeleton />}
+        {!isLoading && enableFilters && filtersData.isLoading && <VerticalFiltersSkeleton />}
         <div className="flex flex-col w-full items-start">
           <div className="flex w-full justify-between px-2 md:px-0">
-            {enableFilters && (
+            {!isLoading && enableFilters && (
               <div className="vertical-filters__toggle-menu block md:hidden">
                 <button
                   ref={buttonRef}

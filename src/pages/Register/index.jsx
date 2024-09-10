@@ -10,20 +10,20 @@ import { actionRegister } from '../../redux/features/auth/authSlice';
 import _debounce from 'lodash/debounce';
 import { RouteName } from '../../routes/RouteName';
 
+import OverlayComponent from '../../components/OverLay'
+
 
 const Register = () => {
   const navigate = history.navigate
   const location = history.location
-  const [toastMessage, setToastMessage] = useState('');
-  const [toastType, setToastType] = useState('success');
-  const [showToast, setShowToast] = useState(false);
+
   const dispatch = useDispatch()
   const { isLoading } = useSelector(state => state.auth)
-  const [registerData,setRegisterData] = useState({});
+  const [registerData, setRegisterData] = useState({});
   const [executeDebouncer, setExecuteDebouncer] = useState(false);
 
 
-  const debounceFn = useCallback(_debounce(() => setExecuteDebouncer(true), 1500), []);
+  const debounceFn = useCallback(_debounce(() => setExecuteDebouncer(true), 500), []);
 
   const handleSubmit = async (values) => {
     setRegisterData(values)
@@ -39,6 +39,9 @@ const Register = () => {
 
   return (
     <>
+      <OverlayComponent
+        isLoading={isLoading}
+      ></OverlayComponent>
       <div className="register__form">
         <div className="container mx-auto p-4 flex justify-center min-h-[600px] items-center">
           <Formik
@@ -117,7 +120,8 @@ const Register = () => {
                   <div className="flex items-center w-full my-3">
                     <button
                       type="submit"
-                      className="w-full px-4 py-2 font-bold text-white rounded bg-brand hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+                      className="w-full px-4 py-2 font-bold text-white rounded bg-brand 
+                      hover:bg-blue-700 focus:outline-none focus:shadow-outline"
                     >
                       Đăng kí
                     </button>
@@ -128,13 +132,6 @@ const Register = () => {
                   >
                     Quay về trang đăng nhập
                   </Link>
-                  {showToast && (
-                    <Toast
-                      type={toastType}
-                      message={toastMessage}
-                      dismissError
-                    />
-                  )}
                 </div>
               </Form>
             )}
