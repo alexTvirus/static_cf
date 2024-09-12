@@ -18,19 +18,21 @@ const DateRangePicker = (props) => {
   const {
     isDisable,
     onDateChangeHandler,
-    dateRange = [dayjs(),dayjs()],
+    dateRange = [null,null],
+    datePickerStatus
   } = props;
 
   return (
     <div className="relative flex" data-testid="date-range-picker">
       <div className="">
         <RangePicker
+          status={datePickerStatus}
           allowEmpty={[false,false]}
           disabled={isDisable && [true,true]}
           placeholder={["check in","checkout"]}
           className='custom-date '
           minDate={dayjs(new Date())}
-          defaultValue={[dayjs(),dayjs()]}
+          // defaultValue={[dayjs(),dayjs()]}
           value={dateRange}
           // panelRender={(menu) => (
           //   <div test-id="test" ref={wrapperRef}>

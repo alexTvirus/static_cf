@@ -17,12 +17,10 @@ const HotelViewCard = (props) => {
     subtitle,
     benefits,
     price,
-    ratings,
+    rating,
+    onBookNowClick
   } = props;
   const navigate = history.navigate
-  const onBookNowClick = () => {
-    navigate(`${RouteName.BOOKING.path}/${hotelCode}`);
-  };
 
   return (
     <div
@@ -30,8 +28,8 @@ const HotelViewCard = (props) => {
       data-testid="hotel-view-card"
     >
       <div className="cursor-pointer">
-        <Link
-          to={`${RouteName.BOOKING.path}/${hotelCode}`}
+        <div
+          onClick={()=>onBookNowClick(hotelCode)}
           className="block text-slate-700 hover:text-brand transition-colors duration-300"
         >
           <img
@@ -39,16 +37,16 @@ const HotelViewCard = (props) => {
             alt={image.name}
             className="md:w-[220px] md:h-[140px]"
           />
-        </Link>
+        </div>
       </div>
       <div className="flex flex-col justify-between ml-0 md:ml-2 flex-1">
         <div>
-          <Link
-            to={`${RouteName.BOOKING.path}/${hotelCode}`}
-            className="block text-slate-700 hover:text-brand transition-colors duration-300"
+          <div
+            onClick={()=>onBookNowClick(hotelCode)}
+            className="cursor-pointer block text-slate-700 hover:text-brand transition-colors duration-300"
           >
             <h4 className="text-2xl font-bold text-slate-600">{title}</h4>
-          </Link>
+          </div>
           <p className="text-slate-600 text-sm mb-2">{subtitle}</p>
           <p className="text-sm text-gray-600">
             <span className="text-slate-600 font-bold text-sm">
@@ -82,9 +80,9 @@ const HotelViewCard = (props) => {
       </div>
       <div className="flex flex-col ml-0 md:ml-auto justify-between border-l-0 md:border-l-2 items-stretch pl-0 md:pl-4">
         <div className="flex justify-between my-3 md:my-0 items-center md:flex-col md:justify-between w-full h-full">
-          {ratings && <h4 className="font-medium text-sm text-white bg-brand p-2">
-            {ratings && ratings.length > 0 && ratings}
-            {ratings && ratings.length > 0 && <FontAwesomeIcon icon={faStar} />}
+          {!!rating && <h4 className="font-medium text-sm text-white bg-brand p-2">
+            {!!rating &&  rating}
+            {!!rating && <FontAwesomeIcon icon={faStar} />}
           </h4>}
 
 
@@ -95,7 +93,7 @@ const HotelViewCard = (props) => {
         </div>
         <button
           className=" bg-brand-secondary px-4 py-2 text-white whitespace-nowrap"
-          onClick={onBookNowClick}
+          onClick={()=>onBookNowClick(hotelCode)}
         >
           Đặt ngay
         </button>

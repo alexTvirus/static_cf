@@ -9,6 +9,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import Select from 'react-select';
 
+
+
+import { Slider } from 'antd';
+
 const ResultsContainer = (props) => {
   const {
     isLoading,
@@ -16,11 +20,10 @@ const ResultsContainer = (props) => {
     enableFilters,
     filtersData,
     selectedFiltersState,
-    onFiltersUpdate,
-    onClearFiltersAction,
     sortingFilterOptions,
     sortByFilterValue,
     onSortingFilterChange,
+    onBookNowClick,
   } = props;
 
 
@@ -30,7 +33,7 @@ const ResultsContainer = (props) => {
 
   const [isVerticalFiltersOpen, setIsVerticalFiltersOpen] = useState(false);
 
-  const nextProps = { ...props,isVerticalFiltersOpen,filtersData:selectedFiltersState}
+  const nextProps = { ...props, isVerticalFiltersOpen, filtersData: selectedFiltersState,priceRangeData:filtersData?.data?.priceRange }
 
   const wrapperRef = useRef();
   const buttonRef = useRef();
@@ -47,6 +50,7 @@ const ResultsContainer = (props) => {
 
   return (
     <div className="relative">
+      
       <div className="flex gap-x-0 md:gap-x-4 items-start mx-2">
         {!isLoading && enableFilters && selectedFiltersState.length > 0 && (
           <div ref={wrapperRef}>
@@ -91,6 +95,7 @@ const ResultsContainer = (props) => {
             ) : hotelsResults.length > 0 ? (
               hotelsResults.map((hotel) => (
                 <HotelViewCard
+                  onBookNowClick={onBookNowClick}
                   key={hotel.id}
                   id={hotel.id}
                   title={hotel.name}
@@ -100,7 +105,7 @@ const ResultsContainer = (props) => {
                   bathrooms={hotel.bathrooms}
                   roomSize={hotel.room_size}
                   // benefits={hotel.benefits}
-                  // ratings={hotel.ratings}
+                  rating={hotel.rating}
                   price={hotel.base_price}
                 />
               ))

@@ -6,11 +6,14 @@ import { isObjectEmpty } from '../../../../utils/helpers'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faCheck } from '@fortawesome/free-solid-svg-icons';
 
+import Expand from 'react-expand-animated';
+
 import { formatPrice, formatPrice1 } from '../../../../utils/price-helpers';
 
 import { Divider } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { actionSetBooking } from '../../../../redux/features/room/roomSlice';
+import ModalReview from '../user-reviews/components/ModalReview'
 
 
 
@@ -20,6 +23,13 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
     return state.room
   })
 
+  const [isExpandReviews, setIsExpandReviews] = useState(() => {
+    const packets = hotelDetails.packets.map(() => {
+      return false;
+    })
+    return packets || []
+  });
+
   const [currentPacketIndex, setCurrentPacketIndex] = useState({});
   const [images, setImages] = useState([])
 
@@ -28,7 +38,7 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
     data: [],
   });
   const [currentReviewsPage, setCurrentReviewPage] = useState(1);
-  console.log(booking)
+
   // const handlePageChange = (page) => {
   //   setCurrentReviewPage(page);
   // };
@@ -48,8 +58,8 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
   // };
 
   const handleSelectPacket = (params) => {
-    let newSet = {...currentPacketIndex}
-    newSet[`${params.packet.id}`] = (newSet[`${params.packet.id}`]||0) +1
+    let newSet = { ...currentPacketIndex }
+    newSet[`${params.packet.id}`] = (newSet[`${params.packet.id}`] || 0) + 1
     setCurrentPacketIndex(newSet)
     let newPacket = [...booking.packets]
     newPacket.push(params.packet)
@@ -62,8 +72,8 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
   }
 
   const handleDeletePacket = (params) => {
-    let newSet = {...currentPacketIndex}
-    newSet[`${params.packet.id}`] = (newSet[`${params.packet.id}`]||0) - 1
+    let newSet = { ...currentPacketIndex }
+    newSet[`${params.packet.id}`] = (newSet[`${params.packet.id}`] || 0) - 1
     setCurrentPacketIndex(newSet)
     let newPacket = [...booking.packets]
     newPacket.splice(params.index, 1)
@@ -112,7 +122,6 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
     // fetchHotelReviews();
   }, [hotelDetails, currentReviewsPage]);
 
-  console.log(currentPacketIndex)
 
   return (
     <>
@@ -211,20 +220,31 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
                       </button>
                     </div>
                   </div>
+                  <p
+                    onClick={() => {
+                      setIsExpandReviews((() => {
+                        let newArray = [...isExpandReviews]
+                        newArray[index] = !newArray[index]
+                        return newArray
+                      })())
+                    }}
+                    className="cursor-pointer px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                    Xem Review
+                  </p>
 
-                </div>
+                </div >
 
               </>
 
             ))}
           </div>
-          {/* <UserReviews
-          reviewData={reviewData}
-          handlePageChange={handlePageChange}
-          handlePreviousPageChange={handlePreviousPageChange}
-          handleNextPageChange={handleNextPageChange}
-        /> */}
+
         </div>
+        <ModalReview
+          reviewData={reviewData}
+          titleTaskModal={"Review của người dùng "}
+          isModalOpen={true}
+        ></ModalReview>
         <div className='sticky top-0'>
           {
             !isObjectEmpty(hotelDetails) && !isObjectEmpty(booking) &&
@@ -237,7 +257,7 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
         </div>
 
 
-      </div>
+      </div >
     </>
 
 

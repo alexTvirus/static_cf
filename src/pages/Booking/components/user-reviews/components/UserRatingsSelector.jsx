@@ -2,6 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as fasStar } from '@fortawesome/free-solid-svg-icons';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 const UserRatingsSelector = ({
@@ -13,11 +14,13 @@ const UserRatingsSelector = ({
   handleUserReviewChange,
 }) => {
 
-  return true ? (
+  const dispatch = useDispatch()
+  const { isAuth } = useSelector(state => state.auth)
+
+  return isAuth ? (
     <div
-      className={`${
-        isEmpty ? 'md:w-full' : 'md:w-2/5'
-      } pl-0 md:pl-4 md:border-l flex flex-col items-center justify-center`}
+      className={`${isEmpty ? 'md:w-full' : 'md:w-2/5'
+        } pl-0 md:pl-4 md:border-l flex flex-col items-center justify-center`}
     >
       <div className="text-lg font-semibold text-gray-700">Your Rating</div>
       <div className="flex">
@@ -25,9 +28,8 @@ const UserRatingsSelector = ({
           <FontAwesomeIcon
             key={star}
             icon={star <= userRating ? fasStar : farStar}
-            className={`cursor-pointer mx-1 text-2xl ${
-              star <= userRating ? 'text-yellow-400' : 'text-gray-400'
-            }`}
+            className={`cursor-pointer mx-1 text-2xl ${star <= userRating ? 'text-yellow-400' : 'text-gray-400'
+              }`}
             onClick={() => handleRating(star)}
           />
         ))}

@@ -5,15 +5,9 @@ import UserRatingsSelector from './components/UserRatingsSelector';
 
 import Toast from '../../../../components/ux/toast/Toast';
 import PaginationController from '../../../../components/ux/pagination-controller/PaginationController';
-import Loader from '../../../../components/ux/loader/loader';
 
-/**
- * Renders the user reviews component.
- *
- * @component
- * @param {Object} reviewData - The review data object.
- * @returns {JSX.Element} The user reviews component.
- */
+
+
 const UserReviews = ({
   reviewData,
   handlePageChange,
@@ -108,7 +102,7 @@ const UserReviews = ({
       )}
       <div>
         {reviewData.isLoading ? (
-          <Loader height={'600px'} />
+          ""
         ) : (
           <div>
             {reviewData.data.map((review, index) => (

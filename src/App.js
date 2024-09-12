@@ -1,6 +1,6 @@
 
 import './App.scss';
-import {  Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import {  Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 
 
 import BaseLayout from './layouts/BaseLayout';
@@ -25,6 +25,7 @@ function App() {
 
   history.navigate = useNavigate();
   history.location = useLocation();
+  history.params = useParams();
 
   return (
     <>

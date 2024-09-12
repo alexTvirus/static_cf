@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Select } from 'antd';
-import Loader from '../../../../components/ux/loader/loader';
 import { useDispatch, useSelector } from "react-redux";
 import { actionGetDistrics } from "../../../../redux/features/room/roomSlice";
 

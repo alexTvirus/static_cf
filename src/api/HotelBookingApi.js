@@ -99,7 +99,14 @@ const HotelBookingApi = {
     },
     getUserProfile: (payload = {}) => {
         return apiPost(`auth/me`, payload)
-    }
+    },
+
+    getPackets: (payload = {}) => {
+        return apiGet(`packets`, payload)
+    },
+    ratingRoom: (payload = {}) => {
+        return apiPost(`rating`, payload)
+    },
 }
 
 export default HotelBookingApi

@@ -5,8 +5,6 @@ import DateRangePicker from '../../components/ux/data-range-picker/DateRangePick
 const GlobalSearchBox = (props) => {
   const {
     onSearchButtonAction,
-    onDateChangeHandler,
-    dateRange,
   } = props;
   
   const nextProps = {...props}

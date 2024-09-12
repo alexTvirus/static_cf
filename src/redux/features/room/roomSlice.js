@@ -3,6 +3,8 @@ import { message } from 'antd'
 import HotelBookingApi from '../../../api/HotelBookingApi'
 import {ServiceApi} from '../../../api/ServiceApi'
 import Util from '../../../utils/util'
+import {RATING_MESSAGES} from '../../../utils/constants'
+
 
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -47,7 +49,7 @@ const initialState = {
         status: 0
     },
     dateRange: [
-        dayjs(), dayjs()
+        null, null
     ],
     pagination: {
         defaultPage: 1,
@@ -57,7 +59,8 @@ const initialState = {
         totalPages: 0,
     },
     cities:[],
-    districs:[]
+    districs:[],
+    packets:[]
 }
 
 
@@ -105,6 +108,17 @@ export const actionGetRoom = createAsyncThunk(
     }
 )
 
+export const actionGetAllPackets = createAsyncThunk(
+    "room/actionGetAllPackets",
+    async (payload, thunkApi) => {
+        try {
+            return await HotelBookingApi.getPackets()
+        } catch (error) {
+            return thunkApi.rejectWithValue(error)
+        }
+    }
+)
+
 export const actionBookingInfo = createAsyncThunk(
     "room/actionBookingInfo",
     async (payload, thunkApi) => {
@@ -143,6 +157,17 @@ export const actionCancelBooking = createAsyncThunk(
     }
 )
 
+
+export const actionRating = createAsyncThunk(
+    "room/actionRating",
+    async (payload, thunkApi) => {
+        try {
+            return await HotelBookingApi.ratingRoom(payload)
+        } catch (error) {
+            return thunkApi.rejectWithValue(error)
+        }
+    }
+)
 
 const handleError = (e) => {
     let error = e?.response?.data?.errors
@@ -196,6 +221,18 @@ const roomSlice = createSlice({
                 state.rooms = action.payload.data.data
             })
             .addCase(actionGetAllRoom.rejected, (state, action) => {
+                state.isLoading = false
+                handleError(action.payload)
+            })
+
+            .addCase(actionGetAllPackets.pending, (state, action) => {
+                state.isLoading = true
+            })
+            .addCase(actionGetAllPackets.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.packets = action.payload.data.data
+            })
+            .addCase(actionGetAllPackets.rejected, (state, action) => {
                 state.isLoading = false
                 handleError(action.payload)
             })
@@ -275,6 +312,18 @@ const roomSlice = createSlice({
                 state.districs = action.payload.data.districts
             })
             .addCase(actionGetDistrics.rejected, (state, action) => {
+                state.isLoading = false
+                handleError(action.payload)
+            })
+
+            .addCase(actionRating.pending, (state, action) => {
+                state.isLoading = true
+            })
+            .addCase(actionRating.fulfilled, (state, action) => {
+                state.isLoading = false
+                message.success(RATING_MESSAGES.SUCCESS)
+            })
+            .addCase(actionRating.rejected, (state, action) => {
                 state.isLoading = false
                 handleError(action.payload)
             })

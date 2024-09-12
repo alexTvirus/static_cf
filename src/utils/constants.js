@@ -42,6 +42,11 @@ export const SORTING_FILTER_LABELS = Object.freeze({
   RATING_HIGH_TO_LOW: 'Đánh giá: Cao đến Thấp',
 });
 
+export const RATING_MESSAGES = Object.freeze({
+  SUCCESS: 'Đánh giá trành công',
+  FAIL: 'Giá: Thấp đến Cao',
+});
+
 const listBookingStatus = [
   {
     id: 1,
@@ -60,4 +65,9 @@ export const BOOKING_STATUS = Object.freeze({
   PARTIALLY_PAID: { name: "THANH TOÁN MỘT PHẦN", id: 3 },
   CANCEL: { name: "ĐÃ HỦY", id: 4 },
   PENDING_CANCEL: { name: "CHỜ HỦY", id: 5 },
+});
+
+export const PRICE = Object.freeze({
+  MIN: { price: 100000, id: 1 },
+  MAX: { price: 2000000, id: 2 },
 });

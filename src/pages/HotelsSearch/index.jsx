@@ -9,14 +9,16 @@ import PaginationController from '../../components/ux/pagination-controller/Pagi
 import { SORTING_FILTER_LABELS } from '../../utils/constants';
 import _debounce from 'lodash/debounce';
 import GlobalSearchBox from '../../components/GlobalSearchBox';
-import OverlayComponent  from '../../components/OverLay'
+import OverlayComponent from '../../components/OverLay'
+import { RouteName } from '../../routes/RouteName'
+import { PRICE } from '../../utils/constants';
 
 
 import { useDispatch, useSelector } from 'react-redux';
-import { actionClearBooking, actionGetAllRoom, actionSetDateRange } from '../../redux/features/room/roomSlice';
+import { actionClearBooking, actionGetAllPackets, actionGetAllRoom, actionSetDateRange } from '../../redux/features/room/roomSlice';
 
 import moment from 'moment';
-import { DatePicker, Radio } from 'antd';
+import { DatePicker, Radio, message } from 'antd';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
@@ -26,9 +28,11 @@ const dateFormat = 'YYYY-MM-DD';
 const HotelsSearch = () => {
   const navigate = history.navigate
   const location = history.location
+  const [searchParams, setSearchParams] = useSearchParams()
+  const params = history.getSearchParams(searchParams)
 
   const dispath = useDispatch()
-  const { rooms, isLoading, pagination, dateRange } = useSelector(state => {
+  const { rooms, isLoading, pagination, dateRange, packets } = useSelector(state => {
     return state.room
   })
 
@@ -37,46 +41,81 @@ const HotelsSearch = () => {
   // State for managing filters data
   const [filtersData, setFiltersData] = useState({
     isLoading: false,
-    data: [{
-      filterId: "star_ratings",
-      filters: [
-        { id: '1_star_rating', title: '1 Star', value: '1' },
-        { id: '2_star_rating', title: '2 Star', value: '2' },
-        { id: '3_star_rating', title: '3 Star', value: '3' }
-      ],
-      title: "Đánh giá"
-    }],
+    data: {
+      "checkbox": [{
+        filterId: "ratings",
+        filters: [
+          { id: 1, title: '1 Star', value: 1 },
+          { id: 2, title: '2 Star', value: 2 },
+          { id: 3, title: '3 Star', value: 3 },
+          { id: 4, title: '4 Star', value: 4 },
+          { id: 5, title: '5 Star', value: 5 }
+        ],
+        title: "Điểm đánh giá của khách"
+      }, {
+        filterId: "packets",
+        filters: [
+          { id: 1, title: 'Kỳ nghỉ Gia đình', value: '1' },
+          { id: 2, title: 'Gói nghỉ dưỡng ẩm thực trọn niềm vui', value: '2' },
+          { id: 3, title: 'Ưu Đãi Độc Quyền Cho Hành Khách Eva Air', value: '3' }
+        ],
+        title: "Gói ưu đãi"
+      }],
+      priceRange: {
+        title: "Ngân sách của bạn (mỗi đêm)",
+        min: PRICE.MIN.price,
+        max: PRICE.MAX.price,
+        defaultValue: [PRICE.MIN.price, PRICE.MAX.price]
+      }
+
+    },
     errors: [],
   });
-
-  // State for storing hotels search results
-  const [hotelsResults, setHotelsResults] = useState({
-    isLoading: true,
-    data: [
-
-    ],
-    errors: [],
-  });
-
 
   const [sortByFilterValue, setSortByFilterValue] = useState({
-    value: 'default',
-    label: 'Sort by',
+    value: '0',
+    label: 'Sắp xếp theo',
   });
 
 
   const [selectedFiltersState, setSelectedFiltersState] = useState({});
 
+  const [selectedPrice, setselectedPrice] = useState({
+    min: PRICE.MIN.price,
+    max: PRICE.MAX.price
+  });
+
   const [filteredTypeheadResults, setFilteredTypeheadResults] = useState([]);
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [datePickerStatus, setDatePickerStatus] = useState("")
 
   const sortingFilterOptions = [
-    { value: 'default', label: 'Sort by' },
-    { value: 'priceLowToHigh', label: SORTING_FILTER_LABELS.PRICE_LOW_TO_HIGH },
-    { value: 'priceHighToLow', label: SORTING_FILTER_LABELS.PRICE_HIGH_TO_LOW },
+    { value: '0', label: 'Sắp xếp theo' },
+    { value: '1', label: SORTING_FILTER_LABELS.PRICE_LOW_TO_HIGH },
+    { value: '2', label: SORTING_FILTER_LABELS.PRICE_HIGH_TO_LOW },
   ];
 
+
+  const [executeDebouncer, setExecuteDebouncer] = useState(false);
+
+  const handlePriceRangeUpdate = (params) => {
+    setselectedPrice({
+      min: params[0],
+      max: params[1]
+    })
+  }
+
+
+  const handleBookNowClick = (hotelCode) => {
+    const checkInDate = dateRange[0] ? moment(dateRange[0].$d).format(dateFormat) ?? '' : '';
+    const checkOutDate = dateRange[1] ? moment(dateRange[1].$d).format(dateFormat) ?? '' : '';
+    if (!checkInDate || !checkOutDate) {
+      setDatePickerStatus("error")
+      message.error("Hãy chọn ngày checkin, checkout")
+      return
+    }
+    navigate(`${RouteName.BOOKING.path}/${hotelCode}`);
+  }
 
   const onSortingFilterChange = (selectedOption) => {
     setSortByFilterValue(selectedOption);
@@ -110,19 +149,37 @@ const HotelsSearch = () => {
   };
 
   const onSearchButtonAction = () => {
+    debugger
+    const checkInDate = dateRange[0] ? moment(dateRange[0].$d).format(dateFormat) ?? '' : '';
+    const checkOutDate = dateRange[1] ? moment(dateRange[1].$d).format(dateFormat) ?? '' : '';
+    if (!checkInDate || !checkOutDate) {
+      setDatePickerStatus("error")
+      message.error("Hãy chọn ngày checkin, checkout")
+      return
+    }
+    debounceFn();
+  };
+
+  const handleSearch = (params = {}) => {
     const activeFilters = getActiveFilters();
-    const checkInDate = moment(dateRange[0].$d).format(dateFormat) ?? '';
-    const checkOutDate = moment(dateRange[1].$d).format(dateFormat) ?? '';
+    const checkInDate = dateRange[0] ? moment(dateRange[0].$d).format(dateFormat) ?? '' : '';
+    const checkOutDate = dateRange[1] ? moment(dateRange[1].$d).format(dateFormat) ?? '' : '';
+    let price = JSON.stringify(selectedPrice)
+
+    let packets = JSON.stringify(activeFilters?.packets)
+    let ratings = JSON.stringify(activeFilters?.ratings)
 
     dispath(actionGetAllRoom({
       params: {
-        ...activeFilters,
+        sortBy: sortByFilterValue.value,
+        price: price,
+        packets: packets,
+        ratings: ratings,
         checkin_at: checkInDate,
         checkout_at: checkOutDate
       }
     }))
-
-  };
+  }
 
   const getActiveFilters = () => {
     const filters = {};
@@ -146,6 +203,11 @@ const HotelsSearch = () => {
       filterGroup.filters.some((filter) => filter.isSelected)
     );
 
+    setselectedPrice({
+      min: PRICE.MIN.price,
+      max: PRICE.MAX.price
+    })
+
     if (hasActiveFilters) {
       setSelectedFiltersState(
         selectedFiltersState.map((filterGroup) => ({
@@ -159,17 +221,6 @@ const HotelsSearch = () => {
     }
   };
 
-
-  const getVerticalFiltersData = async () => {
-    const filtersDataResponse = 'api/hotels/verticalFilters'
-    if (filtersDataResponse) {
-      setFiltersData({
-        isLoading: false,
-        data: filtersDataResponse.data.elements,
-        errors: filtersDataResponse.errors,
-      });
-    }
-  };
 
   const handlePageChange = (page) => {
     setCurrentResultsPage(page);
@@ -189,46 +240,78 @@ const HotelsSearch = () => {
     });
   };
 
+  const dispatch = useDispatch();
+
+  const debounceFn = useCallback(_debounce(() => setExecuteDebouncer(true), 500), []);
 
   useEffect(() => {
-  }, [searchParams]);
+    if (executeDebouncer) {
+      setExecuteDebouncer(false);
+      handleSearch()
+    }
+  }, [executeDebouncer]);
 
   useEffect(() => {
-    setSelectedFiltersState(
-      filtersData.data.map((filterGroup) => ({
-        ...filterGroup,
-        filters: filterGroup.filters.map((filter) => ({
-          ...filter,
-          isSelected: false,
-        })),
-      }))
-    );
-  }, [filtersData]);
-
-  // useEffect(() => {
-  //   if (selectedFiltersState.length > 0) {
-  //     const activeFilters = getActiveFilters();
-  //     if (activeFilters) {
-  //       fetchHotels(activeFilters);
-  //     } else {
-  //       fetchHotels({
-  //       });
-  //     }
-  //   }
-
-  // }, [selectedFiltersState, currentResultsPage, sortByFilterValue]);
-
-
-  useEffect(() => {
-    const checkInDate = moment(dateRange[0].$d).format(dateFormat) ?? '';
-    const checkOutDate = moment(dateRange[1].$d).format(dateFormat) ?? '';
-
-    dispath(actionGetAllRoom({
-      params: {
-        checkin_at: checkInDate,
-        checkout_at: checkOutDate
+    if (packets && packets.length > 0) {
+      let newFiltersData = {
+        ...filtersData,
+        isLoading: isLoading
       }
-    }))
+      let packet = {
+        filterId: "packets",
+        filters: packets.map((packet) => {
+          return { id: packet.id, title: packet.name_packet, value: packet.id }
+        }),
+        title: "Gói ưu đãi"
+      }
+      newFiltersData.data.checkbox[1] = packet
+      setFiltersData(newFiltersData)
+    }
+  }, [packets]);
+
+  useEffect(() => {
+    debounceFn();
+  }, [selectedFiltersState, currentResultsPage, sortByFilterValue, selectedPrice]);
+
+
+  useEffect(() => {
+    let packet = params?.packet
+    setSelectedFiltersState(
+      filtersData.data.checkbox.map((filterGroup) => {
+        return {
+          ...filterGroup,
+          filters: filterGroup.filters.map((filter) => {
+            if (packet && filterGroup.filterId === "packets" && packet == filter.id) {
+              return {
+                ...filter,
+                isSelected: true,
+              }
+            }
+
+            return {
+              ...filter,
+              isSelected: false,
+            }
+          }),
+        }
+      })
+    );
+
+  }, [filtersData, location]);
+
+
+  useEffect(() => {
+    // const checkInDate = dateRange[0] ? moment(dateRange[0].$d).format(dateFormat) ?? '' : '';
+    // const checkOutDate = dateRange[1] ? moment(dateRange[1].$d).format(dateFormat) ?? '' : '';
+
+    // dispath(actionGetAllRoom({
+    //   params: {
+    //     checkin_at: checkInDate,
+    //     checkout_at: checkOutDate
+    //   }
+    // }))
+
+    dispath(actionGetAllPackets())
   }, []);
 
   return (
@@ -240,6 +323,7 @@ const HotelsSearch = () => {
       <div className="hotels">
         <div className="bg-brand px-2 lg:h-[120px] h-[220px] flex items-center justify-center">
           <GlobalSearchBox
+            datePickerStatus={datePickerStatus}
             locationTypeheadResults={filteredTypeheadResults}
             dateRange={dateRange}
             onDateChangeHandler={onDateChangeHandler}
@@ -250,6 +334,9 @@ const HotelsSearch = () => {
           <div className="my-4"></div>
           <div className="w-[180px]"></div>
           <ResultsContainer
+            selectedPrice={selectedPrice}
+            onPriceRangeUpdate={handlePriceRangeUpdate}
+            onBookNowClick={handleBookNowClick}
             isLoading={isLoading}
             hotelsResults={rooms}
             enableFilters={true}

@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { differenceInCalendarDays } from 'date-fns';
 import DateRangePicker from '../../../../components/ux/data-range-picker/DateRangePicker';
-import { DEFAULT_TAX_DETAILS } from '../../../../utils/constants';
 import { history } from '../../../../routes/helper/history';
 import queryString from 'query-string';
 import { formatPrice } from '../../../../utils/price-helpers';
-import Toast from '../../../../components/ux/toast/Toast';
+import { isObjectEmpty } from '../../../../utils/helpers';
 import { Divider, message } from 'antd';
 import { RouteName } from '../../../../routes/RouteName';
 
@@ -30,6 +29,10 @@ const HotelBookingDetailsCard = (props) => {
   const dispath = useDispatch()
   const { dateRange, currentRoom ,booking} = useSelector(state => {
     return state.room
+  })
+
+  const { currentUser} = useSelector(state => {
+    return state.auth
   })
 
   const [selectedGuests, setSelectedGuests] = useState({
@@ -96,7 +99,12 @@ const HotelBookingDetailsCard = (props) => {
 
   const onBookingConfirm = () => {
     if (!dateRange || dateRange.length != 2 || !dateRange[0].$d || !dateRange[1].$d) {
-      message.error('Please select check-in and check-out dates.')
+      message.error("Hãy chọn ngày checkin, checkout")
+      return;
+    }
+
+    if(isObjectEmpty(currentUser)){
+      message.error("Hãy đăng nhập để thực hiện chức năng này")
       return;
     }
     const checkIn = moment(dateRange[0].$d).format(dateFormat) ?? '';

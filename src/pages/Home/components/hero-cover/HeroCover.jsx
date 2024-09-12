@@ -2,11 +2,6 @@ import { useState } from 'react';
 import GlobalSearchBox from '../../../../components/GlobalSearchBox';
 
 const HeroCover = (props) => {
-  const {
-    dateRange,
-    onDateChangeHandler,
-    onSearchButtonAction,
-  } = props;
 
   const nextProps = {...props}
 

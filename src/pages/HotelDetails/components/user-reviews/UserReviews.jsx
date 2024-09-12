@@ -4,7 +4,6 @@ import RatingsOverview from './components/RatingsOverview';
 import UserRatingsSelector from './components/UserRatingsSelector';
 import Toast from '../../../../components/ux/toast/Toast';
 import PaginationController from '../../../../components/ux/pagination-controller/PaginationController';
-import Loader from '../../../../components/ux/loader/loader';
 
 /**
  * Renders the user reviews component.
@@ -107,7 +106,7 @@ const UserReviews = ({
       )}
       <div>
         {reviewData.isLoading ? (
-          <Loader height={'600px'} />
+          ""
         ) : (
           <div>
             {reviewData.data.map((review, index) => (

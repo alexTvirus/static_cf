@@ -18,6 +18,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import Test from './components/Test';
 import PacketReview from './components/Test/PacketReview';
 import Tour from './components/Test/Tour';
+import { message } from 'antd';
 dayjs.extend(customParseFormat);
 const dateFormat = 'YYYY-MM-DD';
 
@@ -30,14 +31,20 @@ const Home = () => {
     return state.room
   })
 
+  const [datePickerStatus, setDatePickerStatus] = useState("")
 
   const onDateChangeHandler = (ranges) => {
     dispath(actionSetDateRange(ranges))
   };
 
   const onSearchButtonAction = () => {
-    const checkInDate = moment(dateRange[0].$d).format(dateFormat) ?? '';
-    const checkOutDate = moment(dateRange[1].$d).format(dateFormat) ?? '';
+    const checkInDate = dateRange[0] ? moment(dateRange[0].$d).format(dateFormat) ?? '' : '';
+    const checkOutDate = dateRange[1] ? moment(dateRange[1].$d).format(dateFormat) ?? '' : '';
+    if (!checkInDate || !checkOutDate) {
+      setDatePickerStatus("error")
+      message.error("Hãy chọn ngày checkin, checkout")
+      return
+    }
     navigate(RouteName.HOTELS.path, {
       state: {
         checkInDate,
@@ -45,6 +52,17 @@ const Home = () => {
       },
     });
   };
+
+  const handleBookNowClick = (hotelCode)=>{
+    const checkInDate = dateRange[0] ? moment(dateRange[0].$d).format(dateFormat) ?? '' : '';
+    const checkOutDate = dateRange[1] ? moment(dateRange[1].$d).format(dateFormat) ?? '' : '';
+    if (!checkInDate || !checkOutDate) {
+      setDatePickerStatus("error")
+      message.error("Hãy chọn ngày checkin, checkout")
+      return
+    }
+    navigate(`${RouteName.BOOKING.path}/${hotelCode}`);
+  }
 
   useEffect(() => {
     const getInitialData = async () => {
@@ -60,6 +78,7 @@ const Home = () => {
       ></OverlayComponent> */}
 
       <HeroCover
+        datePickerStatus={datePickerStatus}
         dateRange={dateRange}
         onDateChangeHandler={onDateChangeHandler}
         onSearchButtonAction={onSearchButtonAction}
@@ -70,6 +89,7 @@ const Home = () => {
             CÁC LOẠI PHÒNG
           </h2>
           <ResultsContainer
+            onBookNowClick={handleBookNowClick}
             isLoading={isLoading}
             hotelsResults={rooms}
             enableFilters={false}
