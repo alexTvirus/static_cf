@@ -7,8 +7,16 @@ import Toast from '../../../../components/ux/toast/Toast';
 import PaginationController from '../../../../components/ux/pagination-controller/PaginationController';
 
 
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { message } from 'antd';
+import { useDispatch } from 'react-redux';
+import { actionRating } from '../../../../redux/features/room/roomSlice';
+dayjs.extend(customParseFormat);
+const dateFormat = 'DD-MM-YYYY';
 
 const UserReviews = ({
+  reviewSelected,
   reviewData,
   handlePageChange,
   handlePreviousPageChange,
@@ -21,41 +29,25 @@ const UserReviews = ({
   const [shouldHideUserRatingsSelector, setShouldHideUserRatingsSelector] =
     useState(false);
 
-  const [toastMessage, setToastMessage] = useState('');
+  const dispatch = useDispatch();
 
-  /**
-   * Handles the selected user rating.
-   * @param {number} rate - The rating value.
-   */
   const handleRating = (rate) => {
     setUserRating(rate);
   };
 
-  const clearToastMessage = () => {
-    setToastMessage('');
-  };
+
 
   const handleReviewSubmit = async () => {
     if (userRating === 0) {
-      setToastMessage({
-        type: 'error',
-        message: 'Please select a rating before submitting.',
-      });
+      message.error('Please select a rating before submitting.')
       return;
     }
-    // TODO: Add validation for userRating and userReview
-    const response = '/api/hotel/add-review'
-    if (response && response.errors.length === 0 && response.data.status) {
-      setToastMessage({
-        type: 'success',
-        message: response.data.status,
-      });
-    } else {
-      setToastMessage({
-        type: 'error',
-        message: 'Review submission failed',
-      });
-    }
+    await dispatch(actionRating({
+      "packet_id": reviewSelected?.packet,
+      "room_type_id": reviewSelected?.room,
+      rate: userRating,
+      comment: userReview,
+    }))
     setShouldHideUserRatingsSelector(true);
   };
 
@@ -65,10 +57,10 @@ const UserReviews = ({
 
   const isEmpty = reviewData.data.length === 0;
 
+
   return (
     <div className="flex flex-col p-4 border-t">
-      <h1 className="text-xl font-bold text-gray-700">User Reviews</h1>
-      <div className="flex flex-col md:flex-row py-4 bg-white shadow-sm gap-6">
+      <div className="flex flex-col  py-4 bg-white  gap-6">
         {reviewData.data.length === 0 ? (
           <div className="w-3/5">
             <span className="text-gray-500 italic">
@@ -77,29 +69,25 @@ const UserReviews = ({
           </div>
         ) : (
           <RatingsOverview
-            averageRating={reviewData.metadata.averageRating}
-            ratingsCount={reviewData.metadata.totalReviews}
-            starCounts={reviewData.metadata.starCounts}
+            averageRating={reviewData.avg}
+            ratingsCount={reviewData.totalReviews}
+          // starCounts={reviewData.metadata.starCounts}
           />
         )}
-        {shouldHideUserRatingsSelector ? null : (
-          <UserRatingsSelector
-            userRating={userRating}
-            isEmpty={isEmpty}
-            handleRating={handleRating}
-            userReview={userReview}
-            handleReviewSubmit={handleReviewSubmit}
-            handleUserReviewChange={handleUserReviewChange}
-          />
-        )}
+        <div>
+          {shouldHideUserRatingsSelector ? null : (
+            <UserRatingsSelector
+              userRating={userRating}
+              isEmpty={isEmpty}
+              handleRating={handleRating}
+              userReview={userReview}
+              handleReviewSubmit={handleReviewSubmit}
+              handleUserReviewChange={handleUserReviewChange}
+            />
+          )}
+        </div>
       </div>
-      {toastMessage && (
-        <Toast
-          type={toastMessage.type}
-          message={toastMessage.message}
-          dismissError={clearToastMessage}
-        />
-      )}
+
       <div>
         {reviewData.isLoading ? (
           ""
@@ -108,17 +96,17 @@ const UserReviews = ({
             {reviewData.data.map((review, index) => (
               <Review
                 key={index}
-                reviewerName={review.reviewerName}
-                reviewDate={review.date}
-                review={review.review}
-                rating={review.rating}
+                reviewerName={review?.customer?.email}
+                reviewDate={dayjs(review.created_at, dateFormat).format(dateFormat)}
+                review={review.comment}
+                rating={review.rate}
                 verified={review.verified}
               />
             ))}
           </div>
         )}
       </div>
-      {reviewData.data.length > 0 && (
+      {/* {reviewData.data.length > 0 && (
         <PaginationController
           currentPage={reviewData.pagination.currentPage}
           totalPages={reviewData.pagination.totalPages}
@@ -126,7 +114,7 @@ const UserReviews = ({
           handlePreviousPageChange={handlePreviousPageChange}
           handleNextPageChange={handleNextPageChange}
         />
-      )}
+      )} */}
     </div>
   );
 };

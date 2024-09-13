@@ -60,7 +60,9 @@ const initialState = {
     },
     cities:[],
     districs:[],
-    packets:[]
+    packets:[],
+    ratings:[],
+    ratingLoading:false
 }
 
 
@@ -69,6 +71,17 @@ export const actionGetAllCities = createAsyncThunk(
     async (payload, thunkApi) => {
         try {
             return await ServiceApi.getAllCities(payload)
+        } catch (error) {
+            return thunkApi.rejectWithValue(error)
+        }
+    }
+)
+
+export const actionGetRating = createAsyncThunk(
+    "room/actionGetRating",
+    async (payload, thunkApi) => {
+        try {
+            return await HotelBookingApi.getRatingRoom(payload.room,payload.packet,payload)
         } catch (error) {
             return thunkApi.rejectWithValue(error)
         }
@@ -226,14 +239,14 @@ const roomSlice = createSlice({
             })
 
             .addCase(actionGetAllPackets.pending, (state, action) => {
-                state.isLoading = true
+                // state.isLoading = true
             })
             .addCase(actionGetAllPackets.fulfilled, (state, action) => {
-                state.isLoading = false
+                // state.isLoading = false
                 state.packets = action.payload.data.data
             })
             .addCase(actionGetAllPackets.rejected, (state, action) => {
-                state.isLoading = false
+                // state.isLoading = false
                 handleError(action.payload)
             })
 
@@ -325,6 +338,19 @@ const roomSlice = createSlice({
             })
             .addCase(actionRating.rejected, (state, action) => {
                 state.isLoading = false
+                handleError(action.payload)
+            })
+
+            .addCase(actionGetRating.pending, (state, action) => {
+                state.ratingLoading = true
+            })
+            .addCase(actionGetRating.fulfilled, (state, action) => {
+				debugger
+                state.ratingLoading = false
+                state.ratings = action?.payload?.data||[]
+            })
+            .addCase(actionGetRating.rejected, (state, action) => {
+                state.ratingLoading = false
                 handleError(action.payload)
             })
 

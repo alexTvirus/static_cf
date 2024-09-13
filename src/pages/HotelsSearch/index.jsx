@@ -13,6 +13,8 @@ import OverlayComponent from '../../components/OverLay'
 import { RouteName } from '../../routes/RouteName'
 import { PRICE } from '../../utils/constants';
 
+import HotelBookingApi from '../../api/HotelBookingApi'
+
 
 import { useDispatch, useSelector } from 'react-redux';
 import { actionClearBooking, actionGetAllPackets, actionGetAllRoom, actionSetDateRange } from '../../redux/features/room/roomSlice';
@@ -32,7 +34,7 @@ const HotelsSearch = () => {
   const params = history.getSearchParams(searchParams)
 
   const dispath = useDispatch()
-  const { rooms, isLoading, pagination, dateRange, packets } = useSelector(state => {
+  const { rooms, isLoading, pagination, dateRange } = useSelector(state => {
     return state.room
   })
 
@@ -149,7 +151,6 @@ const HotelsSearch = () => {
   };
 
   const onSearchButtonAction = () => {
-    debugger
     const checkInDate = dateRange[0] ? moment(dateRange[0].$d).format(dateFormat) ?? '' : '';
     const checkOutDate = dateRange[1] ? moment(dateRange[1].$d).format(dateFormat) ?? '' : '';
     if (!checkInDate || !checkOutDate) {
@@ -240,9 +241,7 @@ const HotelsSearch = () => {
     });
   };
 
-  const dispatch = useDispatch();
-
-  const debounceFn = useCallback(_debounce(() => setExecuteDebouncer(true), 500), []);
+  const debounceFn = useCallback(_debounce(() => setExecuteDebouncer(true), 600), []);
 
   useEffect(() => {
     if (executeDebouncer) {
@@ -252,66 +251,62 @@ const HotelsSearch = () => {
   }, [executeDebouncer]);
 
   useEffect(() => {
-    if (packets && packets.length > 0) {
-      let newFiltersData = {
-        ...filtersData,
-        isLoading: isLoading
-      }
-      let packet = {
-        filterId: "packets",
-        filters: packets.map((packet) => {
-          return { id: packet.id, title: packet.name_packet, value: packet.id }
-        }),
-        title: "Gói ưu đãi"
-      }
-      newFiltersData.data.checkbox[1] = packet
-      setFiltersData(newFiltersData)
-    }
-  }, [packets]);
+    if (!isObjectEmpty(selectedFiltersState)) {
 
-  useEffect(() => {
-    debounceFn();
+      debounceFn();
+    }
+
   }, [selectedFiltersState, currentResultsPage, sortByFilterValue, selectedPrice]);
 
 
   useEffect(() => {
-    let packet = params?.packet
-    setSelectedFiltersState(
-      filtersData.data.checkbox.map((filterGroup) => {
-        return {
-          ...filterGroup,
-          filters: filterGroup.filters.map((filter) => {
-            if (packet && filterGroup.filterId === "packets" && packet == filter.id) {
+    const initData = async () => {
+      try {
+        const rsp = await HotelBookingApi.getPackets();
+        let packets = rsp.data.data
+        if (packets && packets.length > 0) {
+          let newFiltersData = {
+            ...filtersData,
+            isLoading: isLoading
+          }
+          let packet = {
+            filterId: "packets",
+            filters: packets.map((packet) => {
+              return { id: packet.id, title: packet.name_packet, value: packet.id }
+            }),
+            title: "Gói ưu đãi"
+          }
+          newFiltersData.data.checkbox[1] = packet
+
+          let packetID = params?.packet
+          setSelectedFiltersState(
+            newFiltersData.data.checkbox.map((filterGroup) => {
               return {
-                ...filter,
-                isSelected: true,
+                ...filterGroup,
+                filters: filterGroup.filters.map((filter) => {
+                  if (packet && filterGroup.filterId === "packets" && packetID == filter.id) {
+                    return {
+                      ...filter,
+                      isSelected: true,
+                    }
+                  }
+
+                  return {
+                    ...filter,
+                    isSelected: false,
+                  }
+                }),
               }
-            }
-
-            return {
-              ...filter,
-              isSelected: false,
-            }
-          }),
+            })
+          );
+          setFiltersData(newFiltersData)
         }
-      })
-    );
+      } catch (error) {
+        message.error(error)
+      }
 
-  }, [filtersData, location]);
-
-
-  useEffect(() => {
-    // const checkInDate = dateRange[0] ? moment(dateRange[0].$d).format(dateFormat) ?? '' : '';
-    // const checkOutDate = dateRange[1] ? moment(dateRange[1].$d).format(dateFormat) ?? '' : '';
-
-    // dispath(actionGetAllRoom({
-    //   params: {
-    //     checkin_at: checkInDate,
-    //     checkout_at: checkOutDate
-    //   }
-    // }))
-
-    dispath(actionGetAllPackets())
+    }
+    initData()
   }, []);
 
   return (

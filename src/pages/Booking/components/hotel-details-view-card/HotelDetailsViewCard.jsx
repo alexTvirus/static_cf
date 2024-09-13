@@ -6,29 +6,21 @@ import { isObjectEmpty } from '../../../../utils/helpers'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faCheck } from '@fortawesome/free-solid-svg-icons';
 
-import Expand from 'react-expand-animated';
 
 import { formatPrice, formatPrice1 } from '../../../../utils/price-helpers';
 
 import { Divider } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { actionSetBooking } from '../../../../redux/features/room/roomSlice';
+import { actionGetRating, actionSetBooking } from '../../../../redux/features/room/roomSlice';
 import ModalReview from '../user-reviews/components/ModalReview'
 
 
 
-const HotelDetailsViewCard = ({ hotelDetails }) => {
+const HotelDetailsViewCard = ({booking, hotelDetails }) => {
   const dispatch = useDispatch();
-  const { booking } = useSelector(state => {
+  const { ratings,ratingLoading } = useSelector(state => {
     return state.room
   })
-
-  const [isExpandReviews, setIsExpandReviews] = useState(() => {
-    const packets = hotelDetails.packets.map(() => {
-      return false;
-    })
-    return packets || []
-  });
 
   const [currentPacketIndex, setCurrentPacketIndex] = useState({});
   const [images, setImages] = useState([])
@@ -38,6 +30,24 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
     data: [],
   });
   const [currentReviewsPage, setCurrentReviewPage] = useState(1);
+
+  const [isOpenReviewModel, setIsOpenReviewModel] = useState(false)
+
+  const handleOkModal = () => {
+    setIsOpenReviewModel(false)
+  }
+
+  const [reviewSelected , setReviewSelected] = useState({})
+
+  const showReviewModal = async (params) => {
+    await dispatch(actionGetRating(params))
+    setReviewSelected(params)
+    setIsOpenReviewModel(true)
+  }
+
+  const handleCancelModal = () => {
+    setIsOpenReviewModel(false)
+  }
 
   // const handlePageChange = (page) => {
   //   setCurrentReviewPage(page);
@@ -91,10 +101,21 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
   }
 
   useEffect(() => {
-    setReviewData({
-      isLoading: true,
-      data: [],
-    });
+    debugger
+    if (ratings) {
+      setReviewData({
+        isLoading: ratingLoading,
+        data: ratings?.data||[],
+        totalReviews: ratings?.total||0,
+        avg: ratings?.avg||0,
+        room_type_packet_id: ratings?.room_type_packet_id||0,
+      });
+      
+    }
+  }, [ratings])
+
+  useEffect(() => {
+    debugger
     setImages(hotelDetails?.room_type_images?.map((image) => ({
       original: image.url,
       thumbnail: image.url,
@@ -186,7 +207,7 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
                   <div
                     className="flex flex-col md:flex-row gap-y-4 gap-x-2 w-full"
                   >
-                    <div className="flex flex-col justify-center flex-1">
+                    <div className="flex flex-col md:gap-y-2 justify-center flex-1">
                       <h2 className="text-md font-semibold text-gray-800 mb-2">
                         {packet.name_packet}
                       </h2>
@@ -201,7 +222,20 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
                             ))}
                         </ul>
                       </div>
-                      <a className='cursor-pointer inline-block align-baseline font-medium text-md text-brand  hover:underline'>More info</a>
+                      <div>
+                        <a className='
+                        inline-block cursor-pointer  px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                        text-white bg-brand'>Xem chi tiết</a>
+                      </div>
+
+                      <div>
+                        <p
+                          onClick={() => showReviewModal({ room: hotelDetails.id, packet: packet.id })}
+                          className="inline-block cursor-pointer  px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                          Xem Review
+                        </p>
+                      </div>
+
                     </div>
                     <div className="flex flex-col gap-y-2 ml-0 md:ml-auto border-l-0 items-stretch pl-0 md:pl-4">
                       <div className="flex flex-col ml-0 md:ml-auto justify-center items-center">
@@ -219,18 +253,10 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
                         Chọn
                       </button>
                     </div>
+
+
                   </div>
-                  <p
-                    onClick={() => {
-                      setIsExpandReviews((() => {
-                        let newArray = [...isExpandReviews]
-                        newArray[index] = !newArray[index]
-                        return newArray
-                      })())
-                    }}
-                    className="cursor-pointer px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                    Xem Review
-                  </p>
+
 
                 </div >
 
@@ -241,9 +267,15 @@ const HotelDetailsViewCard = ({ hotelDetails }) => {
 
         </div>
         <ModalReview
+          reviewSelected={reviewSelected}
           reviewData={reviewData}
+          handlePageChange={() => { }}
+          handlePreviousPageChange={() => { }}
+          handleNextPageChange={() => { }}
+          onCancel={handleCancelModal}
+          onOk={handleOkModal}
           titleTaskModal={"Review của người dùng "}
-          isModalOpen={true}
+          isModalOpen={isOpenReviewModel}
         ></ModalReview>
         <div className='sticky top-0'>
           {

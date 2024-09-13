@@ -18,7 +18,7 @@ const Booking = () => {
   const { hotelId } = useParams();
 
   const dispath = useDispatch()
-  const { currentRoom, isLoading, booking, dateRange } = useSelector(state => {
+  const { currentRoom, isLoading: roomLoading, booking, dateRange } = useSelector(state => {
     return state.room
   })
 
@@ -42,10 +42,10 @@ const Booking = () => {
 
   return (
     <>
-      {(isLoading || isObjectEmpty(currentRoom)) ? (
+      {(roomLoading || isObjectEmpty(currentRoom)) ? (
         <HotelDetailsViewCardSkeleton />
       ) : (
-        <HotelDetailsViewCard hotelDetails={currentRoom} />
+        <HotelDetailsViewCard booking={booking} hotelDetails={currentRoom} />
       )}
     </>
   );

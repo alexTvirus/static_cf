@@ -2,25 +2,20 @@ import { Switch, Space, Table, Tag, List, Avatar, Button, Flex, Form, Input, Mod
 import UserReviews from '../../user-reviews/UserReviews';
 const ModalReview = (props) => {
     const {
-
+        onCancel,
+        onOk,
         titleTaskModal,
         isModalOpen
     } = props
-    const showModal = () => {
-    };
-    const handleOk = () => {
-    };
-    const handleCancel = () => {
-    };
     const nextProps = { ...props }
     return (<>
-        <Modal title={titleTaskModal} open={isModalOpen} onOk={() => ()=>{}} onCancel={handleCancel}>
+        <Modal title={titleTaskModal} 
+        open={isModalOpen} onOk={onOk} 
+        onCancel={onCancel}
+        footer={null}
+        >
             <UserReviews
                 {...nextProps}
-                // reviewData={reviewData}
-                // handlePageChange={() => { }}
-                // handlePreviousPageChange={() => { }}
-                // handleNextPageChange={() => { }}
             />
         </Modal>
     </>)

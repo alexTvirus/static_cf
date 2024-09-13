@@ -101,11 +101,18 @@ const HotelBookingApi = {
         return apiPost(`auth/me`, payload)
     },
 
+    getAmenities: (payload = {}) => {
+        return apiGet(`amenities/`, payload)
+    },
+
     getPackets: (payload = {}) => {
         return apiGet(`packets`, payload)
     },
     ratingRoom: (payload = {}) => {
         return apiPost(`rating`, payload)
+    },
+    getRatingRoom: (roomId,packetId,payload = {}) => {
+        return apiGet(`rating/room/${roomId}/packet/${packetId}`, {})
     },
 }
 

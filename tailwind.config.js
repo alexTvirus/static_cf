@@ -3,6 +3,8 @@ module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
+      order: {
+      },
       colors: {
         'brand': '#074498',
         'brand-secondary': '#cbae37',
@@ -28,5 +30,10 @@ module.exports = {
     },
   },
   plugins: [],
+  variants: {
+    extend: {
+      order: ['responsive'], // Đảm bảo các lớp responsive có sẵn
+    }
+  },
 };
 

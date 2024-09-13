@@ -15,10 +15,11 @@ import { actionGetAllRoom, actionSetDateRange } from '../../redux/features/room/
 import moment from 'moment';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import Test from './components/Test';
+import Amenities from './components/Test/Amenities';
 import PacketReview from './components/Test/PacketReview';
 import Tour from './components/Test/Tour';
 import { message } from 'antd';
+import HotelBookingApi from '../../api/HotelBookingApi';
 dayjs.extend(customParseFormat);
 const dateFormat = 'YYYY-MM-DD';
 
@@ -32,6 +33,10 @@ const Home = () => {
   })
 
   const [datePickerStatus, setDatePickerStatus] = useState("")
+
+  const [amenitiesData, setAmenitiesData] = useState([])
+
+  const [packetsData, setPacketsData] = useState([])
 
   const onDateChangeHandler = (ranges) => {
     dispath(actionSetDateRange(ranges))
@@ -53,7 +58,7 @@ const Home = () => {
     });
   };
 
-  const handleBookNowClick = (hotelCode)=>{
+  const handleBookNowClick = (hotelCode) => {
     const checkInDate = dateRange[0] ? moment(dateRange[0].$d).format(dateFormat) ?? '' : '';
     const checkOutDate = dateRange[1] ? moment(dateRange[1].$d).format(dateFormat) ?? '' : '';
     if (!checkInDate || !checkOutDate) {
@@ -65,10 +70,29 @@ const Home = () => {
   }
 
   useEffect(() => {
-    const getInitialData = async () => {
-      dispath(actionGetAllRoom())
-    };
-    getInitialData();
+
+    const initData = async () => {
+      try {
+        await dispath(actionGetAllRoom())
+        let rsp = await HotelBookingApi.getAmenities();
+        let data = rsp.data.data
+        if (data && data.length > 0) {
+          setAmenitiesData(data)
+        }
+
+        rsp = await HotelBookingApi.getPackets();
+        data = rsp.data.data
+        if (data && data.length > 0) {
+          setPacketsData(data)
+        }
+
+      } catch (error) {
+        message.error(error)
+      }
+
+    }
+    initData()
+
   }, []);
 
   return (
@@ -96,11 +120,15 @@ const Home = () => {
           />
         </div>
         <div className='my-8'>
-          {!isLoading && <Test></Test>}
+          {(amenitiesData && amenitiesData.length > 0) && <Amenities
+            amenitiesData={amenitiesData}
+          ></Amenities>}
 
         </div>
         <div className='my-8'>
-          {!isLoading && <PacketReview></PacketReview>}
+          {(amenitiesData && amenitiesData.length > 0) && <PacketReview
+            packetsData={packetsData}
+          ></PacketReview>}
         </div>
         <div className='my-8'>
           {!isLoading && <Tour></Tour>}

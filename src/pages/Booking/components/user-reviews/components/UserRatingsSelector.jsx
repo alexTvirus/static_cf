@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as fasStar } from '@fortawesome/free-solid-svg-icons';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
-
+import {isObjectEmpty} from '../../../../../utils/helpers'
 
 const UserRatingsSelector = ({
   userRating,
@@ -14,13 +14,14 @@ const UserRatingsSelector = ({
   handleUserReviewChange,
 }) => {
 
-  const dispatch = useDispatch()
-  const { isAuth } = useSelector(state => state.auth)
 
-  return isAuth ? (
+  const isLogined = ()=>{
+	  return localStorage.getItem("access_token") || false
+  }
+
+  return isLogined ? (
     <div
-      className={`${isEmpty ? 'md:w-full' : 'md:w-2/5'
-        } pl-0 md:pl-4 md:border-l flex flex-col items-center justify-center`}
+      className={` w-full pl-0 md:pl-4 flex flex-col items-center justify-center`}
     >
       <div className="text-lg font-semibold text-gray-700">Your Rating</div>
       <div className="flex">

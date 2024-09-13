@@ -2,21 +2,8 @@ import React from 'react';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-/**
- * Represents a review component.
- * @component
- *
- * @param {Object} props - The props object containing reviewerName, reviewDate, review, and rating.
- * @param {string} props.reviewerName - The name of the reviewer.
- * @param {string} props.reviewDate - The date of the review.
- * @param {string} props.review - The content of the review.
- * @param {number} props.rating - The rating given by the reviewer.
- * @param {boolean} props.verified - Whether the review has been verified or not.
- *
- * @returns {JSX.Element} The rendered Review component.
- */
 const Review = (props) => {
-  const { reviewerName, reviewDate, review, rating, verified } = props;
+  const { reviewerName, reviewDate, review, rating } = props;
   return (
     <div className="py-3 border-t">
       <div className="flex justify-between">
@@ -27,11 +14,6 @@ const Review = (props) => {
           />
           <h4 className="font-semibold text-gray-700">
             {reviewerName}{' '}
-            {verified && (
-              <span className="text-xs font-medium text-green-500">
-                (Verified)
-              </span>
-            )}
           </h4>
         </div>
         <div className="flex items-center mt-4">
@@ -45,7 +27,7 @@ const Review = (props) => {
           </svg>
         </div>
       </div>
-      <p className="text-gray-500 text-sm">{reviewDate}</p>
+      <p className="text-gray-500 text-sm">ngày đăng: {reviewDate}</p>
       <p className="mt-2">{review}</p>
     </div>
   );
