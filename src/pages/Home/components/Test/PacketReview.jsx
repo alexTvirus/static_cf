@@ -159,17 +159,6 @@ const PacketReview = (props) => {
                         })
                     }
 
-                    <div className="w-[100%] order-last">
-                        <div className="">
-                            <div className=" text-center py-[30px] px-[20px]" >
-                                <a className="text-center border-solid bg-transparent inline-block test hover:border-[#000000]" href="room-grid-style-1.html" >
-                                    <span className="gdlr-core-content">Xem thêm<i className="text-[16px] text-[#000000]  icon-arrow-right" ></i></span>
-                                </a>
-                            </div>
-                        </div>
-
-                    </div>
-
                 </div>
             </div>
         </div>

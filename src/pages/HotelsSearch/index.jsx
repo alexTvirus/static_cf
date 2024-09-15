@@ -9,9 +9,9 @@ import PaginationController from '../../components/ux/pagination-controller/Pagi
 import { SORTING_FILTER_LABELS } from '../../utils/constants';
 import _debounce from 'lodash/debounce';
 import GlobalSearchBox from '../../components/GlobalSearchBox';
-import OverlayComponent from '../../components/OverLay'
 import { RouteName } from '../../routes/RouteName'
 import { PRICE } from '../../utils/constants';
+
 
 import HotelBookingApi from '../../api/HotelBookingApi'
 
@@ -20,7 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { actionClearBooking, actionGetAllPackets, actionGetAllRoom, actionSetDateRange } from '../../redux/features/room/roomSlice';
 
 import moment from 'moment';
-import { DatePicker, Radio, message } from 'antd';
+import { DatePicker, Pagination, Radio, message } from 'antd';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 dayjs.extend(customParseFormat);
@@ -241,6 +241,8 @@ const HotelsSearch = () => {
     });
   };
 
+
+
   const debounceFn = useCallback(_debounce(() => setExecuteDebouncer(true), 600), []);
 
   useEffect(() => {
@@ -311,10 +313,6 @@ const HotelsSearch = () => {
 
   return (
     <>
-      {/* <OverlayComponent
-        isLoading={isLoading}
-      ></OverlayComponent> */}
-
       <div className="hotels">
         <div className="bg-brand px-2 lg:h-[120px] h-[220px] flex items-center justify-center">
           <GlobalSearchBox
@@ -343,17 +341,7 @@ const HotelsSearch = () => {
             onSortingFilterChange={onSortingFilterChange}
             sortingFilterOptions={sortingFilterOptions}
           />
-          {/* {pagination?.totalPages > 1 && (
-          <div className="my-4">
-            <PaginationController
-              currentPage={pagination?.currentPage}
-              totalPages={pagination?.totalPages}
-              handlePageChange={handlePageChange}
-              handlePreviousPageChange={handlePreviousPageChange}
-              handleNextPageChange={handleNextPageChange}
-            />
-          </div>
-        )} */}
+           
         </div>
 
       </div>

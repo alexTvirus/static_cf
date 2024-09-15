@@ -11,9 +11,9 @@ const NavbarItems = ({ onHamburgerMenuToggle }) => {
   const navigate = history.navigate
   const location = history.location
   const dispatch = useDispatch()
-  
-  const isLogined = ()=>{
-	  return localStorage.getItem("access_token") || false
+
+  const isLogined = () => {
+    return localStorage.getItem("access_token") || false
   }
 
   const handleLogout = async () => {
@@ -56,6 +56,16 @@ const NavbarItems = ({ onHamburgerMenuToggle }) => {
       </li>
       <li className="p-4 hover:bg-blue-900 md:hover:bg-brand">
         <Link
+          to={RouteName.TOURS.path}
+          className={`uppercase font-medium text-slate-100 hover-underline-animation ${isActive(RouteName.TOURS.path) && 'active-link'
+            }`}
+          onClick={onHamburgerMenuToggle}
+        >
+          CÁC TOURS
+        </Link>
+      </li>
+      <li className="p-4 hover:bg-blue-900 md:hover:bg-brand">
+        <Link
           to={RouteName.ABOUT_US.path}
           className={`uppercase font-medium text-slate-100 hover-underline-animation ${isActive(RouteName.ABOUT_US.path) && 'active-link'
             }`}
@@ -72,9 +82,8 @@ const NavbarItems = ({ onHamburgerMenuToggle }) => {
         ) : (
           <Link
             to={RouteName.LOGIN.path}
-            className={`uppercase font-medium text-slate-100 hover-underline-animation ${
-              isActive(RouteName.LOGIN.path) && 'active-link'
-            }`}
+            className={`uppercase font-medium text-slate-100 hover-underline-animation ${isActive(RouteName.LOGIN.path) && 'active-link'
+              }`}
             onClick={onHamburgerMenuToggle}
           >
             Đăng nhập/Đăng kí

@@ -6,7 +6,8 @@ const baseUrl = "http://localhost"
 async function apiGet(url, options = {}) {
     try {
         const opt = getCommonOptions()
-        const response = await axios.get(`${baseUrl}/api/v1/${url}`, Object.assign(opt, options))
+        options = Object.assign(opt, options)
+        const response = await axios.get(`${baseUrl}/api/v1/${url}`, options)
         return response
     } catch (e) {
         throw e

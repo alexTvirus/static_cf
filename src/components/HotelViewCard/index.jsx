@@ -33,8 +33,8 @@ const HotelViewCard = (props) => {
           className="block text-slate-700 hover:text-brand transition-colors duration-300"
         >
           <img
-            src={image.url}
-            alt={image.name}
+            src={image?.url}
+            alt={image?.name}
             className="md:w-[220px] md:h-[140px]"
           />
         </div>

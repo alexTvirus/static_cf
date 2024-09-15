@@ -11,6 +11,8 @@ import HotelDetails from './pages/HotelDetails';
 import Booking from './pages/Booking';
 import BookingTour from './pages/BookingTour';
 
+import Tours from './pages/Tours';
+
 import Checkout from './pages/Checkout';
 import ForgotPassword from './pages/ForgotPassword'
 import Login from './pages/Login'
@@ -41,6 +43,10 @@ function App() {
 
           <Route path={RouteName.HOTELS.path} element={
             <HotelsSearch />
+          } />
+
+          <Route path={RouteName.TOURS.path} element={
+            <Tours />
           } />
 
           <Route path={RouteName.ABOUT_US.path} element={

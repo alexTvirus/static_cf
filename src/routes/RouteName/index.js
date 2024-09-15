@@ -8,4 +8,5 @@ export const RouteName = Object.freeze({
     FORGOT_PASSWORD:  { path: "/forgot-password"},
     REGISTER:  { path: "/register"},
     USER_PROFILE:  { path: "/user-profile"},
+    TOURS:  { path: "/tours"},
   });

@@ -254,7 +254,7 @@ const HotelDetailsViewCard = ({ booking, hotelDetails }) => {
                       </div>
                       <div className="flex flex-col ml-0 md:ml-auto justify-center items-center">
                         <p className="text-sm font-semibold text-gray-600">
-                          Số phòng có thể đặt: {packet.rooms_available.length}
+                          Số phòng còn trống: {packet.rooms_available.length}
                         </p>
                       </div>
                       <button

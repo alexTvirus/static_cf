@@ -99,7 +99,7 @@ const ResultsContainer = (props) => {
                   key={hotel.id}
                   id={hotel.id}
                   title={hotel.name}
-                  image={hotel.room_type_images[0]}
+                  image={hotel?.room_type_images[0]}
                   subtitle={hotel.description}
                   maxOccupancy={hotel.max_occupancy}
                   bathrooms={hotel.bathrooms}

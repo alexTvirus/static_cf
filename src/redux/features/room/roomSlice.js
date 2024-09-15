@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { message } from 'antd'
 import HotelBookingApi from '../../../api/HotelBookingApi'
-import {ServiceApi} from '../../../api/ServiceApi'
+import { ServiceApi } from '../../../api/ServiceApi'
 import Util from '../../../utils/util'
-import {RATING_MESSAGES} from '../../../utils/constants'
+import { RATING_MESSAGES } from '../../../utils/constants'
 
 
 import dayjs from 'dayjs';
@@ -37,14 +37,14 @@ const initialState = {
             "state": ""
         },
     },
-    tempBooking:{},
+    tempBooking: {},
     userBookingsData: {
 
     },
-	responseData:{
-		
-	},
-	
+    responseData: {
+
+    },
+
     resultBooking: {
         status: 0
     },
@@ -52,17 +52,17 @@ const initialState = {
         null, null
     ],
     pagination: {
-        defaultPage: 1,
-        defaultPerPage: 5,
-        currentPage: 1,
-        perPage: 5,
-        totalPages: 0,
+        default_page: 1,
+        default_perPage: 1,
+        current_page: 1,
+        per_page: 4,
+        total: 0,
     },
-    cities:[],
-    districs:[],
-    packets:[],
-    ratings:[],
-    ratingLoading:false
+    cities: [],
+    districs: [],
+    packets: [],
+    ratings: [],
+    ratingLoading: false
 }
 
 
@@ -81,7 +81,7 @@ export const actionGetRating = createAsyncThunk(
     "room/actionGetRating",
     async (payload, thunkApi) => {
         try {
-            return await HotelBookingApi.getRatingRoom(payload.room,payload.packet,payload)
+            return await HotelBookingApi.getRatingRoom(payload.room, payload.packet, payload)
         } catch (error) {
             return thunkApi.rejectWithValue(error)
         }
@@ -125,7 +125,7 @@ export const actionGetTour = createAsyncThunk(
     "room/actionGetTour",
     async (payload, thunkApi) => {
         try {
-            return await HotelBookingApi.getTour(payload.id,payload.packet_id, payload)
+            return await HotelBookingApi.getTour(payload.id, payload.packet_id, payload)
         } catch (error) {
             return thunkApi.rejectWithValue(error)
         }
@@ -174,7 +174,7 @@ export const actionCancelBooking = createAsyncThunk(
     "room/actionCancelBooking",
     async (payload, thunkApi) => {
         try {
-            return await HotelBookingApi.cancelBooking(1,payload)
+            return await HotelBookingApi.cancelBooking(1, payload)
         } catch (error) {
             return thunkApi.rejectWithValue(error)
         }
@@ -195,7 +195,7 @@ export const actionRating = createAsyncThunk(
 
 const handleError = (e) => {
     let error = e?.response?.data?.errors
-    if(error)
+    if (error)
         message.error(error)
     if (e?.response && e?.response?.status === 401) {
         localStorage.removeItem('access_token')
@@ -233,6 +233,10 @@ const roomSlice = createSlice({
         ,
         actionSetResultBooking: (state, actions) => {
             state.resultBooking = actions.payload
+        },
+        actionSetPagination: (state, actions) => {
+            actions.payload.current_page && (state.pagination.current_page = actions.payload.current_page)
+            actions.payload.per_page && (state.pagination.per_page = actions.payload.per_page)
         }
     },
     extraReducers: builder => {
@@ -243,6 +247,7 @@ const roomSlice = createSlice({
             .addCase(actionGetAllRoom.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.rooms = action.payload.data.data
+                state.pagination.total = action.payload.data.total
             })
             .addCase(actionGetAllRoom.rejected, (state, action) => {
                 state.isLoading = false
@@ -312,8 +317,8 @@ const roomSlice = createSlice({
                 handleError(action.payload)
                 message.error("error")
             })
-			
-			.addCase(actionCancelBooking.pending, (state, action) => {
+
+            .addCase(actionCancelBooking.pending, (state, action) => {
                 state.isLoading = true
             })
             .addCase(actionCancelBooking.fulfilled, (state, action) => {
@@ -368,9 +373,9 @@ const roomSlice = createSlice({
                 state.ratingLoading = true
             })
             .addCase(actionGetRating.fulfilled, (state, action) => {
-				debugger
+                debugger
                 state.ratingLoading = false
-                state.ratings = action?.payload?.data||[]
+                state.ratings = action?.payload?.data || []
             })
             .addCase(actionGetRating.rejected, (state, action) => {
                 state.ratingLoading = false
@@ -380,7 +385,7 @@ const roomSlice = createSlice({
     }
 })
 
-export const { actionSetTempBooking,actionSetDateRange, actionSetBooking, actionSetResultBooking, actionClearBooking } = roomSlice.actions
+export const { actionSetTempBooking, actionSetDateRange, actionSetBooking, actionSetResultBooking, actionClearBooking,actionSetPagination } = roomSlice.actions
 
 // xuất ra reducer
 export const roomReducer = roomSlice.reducer
