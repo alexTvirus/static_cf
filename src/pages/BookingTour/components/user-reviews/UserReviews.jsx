@@ -2,8 +2,8 @@ import Review from './components/Review';
 import React, { useState } from 'react';
 import RatingsOverview from './components/RatingsOverview';
 import UserRatingsSelector from './components/UserRatingsSelector';
+import {RATING_MESSAGES} from '../../../../utils/constants'
 
-import Toast from '../../../../components/ux/toast/Toast';
 import PaginationController from '../../../../components/ux/pagination-controller/PaginationController';
 
 
@@ -64,7 +64,7 @@ const UserReviews = ({
         {reviewData.data.length === 0 ? (
           <div className="w-3/5">
             <span className="text-gray-500 italic">
-              Chưa có lượt đánh giá nào!
+              {RATING_MESSAGES.NOTTHING}
             </span>
           </div>
         ) : (

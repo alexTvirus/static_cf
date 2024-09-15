@@ -121,6 +121,17 @@ export const actionGetRoom = createAsyncThunk(
     }
 )
 
+export const actionGetTour = createAsyncThunk(
+    "room/actionGetTour",
+    async (payload, thunkApi) => {
+        try {
+            return await HotelBookingApi.getTour(payload.id,payload.packet_id, payload)
+        } catch (error) {
+            return thunkApi.rejectWithValue(error)
+        }
+    }
+)
+
 export const actionGetAllPackets = createAsyncThunk(
     "room/actionGetAllPackets",
     async (payload, thunkApi) => {
@@ -258,6 +269,18 @@ const roomSlice = createSlice({
                 state.currentRoom = action.payload.data.data
             })
             .addCase(actionGetRoom.rejected, (state, action) => {
+                state.isLoading = false
+                handleError(action.payload)
+            })
+
+            .addCase(actionGetTour.pending, (state, action) => {
+                state.isLoading = true
+            })
+            .addCase(actionGetTour.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.currentRoom = action.payload.data.data
+            })
+            .addCase(actionGetTour.rejected, (state, action) => {
                 state.isLoading = false
                 handleError(action.payload)
             })

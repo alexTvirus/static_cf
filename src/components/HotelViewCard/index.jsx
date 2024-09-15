@@ -29,7 +29,7 @@ const HotelViewCard = (props) => {
     >
       <div className="cursor-pointer">
         <div
-          onClick={()=>onBookNowClick(hotelCode)}
+          onClick={() => onBookNowClick(hotelCode)}
           className="block text-slate-700 hover:text-brand transition-colors duration-300"
         >
           <img
@@ -42,30 +42,35 @@ const HotelViewCard = (props) => {
       <div className="flex flex-col justify-between ml-0 md:ml-2 flex-1">
         <div>
           <div
-            onClick={()=>onBookNowClick(hotelCode)}
+            onClick={() => onBookNowClick(hotelCode)}
             className="cursor-pointer block text-slate-700 hover:text-brand transition-colors duration-300"
           >
             <h4 className="text-2xl font-bold text-slate-600">{title}</h4>
           </div>
           <p className="text-slate-600 text-sm mb-2">{subtitle}</p>
           <p className="text-sm text-gray-600">
-            <span className="text-slate-600 font-bold text-sm">
-              Giường
+
+            <i class="gdlr-icon-double-bed2 mr-2 text-[28px] align-bottom"></i>
+            <span className="text-slate-600 font-bold text-sm mr-2">
+              {`Giường:`}
             </span>
-            <span >
-              {`: ${maxOccupancy}, `}
+            <span className='mr-2'>
+              {`${maxOccupancy}`}
             </span>
-            <span className="text-slate-600 font-bold text-sm">
-              Phòng tắm
+
+            <i class="gdlr-icon-shower-head mr-2 text-[28px] align-bottom"></i>
+            <span className="text-slate-600 font-bold text-sm mr-2">
+              {`Phòng tắm:`}
+            </span>
+            <span className='mr-2'>
+              {`${bathrooms}`}
+            </span>
+            <i class="gdlr-icon-resize mr-2 text-[28px] align-bottom"></i>
+            <span className="text-slate-600 font-bold text-sm mr-2 ">
+              {`Diện tích:`}
             </span>
             <span>
-              {`: ${bathrooms}, `} ,
-            </span>
-            <span className="text-slate-600 font-bold text-sm">
-              Diện tích
-            </span>
-            <span>
-              {`: ${roomSize}m²`}
+              {`${roomSize}m²`}
             </span>
           </p>
         </div>
@@ -81,19 +86,19 @@ const HotelViewCard = (props) => {
       <div className="flex flex-col ml-0 md:ml-auto justify-between border-l-0 md:border-l-2 items-stretch pl-0 md:pl-4">
         <div className="flex justify-between my-3 md:my-0 items-center md:flex-col md:justify-between w-full h-full">
           {!!rating && <h4 className="font-medium text-sm text-white bg-brand p-2">
-            {!!rating &&  rating}
+            {!!rating && rating}
             {!!rating && <FontAwesomeIcon icon={faStar} />}
           </h4>}
 
 
           <div className="text-slate-600 font-bold whitespace-nowrap">
-            <p>Giá 1 đêm</p> 
+            <p>Giá 1 đêm</p>
             {price && price.length > 0 && formatPrice(price)}
           </div>
         </div>
         <button
           className=" bg-brand-secondary px-4 py-2 text-white whitespace-nowrap"
-          onClick={()=>onBookNowClick(hotelCode)}
+          onClick={() => onBookNowClick(hotelCode)}
         >
           Đặt ngay
         </button>

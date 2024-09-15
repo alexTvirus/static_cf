@@ -1,6 +1,6 @@
 
 import './App.scss';
-import {  Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom';
 
 
 import BaseLayout from './layouts/BaseLayout';
@@ -9,6 +9,8 @@ import HotelsSearch from './pages/HotelsSearch';
 import AboutUs from './pages/AboutUs';
 import HotelDetails from './pages/HotelDetails';
 import Booking from './pages/Booking';
+import BookingTour from './pages/BookingTour';
+
 import Checkout from './pages/Checkout';
 import ForgotPassword from './pages/ForgotPassword'
 import Login from './pages/Login'
@@ -49,9 +51,15 @@ function App() {
             <HotelDetails />
           } />
 
+          <Route path={`${RouteName.BOOKING.path}/:hotelId/tour/:packetId`} element={
+            <BookingTour />
+          } />
+
           <Route path={`${RouteName.BOOKING.path}/:hotelId`} element={
             <Booking />
           } />
+
+
 
           <Route path={RouteName.CHECKOUT.path} element={
             <PrivateRoute>

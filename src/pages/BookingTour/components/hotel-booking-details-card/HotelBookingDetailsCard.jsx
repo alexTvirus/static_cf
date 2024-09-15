@@ -17,18 +17,26 @@ import moment from 'moment';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { useDispatch, useSelector } from 'react-redux';
-import { actionSetDateRange, actionSetTempBooking } from '../../../../redux/features/room/roomSlice';
+import {  actionSetTempBooking } from '../../../../redux/features/room/roomSlice';
 dayjs.extend(customParseFormat);
 const dateFormat = 'YYYY-MM-DD';
 
 
 const HotelBookingDetailsCard = (props) => {
 
-  const { hotelCode, handleDeletePacket, packets, handleSelectGuest } = props
+  const { hotelCode, packets, handleSelectGuest ,rooms ,
+    checkInDate,  checkOutDate
+} = props
   const navigate = history.navigate
   const dispath = useDispatch()
-  const { dateRange, currentRoom ,booking} = useSelector(state => {
+  const {  currentRoom ,booking} = useSelector(state => {
     return state.room
+  })
+
+  const dateRange = useState(()=>{
+    debugger 
+    let x = dayjs(checkInDate)
+    return [dayjs(checkInDate),dayjs(checkOutDate)]
   })
 
   const { currentUser} = useSelector(state => {
@@ -98,22 +106,18 @@ const HotelBookingDetailsCard = (props) => {
   };
 
   const onBookingConfirm = () => {
-    if (!dateRange || dateRange.length != 2 || !dateRange[0].$d || !dateRange[1].$d) {
-      message.error("Hãy chọn ngày checkin, checkout")
-      return;
-    }
+    debugger
 
     if(isObjectEmpty(currentUser)){
       message.error("Hãy đăng nhập để thực hiện chức năng này")
       return;
     }
-    const checkIn = moment(dateRange[0]?.$d).format(dateFormat) ?? '';
-    const checkOut = moment(dateRange[1]?.$d).format(dateFormat) ?? '';
+
     const queryParams = {
       hotelCode,
-      checkIn,
-      checkOut,
-      rooms: packets.length,
+      checkIn:checkInDate,
+      checkOut:checkOutDate,
+      rooms: rooms,
       guests: selectedGuests.value,
       hotelName: currentRoom?.name?.replaceAll(' ', '-'),
     };
@@ -128,10 +132,10 @@ const HotelBookingDetailsCard = (props) => {
 
   useEffect(() => {
     setSelectedRooms({
-      value: packets.length || 1,
-      label: `${packets.length || 1} phòng`,
+      value: rooms,
+      label: `${rooms} phòng`,
     })
-    calGuestOptions(packets.length)
+    calGuestOptions(rooms)
   }, [packets]);
 
   useEffect(() => {
@@ -139,7 +143,7 @@ const HotelBookingDetailsCard = (props) => {
   }, [bookingPeriodDays, packets]);
 
   useEffect(() => {
-    calDate(dateRange[0], dateRange[1])
+    calDate(dayjs(checkInDate), dayjs(checkOutDate))
   }, []);
 
   return (
@@ -164,7 +168,7 @@ const HotelBookingDetailsCard = (props) => {
           <div className="text-gray-600">
             <DateRangePicker
               isDisable={true}
-              dateRange={dateRange}
+              dateRange={[dayjs(checkInDate),dayjs(checkOutDate)]}
             />
           </div>
         </div>
@@ -209,14 +213,6 @@ const HotelBookingDetailsCard = (props) => {
                           ))}
                       </ul>
                     </div>
-                  </div>
-                  <div className="flex flex-col gap-y-2 ml-0 md:ml-auto border-l-0 items-stretch pl-0 md:pl-4">
-                    <button
-                      onClick={() => handleDeletePacket({packet:packet,index:index})}
-                    >
-                      <FontAwesomeIcon icon={faTrash} />
-
-                    </button>
                   </div>
                 </div>
 

@@ -109,8 +109,8 @@ const HotelsSearch = () => {
 
 
   const handleBookNowClick = (hotelCode) => {
-    const checkInDate = dateRange[0] ? moment(dateRange[0].$d).format(dateFormat) ?? '' : '';
-    const checkOutDate = dateRange[1] ? moment(dateRange[1].$d).format(dateFormat) ?? '' : '';
+    const checkInDate = dateRange[0] ? moment(dateRange[0]?.$d).format(dateFormat) ?? '' : '';
+    const checkOutDate = dateRange[1] ? moment(dateRange[1]?.$d).format(dateFormat) ?? '' : '';
     if (!checkInDate || !checkOutDate) {
       setDatePickerStatus("error")
       message.error("Hãy chọn ngày checkin, checkout")
@@ -151,8 +151,8 @@ const HotelsSearch = () => {
   };
 
   const onSearchButtonAction = () => {
-    const checkInDate = dateRange[0] ? moment(dateRange[0].$d).format(dateFormat) ?? '' : '';
-    const checkOutDate = dateRange[1] ? moment(dateRange[1].$d).format(dateFormat) ?? '' : '';
+    const checkInDate = dateRange[0] ? moment(dateRange[0]?.$d).format(dateFormat) ?? '' : '';
+    const checkOutDate = dateRange[1] ? moment(dateRange[1]?.$d).format(dateFormat) ?? '' : '';
     if (!checkInDate || !checkOutDate) {
       setDatePickerStatus("error")
       message.error("Hãy chọn ngày checkin, checkout")
@@ -163,8 +163,8 @@ const HotelsSearch = () => {
 
   const handleSearch = (params = {}) => {
     const activeFilters = getActiveFilters();
-    const checkInDate = dateRange[0] ? moment(dateRange[0].$d).format(dateFormat) ?? '' : '';
-    const checkOutDate = dateRange[1] ? moment(dateRange[1].$d).format(dateFormat) ?? '' : '';
+    const checkInDate = dateRange[0] ? moment(dateRange[0]?.$d).format(dateFormat) ?? '' : '';
+    const checkOutDate = dateRange[1] ? moment(dateRange[1]?.$d).format(dateFormat) ?? '' : '';
     let price = JSON.stringify(selectedPrice)
 
     let packets = JSON.stringify(activeFilters?.packets)

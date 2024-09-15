@@ -1,9 +1,9 @@
-import './hotale-style-custom.scss'
-import './style-core.scss'
-import './tourmaster-global-style-custom.scss'
-import './tourmaster-room-style-custom.scss'
-import './page-builder.scss'
-import './gdlr-custom-icon.scss'
+// import './hotale-style-custom.scss'
+// import './style-core.scss'
+// import './tourmaster-global-style-custom.scss'
+// import './tourmaster-room-style-custom.scss'
+// import './page-builder.scss'
+// import './gdlr-custom-icon.scss'
 import { RouteName } from '../../../../routes/RouteName'
 import { history } from '../../../../routes/helper/history'
 import queryString from 'query-string';
@@ -13,6 +13,7 @@ const PacketReview = (props) => {
     const navigate = history.navigate
 
     const {
+        onSearchPacket,
         packetsData
     } = props
 
@@ -25,7 +26,7 @@ const PacketReview = (props) => {
     }
 
     return (<>
-        <div className="gdlr-core-pbf-wrapper" id="gdlr-core-wrapper-7">
+        <div className="gdlr-core-pbf-wrapper" >
 
             <div className="">
 
@@ -52,7 +53,7 @@ const PacketReview = (props) => {
 
                                 return (<>
                                     <div className='flex flex-wrap'>
-                                        <div className={`test2 w-[100%] md:w-[60%] ${index===0?'':'md:pt-[50px]'} sm:order-${order1} md:order-${order1}`}>
+                                        <div className={` w-[100%] md:w-[60%] ${index===0?'':'md:pt-[50px]'} sm:order-${order1} md:order-${order1}`}>
 
                                             <div className="">
                                                 <div className="leading-none text-center px-[20px]  pb-[0px]" >
@@ -65,14 +66,15 @@ const PacketReview = (props) => {
                                             </div>
 
                                         </div>
-                                        <div className={`test2 w-[100%] md:w-[40%] ${index===0?'':'md:pt-[50px]'} sm:order-${order2} md:order-${order2}`}>
+                                        <div className={` w-[100%] md:w-[40%] ${index===0?'':'md:pt-[50px]'} sm:order-${order2} md:order-${order2}`}>
                                             <div className="pt-[42px]" >
                                                 <div className=""  >
                                                     <div className="">
                                                         <div className="text-left px-[20px]  pb-[30px] clearfix" >
                                                             <div className="">
                                                                 <h3 className="text-3xl font-medium tracking-normal normal-case" >
-                                                                    {item?.name_packet || ""}<span className="gdlr-core-title-item-title-divider gdlr-core-skin-divider"></span>
+                                                                    {item?.name_packet || ""}
+                                                                    {/* <span className="gdlr-core-title-item-title-divider gdlr-core-skin-divider"></span> */}
                                                                 </h3>
                                                             </div>
                                                         </div>
@@ -89,7 +91,7 @@ const PacketReview = (props) => {
                                                     <div className="">
                                                         <div className="text-left px-[20px]  pb-[30px] clearfix" >
                                                             <div className="cursor-pointer hover:border-[#000000] xemthem border-solid inline-block bg-transparent " href="#" id="">
-                                                                <span onClick={() => handleSearchPacket(item.id)} className="gdlr-core-content">Xem thêm<i className=" icon-arrow-right" ></i></span>
+                                                                <span onClick={() => onSearchPacket(item.id)} className="gdlr-core-content">Xem thêm<i className=" icon-arrow-right" ></i></span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -142,7 +144,7 @@ const PacketReview = (props) => {
                                                     <div className="">
                                                         <div className="text-left px-[20px]  pb-[30px] clearfix" >
                                                             <div className="hover:border-[#000000] xemthem border-solid inline-block bg-transparent cursor-pointer" >
-                                                                <span onClick={() => handleSearchPacket(item.id)} className="gdlr-core-content">Xem thêm<i className=" icon-arrow-right" ></i></span>
+                                                                <span onClick={() => onSearchPacket(item.id)} className="gdlr-core-content">Xem thêm<i className=" icon-arrow-right" ></i></span>
                                                             </div>
                                                         </div>
                                                     </div>

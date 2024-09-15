@@ -16,7 +16,7 @@ import ModalReview from '../user-reviews/components/ModalReview'
 
 
 
-const HotelDetailsViewCard = ({ booking, hotelDetails }) => {
+const HotelDetailsViewCard = ({ booking, hotelDetails, rooms, checkInDate, checkOutDate }) => {
   const dispatch = useDispatch();
   const { ratings, ratingLoading } = useSelector(state => {
     return state.room
@@ -67,31 +67,21 @@ const HotelDetailsViewCard = ({ booking, hotelDetails }) => {
   //   });
   // };
 
-  const handleSelectPacket = (params) => {
-    let newSet = { ...currentPacketIndex }
-    newSet[`${params.packet.id}`] = (newSet[`${params.packet.id}`] || 0) + 1
-    setCurrentPacketIndex(newSet)
-    let newPacket = [...booking.packets]
-    newPacket.push(params.packet)
-    let newBooking = {
-      ...booking,
-      packets: newPacket
+  const handleSelectPacket = () => {
+    if (hotelDetails.packets[0].rooms_available.length >= rooms) {
+      let newSet = { ...currentPacketIndex }
+      newSet[`${hotelDetails.packets[0].id}`] = (newSet[`${hotelDetails.packets[0].id}`] || 0) + 1
+      setCurrentPacketIndex(newSet)
+      let newPacket = [...booking.packets]
+      for (let i = 0; i < rooms; i++) {
+        newPacket.push(hotelDetails.packets[0])
+      }
+      let newBooking = {
+        ...booking,
+        packets: newPacket
+      }
+      dispatch(actionSetBooking(newBooking))
     }
-    dispatch(actionSetBooking(newBooking))
-
-  }
-
-  const handleDeletePacket = (params) => {
-    let newSet = { ...currentPacketIndex }
-    newSet[`${params.packet.id}`] = (newSet[`${params.packet.id}`] || 0) - 1
-    setCurrentPacketIndex(newSet)
-    let newPacket = [...booking.packets]
-    newPacket.splice(params.index, 1)
-    let newBooking = {
-      ...booking,
-      packets: newPacket
-    }
-    dispatch(actionSetBooking(newBooking))
   }
 
   const handleSelectGuest = (guests) => {
@@ -114,7 +104,6 @@ const HotelDetailsViewCard = ({ booking, hotelDetails }) => {
   }, [ratings])
 
   useEffect(() => {
-    debugger
     setImages(hotelDetails?.room_type_images?.map((image) => ({
       original: image.url,
       thumbnail: image.url,
@@ -122,24 +111,9 @@ const HotelDetailsViewCard = ({ booking, hotelDetails }) => {
       thumbnailLoading: 'lazy',
     })))
 
+    if (!isObjectEmpty(hotelDetails))
+      handleSelectPacket()
 
-    // const fetchHotelReviews = async () => {
-    //   const response = await networkAdapter.get(
-    //     `/api/hotel/${hotelDetails.hotelCode}/reviews`,
-    //     {
-    //       currentPage: currentReviewsPage,
-    //     }
-    //   );
-    //   if (response && response.data) {
-    //     setReviewData({
-    //       isLoading: false,
-    //       data: response.data.elements,
-    //       metadata: response.metadata,
-    //       pagination: response.paging,
-    //     });
-    //   }
-    // };
-    // fetchHotelReviews();
   }, [hotelDetails, currentReviewsPage]);
 
 
@@ -184,8 +158,6 @@ const HotelDetailsViewCard = ({ booking, hotelDetails }) => {
                   {`${hotelDetails.room_size}m²`}
                 </span>
               </p>
-
-
               <p className="text-sm text-gray-600 mb-4">
                 {!isObjectEmpty(hotelDetails) && hotelDetails.description}
               </p>
@@ -204,77 +176,94 @@ const HotelDetailsViewCard = ({ booking, hotelDetails }) => {
               </div>
             </div>
 
-            {!isObjectEmpty(hotelDetails) && hotelDetails.packets.map((packet, index, { length }) => (
-              <>
-                <div key={index} className={`
-                ${(index === 0) ? "border-y-2 " : "border-b-2"}
-                ${(!!currentPacketIndex[`${packet.id}`]) ? "border-x-2 border-t-2 border-brand" : " border-slate-400 "}
-                px-4 py-8  `}>
-                  <div
-                    className="flex flex-col md:flex-row gap-y-4 gap-x-2 w-full"
-                  >
-                    <div className="flex flex-col md:gap-y-2 justify-center flex-1">
-                      <h2 className="text-md font-semibold text-gray-800 mb-2">
-                        {packet.name_packet}
-                      </h2>
+            {!isObjectEmpty(hotelDetails) && hotelDetails.packets.map((packet, index, { length }) => {
 
-                      <div >
-                        <ul>
-                          {packet.benefits.length > 0 &&
-                            packet.benefits.map((benefit, index) => (
-                              <li className="text-green-800 font-medium text-sm" key={index}>
-                                <FontAwesomeIcon icon={faCheck} /> {benefit.name}
-                              </li>
-                            ))}
-                        </ul>
+              if (packet.rooms_available.length >= rooms) {
+                return (<>
+                  <div key={index} className={`
+                  ${(index === 0) ? "border-y-2 " : "border-b-2"}
+                  ${(!!currentPacketIndex[`${packet.id}`]) ? "border-x-2 border-t-2 border-brand" : " border-slate-400 "}
+                  px-4 py-8  `}>
+                    <div
+                      className="flex flex-col md:flex-row gap-y-4 gap-x-2 w-full"
+                    >
+                      <div className="flex flex-col md:gap-y-2 justify-center flex-1">
+                        <h2 className="text-md font-semibold text-gray-800 mb-2">
+                          {packet.name_packet}
+                        </h2>
+
+                        <div >
+                          <ul>
+                            {packet.benefits.length > 0 &&
+                              packet.benefits.map((benefit, index) => (
+                                <li className="text-green-800 font-medium text-sm" key={index}>
+                                  <FontAwesomeIcon icon={faCheck} /> {benefit.name}
+                                </li>
+                              ))}
+                          </ul>
+                        </div>
+                        <div>
+                          <a className='
+                          inline-block cursor-pointer  px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                          text-white bg-brand'>Xem chi tiết</a>
+                        </div>
+
+                        <div>
+                          <p
+                            onClick={() => showReviewModal({ room: hotelDetails.id, packet: packet.id })}
+                            className="inline-block cursor-pointer  px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                            Xem Review
+                          </p>
+                        </div>
+
                       </div>
-                      <div>
-                        <a className='
-                        inline-block cursor-pointer  px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                        text-white bg-brand'>Xem chi tiết</a>
+                      <div className="flex flex-col gap-y-2 ml-0 md:ml-auto border-l-0 items-stretch pl-0 md:pl-4">
+                        <div className="flex flex-col ml-0 md:ml-auto justify-center items-center">
+                          <p className="text-sm font-semibold text-gray-600">
+                            {formatPrice(parseFloat(hotelDetails.base_price) + parseFloat(packet.base_price))} VND
+                          </p>
+                          <p className="text-sm text-gray-600">
+                            Giá phòng 1 đêm
+                          </p>
+                        </div>
+                        <div className="flex flex-col ml-0 md:ml-auto justify-center items-center">
+                          <p className="text-sm font-semibold text-gray-600">
+                            Số phòng có thể đặt: {packet.rooms_available.length}
+                          </p>
+                        </div>
+
                       </div>
 
-                      <div>
-                        <p
-                          onClick={() => showReviewModal({ room: hotelDetails.id, packet: packet.id })}
-                          className="inline-block cursor-pointer  px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                          Xem Review
-                        </p>
+
+                    </div>
+
+
+                  </div >
+
+                </>)
+              } else {
+                return (<>
+                  <div key={index} className={`
+                  ${(index === 0) ? "border-y-2 " : "border-b-2"}
+                  ${(!!currentPacketIndex[`${packet.id}`]) ? "border-x-2 border-t-2 border-brand" : " border-slate-400 "}
+                  px-4 py-8  `}>
+                    <div
+                      className="flex flex-col md:flex-row gap-y-4 gap-x-2 w-full"
+                    >
+                      <div className="flex flex-col md:gap-y-2 justify-center flex-1">
+                        <h2 className="text-md font-semibold text-gray-800 mb-2">
+                          Hết phòng
+                        </h2>
                       </div>
 
                     </div>
-                    <div className="flex flex-col gap-y-2 ml-0 md:ml-auto border-l-0 items-stretch pl-0 md:pl-4">
-                      <div className="flex flex-col ml-0 md:ml-auto justify-center items-center">
-                        <p className="text-sm font-semibold text-gray-600">
-                          {formatPrice(parseFloat(hotelDetails.base_price) + parseFloat(packet.base_price))} VND
-                        </p>
-                        <p className="text-sm text-gray-600">
-                          Giá phòng 1 đêm
-                        </p>
-                      </div>
-                      <div className="flex flex-col ml-0 md:ml-auto justify-center items-center">
-                        <p className="text-sm font-semibold text-gray-600">
-                          Số phòng có thể đặt: {packet.rooms_available.length}
-                        </p>
-                      </div>
-                      <button
-                        disabled={packet.rooms_available.length < 1}
-                        onClick={() => handleSelectPacket({ packet: packet, index: index })}
-                        className="hover:bg-yellow-600 transition duration-300 bg-brand-secondary px-4 py-2 text-white whitespace-nowrap"
-                      >
-                        Chọn
-                      </button>
-                    </div>
+                  </div >
+
+                </>)
+              }
 
 
-                  </div>
-
-
-                </div >
-
-              </>
-
-            ))}
+            })}
           </div>
 
         </div>
@@ -293,9 +282,11 @@ const HotelDetailsViewCard = ({ booking, hotelDetails }) => {
           {
             !isObjectEmpty(hotelDetails) && !isObjectEmpty(booking) &&
             <HotelBookingDetailsCard
+              checkInDate={checkInDate}
+              checkOutDate={checkOutDate}
+              rooms={rooms}
               handleSelectGuest={handleSelectGuest}
               packets={booking.packets}
-              handleDeletePacket={handleDeletePacket}
               hotelCode={hotelDetails.id} />
           }
         </div>

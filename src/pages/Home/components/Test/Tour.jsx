@@ -1,176 +1,175 @@
-import './hotale-style-custom.scss'
-import './style-core.scss'
-import './tourmaster-global-style-custom.scss'
-import './tourmaster-room-style-custom.scss'
-import './page-builder.scss'
-import './gdlr-custom-icon.scss'
+// import './hotale-style-custom.scss'
+// import './style-core.scss'
+// import './tourmaster-global-style-custom.scss'
+// import './tourmaster-room-style-custom.scss'
+// import './page-builder.scss'
+// import './gdlr-custom-icon.scss'
+import { RouteName } from '../../../../routes/RouteName'
+import { history } from '../../../../routes/helper/history'
+import queryString from 'query-string';
+import { useEffect } from 'react'
+
+const Tour = (props) => {
+    const navigate = history.navigate
+
+    const {
+        onBookTour,
+        toursData
+    } = props
 
 
-const Tour = () => {
     return (<>
-        <div class="gdlr-core-pbf-wrapper" id="gdlr-core-wrapper-7">
+        <div className="gdlr-core-pbf-wrapper" >
 
-            <div class="">
+            <div className="">
 
-                <div class=" flex flex-wrap mx-auto leading-[1.7] text-[17px]">
+                <div className=" flex flex-wrap mx-auto leading-[1.7] text-[17px]">
 
-                    <div class="w-[100%]">
-                        <div class="">
-                            <div class=" text-center pb-[30px] px-[20px]" >
-                                <div class="">
-                                    <h3 class="text-3xl font-medium text-slate-700 text-center my-2" >
-                                        CÁC TOUR
+                    <div className="w-[100%]">
+                        <div className="">
+                            <div className=" text-center pb-[30px] px-[20px]" >
+                                <div className="">
+                                    <h3 className="text-3xl font-medium text-slate-700 text-center my-2" >
+                                        Tour
                                     </h3>
                                 </div>
                             </div>
                         </div>
 
                     </div>
+                    {
+                        toursData && toursData.length > 0 &&
+                        toursData.map((item, index) => {
+                            if (!(index & 1)) {
+                                let order1 = 1
+                                let order2 = 2
 
-                    <div class="test2 gdlr-core-column-36" id="gdlr-core-column-20">
-                        <div class="test2 " >
-                            <div class="test2 clearfix ">
-                                <div class="">
-                                    <div class="leading-none text-center px-[20px]  pb-[0px]" >
-                                        <div class="gdlr-core-image-item-wrap gdlr-core-media-image gdlr-core-image-item-style-round" >
-                                            <img src="http://localhost/upload/chef-cook.jpg" alt="" width="1300" height="716" title="chef-cook" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="test2 gdlr-core-column-24" id="gdlr-core-column-21">
-                        <div class="test2 pt-[42px]" >
-                            <div class="clearfix"  >
-                                <div class="">
-                                    <div class="text-left px-[20px]  pb-[30px] clearfix
-                                    " >
-                                        <div class="">
-                                            <h3 class="text-3xl font-medium tracking-normal normal-case" >
-                                                Kỳ nghỉ Gia đình - 3 Ngày 2 Đêm<span class="gdlr-core-title-item-title-divider gdlr-core-skin-divider"></span>
-                                            </h3>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="">
-                                    <div class="text-left px-[20px]  pb-[30px] clearfix" >
-                                        <div class="text-lg font-normal tracking-normal normal-case text-slate-400" >
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur dolorem beatae accusamus
-                                                soluta accusantium rerum, quas atque dolor
-                                                laboriosam, quasi adipisci a ?.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="">
-                                    <div class="text-left px-[20px]  pb-[30px] clearfix" >
-                                        <a class="hover:border-[#000000] xemthem border-solid inline-block bg-transparent " href="#" id="">
-                                            <span class="gdlr-core-content">Xem thêm<i class=" icon-arrow-right" ></i></span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                return (<>
+                                    <div className='flex flex-wrap'>
+                                        <div className={` w-[100%] md:w-[60%] ${index === 0 ? '' : 'md:pt-[50px]'} sm:order-${order1} md:order-${order1}`}>
 
-                    <div class="test2 gdlr-core-column-24" id="gdlr-core-column-22">
-                        <div class="gdlr-core-pbf-column-content-margin test3" >
+                                            <div className="">
+                                                <div className="leading-none text-center px-[20px]  pb-[0px]" >
+                                                    <div className="gdlr-core-image-item-wrap gdlr-core-media-image gdlr-core-image-item-style-round" >
+                                                        <img src={item?.packet_images &&
+                                                            item?.packet_images.length > 0 &&
+                                                            item.packet_images[0].url} alt="" width="1300" height="716" title="chef-cook" />
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                            <div class="gdlr-core-pbf-column-content clearfix ">
-                                <div class="">
-                                    <div class="text-left px-[20px]  pb-[30px] clearfix
-                                    " >
-                                        <div class="">
-                                            <h3 class="text-3xl font-medium tracking-normal normal-case" >
-                                                Kỳ nghỉ Gia đình - 3 Ngày 2 Đêm<span class="gdlr-core-title-item-title-divider gdlr-core-skin-divider"></span>
-                                            </h3>
+                                        </div>
+                                        <div className={` w-[100%] md:w-[40%] ${index === 0 ? '' : 'md:pt-[50px]'} sm:order-${order2} md:order-${order2}`}>
+                                            <div className="pt-[42px]" >
+                                                <div className=""  >
+                                                    <div className="">
+                                                        <div className="text-left px-[20px]  pb-[30px] clearfix" >
+                                                            <div className="">
+                                                                <h3 className="text-3xl font-medium tracking-normal normal-case" >
+                                                                    {item?.name_packet || ""}
+                                                                    {/* <span className="gdlr-core-title-item-title-divider gdlr-core-skin-divider"></span> */}
+                                                                </h3>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="">
+                                                        <div className="text-left px-[20px]  md:pb-[30px] clearfix" >
+                                                            <div className="text-lg font-normal tracking-normal normal-case text-slate-400" >
+                                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur dolorem beatae accusamus
+                                                                    soluta accusantium rerum, quas atque dolor
+                                                                    laboriosam, quasi adipisci a ?.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="">
+                                                        <div className="text-left px-[20px]  pb-[30px] clearfix" >
+                                                            <div className="cursor-pointer hover:border-[#000000] xemthem border-solid inline-block bg-transparent " href="#" id="">
+                                                                <span onClick={() => onBookTour(
+                                                                    {hotelCode:item.room_type_id,
+                                                                    checkInDate:item.tour_start_at,
+                                                                    checkOutDate:item.tour_end_at,
+                                                                    number_room:item.number_room,
+                                                                    number_guest: item.number_room,
+                                                                    packetCode: item.id
+                                                                    })} className="gdlr-core-content">Đặt ngay<i className=" icon-arrow-right" ></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="">
-                                    <div class="text-left px-[20px]  pb-[30px] clearfix" >
-                                        <div class="text-lg font-normal tracking-normal normal-case text-slate-400" >
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur dolorem beatae accusamus
-                                                soluta accusantium rerum, quas atque dolor
-                                                laboriosam, quasi adipisci a ?.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="">
-                                    <div class="text-left px-[20px]  pb-[30px] clearfix" >
-                                        <a class="hover:border-[#000000] xemthem border-solid inline-block bg-transparent " href="#" id="">
-                                            <span class="gdlr-core-content">Xem thêm<i class=" icon-arrow-right" ></i></span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="test2 gdlr-core-column-36" id="gdlr-core-column-23">
-                        <div class="gdlr-core-pbf-column-content-margin test3" >
-                            <div class="gdlr-core-pbf-column-content clearfix">
-                                <div class="">
-                                    <div class="leading-none text-center px-[20px]  pb-[0px]" >
-                                        <div class="gdlr-core-image-item-wrap gdlr-core-media-image gdlr-core-image-item-style-round" >
-                                            <img src="http://localhost/upload/chef-cook.jpg" alt="" width="1300" height="716" title="chef-cook" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="test2 gdlr-core-column-36" id="gdlr-core-column-24">
-                        <div class="test2 " >
-                            <div class="test2 clearfix ">
-                                <div class="">
-                                    <div class="leading-none text-center px-[20px]  pb-[0px]" >
-                                        <div class="gdlr-core-image-item-wrap gdlr-core-media-image gdlr-core-image-item-style-round" >
-                                            <img src="http://localhost/upload/chef-cook.jpg" alt="" width="1300" height="716" title="chef-cook" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="test2 gdlr-core-column-24" id="gdlr-core-column-25">
-                        <div class="test2 pt-[42px]" >
-                            <div class="clearfix"  >
-                                <div class="">
-                                    <div class="text-left px-[20px]  pb-[30px] clearfix
-                                    " >
-                                        <div class="">
-                                            <h3 class="text-3xl font-medium tracking-normal normal-case" >
-                                                Kỳ nghỉ Gia đình - 3 Ngày 2 Đêm<span class="gdlr-core-title-item-title-divider gdlr-core-skin-divider"></span>
-                                            </h3>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="">
-                                    <div class="text-left px-[20px]  pb-[30px] clearfix" >
-                                        <div class="text-lg font-normal tracking-normal normal-case text-slate-400" >
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur dolorem beatae accusamus
-                                                soluta accusantium rerum, quas atque dolor
-                                                laboriosam, quasi adipisci a ?.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="">
-                                    <div class="text-left px-[20px]  pb-[30px] clearfix" >
-                                        <a class="hover:border-[#000000] xemthem border-solid inline-block bg-transparent " href="#" id="">
-                                            <span class="gdlr-core-content">Xem thêm<i class=" icon-arrow-right" ></i></span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                </>)
+                            } else {
+                                let order1 = 1
+                                let order2 = 2
+                                return (<>
+                                    <div className='flex flex-wrap'>
 
-                    <div class="w-[100%]">
-                        <div class="">
-                            <div class=" text-center py-[30px] px-[20px]" >
-                                <a class="text-center border-solid bg-transparent inline-block test hover:border-[#000000]" href="room-grid-style-1.html" >
-                                    <span class="gdlr-core-content">View All Rooms<i class="text-[16px] text-[#000000]  icon-arrow-right" ></i></span>
+                                        <div className={`test2 w-[100%] md:pt-[50px] md:w-[60%] sm:order-${order1} md:order-${order2}`}>
+
+                                            <div className="">
+                                                <div className="leading-none text-center px-[20px]  pb-[0px]" >
+                                                    <div className="gdlr-core-image-item-wrap gdlr-core-media-image gdlr-core-image-item-style-round" >
+                                                        <img src={item?.packet_images &&
+                                                            item?.packet_images.length > 0 &&
+                                                            item.packet_images[0].url} alt="" width="1300" height="716" title="chef-cook" />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div className={`test2 w-[100%] md:pt-[50px] md:w-[40%] sm:order-${order2} md:order-${order1}`}>
+                                            <div className="pt-[42px]" >
+                                                <div className=""  >
+                                                    <div className="">
+                                                        <div className="text-left px-[20px]  pb-[30px] clearfix" >
+                                                            <div className="">
+                                                                <h3 className="text-3xl font-medium tracking-normal normal-case" >
+                                                                    {item?.name_packet || ""}<span className="gdlr-core-title-item-title-divider gdlr-core-skin-divider"></span>
+                                                                </h3>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="">
+                                                        <div className="text-left px-[20px]  md:pb-[30px] clearfix" >
+                                                            <div className="text-lg font-normal tracking-normal normal-case text-slate-400" >
+                                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur dolorem beatae accusamus
+                                                                    soluta accusantium rerum, quas atque dolor
+                                                                    laboriosam, quasi adipisci a ?.</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="">
+                                                        <div className="text-left px-[20px]  pb-[30px] clearfix" >
+                                                            <div className="hover:border-[#000000] xemthem border-solid inline-block bg-transparent cursor-pointer" >
+                                                                <span onClick={() => onBookTour(
+                                                                    {hotelCode:item.room_type_id,
+                                                                    checkInDate:item.tour_start_at,
+                                                                    checkOutDate:item.tour_end_at,
+                                                                    number_room:item.number_room,
+                                                                    number_guest: item.number_room,
+                                                                    packetCode: item.id
+                                                                    })} className="gdlr-core-content">Đặt ngay<i className=" icon-arrow-right" ></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </>)
+                            }
+
+                        })
+                    }
+
+                    <div className="w-[100%] order-last">
+                        <div className="">
+                            <div className=" text-center py-[30px] px-[20px]" >
+                                <a className="text-center border-solid bg-transparent inline-block test hover:border-[#000000]" href="room-grid-style-1.html" >
+                                    <span className="gdlr-core-content">Xem thêm<i className="text-[16px] text-[#000000]  icon-arrow-right" ></i></span>
                                 </a>
                             </div>
                         </div>

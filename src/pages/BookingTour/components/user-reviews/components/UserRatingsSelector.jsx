@@ -3,29 +3,28 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as fasStar } from '@fortawesome/free-solid-svg-icons';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { isObjectEmpty } from '../../../../../utils/helpers'
-import { RATING_MESSAGES,LOGIN_MESSAGES } from '../../../../../utils/constants'
+import {isObjectEmpty} from '../../../../../utils/helpers'
+import {LOGIN_MESSAGES} from '../../../../../utils/constants'
 
 const UserRatingsSelector = ({
   userRating,
   handleRating,
-  isEmpty,
   userReview,
   handleReviewSubmit,
   handleUserReviewChange,
 }) => {
 
 
-  const isLogined = () => {
+  const isLogined = ()=>{
     debugger
-    return localStorage.getItem("access_token") || false
+	  return localStorage.getItem("access_token") || false
   }
 
   return isLogined() ? (
     <div
       className={` w-full pl-0 md:pl-4 flex flex-col items-center justify-center`}
     >
-      <div className="text-lg font-semibold text-gray-700">{RATING_MESSAGES.YOUR_RATING}</div>
+      <div className="text-lg font-semibold text-gray-700">Đánh giá của bạn</div>
       <div className="flex">
         {[1, 2, 3, 4, 5].map((star) => (
           <FontAwesomeIcon
@@ -47,7 +46,7 @@ const UserRatingsSelector = ({
         className="w-full px-4 py-2 my-2 font-bold text-white rounded bg-brand hover:bg-blue-700 focus:outline-none focus:shadow-outline"
         onClick={handleReviewSubmit}
       >
-        Submit
+        Đăng
       </button>
     </div>
   ) : (

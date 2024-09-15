@@ -64,8 +64,16 @@ const HotelBookingApi = {
     getRoom: (id, payload = {}) => {
         return apiGet(`room-type/${id}?checkin_at=${payload['checkin_at']}&checkout_at=${payload['checkout_at']}`, payload)
     },
+
+    getTours: (payload = {}) => {
+        return apiGet(`packets?tour=1`, payload)
+    },
+    getTour: (id,packet_id, payload = {}) => {
+        return apiGet(`room-type/${id}?tour=1&packet_id=${packet_id}&checkin_at=${payload['checkin_at']}&checkout_at=${payload['checkout_at']}`, payload)
+    },
+
     checkoutRoom: (payload = {}) => {
-        return apiPost(`checkout?XDEBUG_SESSION_START=16041`, payload)
+        return apiPost(`checkout?XDEBUG_SESSION_START=19779`, payload)
     },
     cancelBooking: (id, payload = {}) => {
         return apiPatch(`user/${id}/bookings/${payload.id}`, payload)

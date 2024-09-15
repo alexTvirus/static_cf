@@ -10,6 +10,7 @@ import OverlayComponent from '../../components/OverLay'
 
 import { useDispatch, useSelector } from 'react-redux';
 import { actionGetAllRoom, actionSetDateRange } from '../../redux/features/room/roomSlice';
+import queryString from 'query-string';
 
 
 import moment from 'moment';
@@ -38,13 +39,15 @@ const Home = () => {
 
   const [packetsData, setPacketsData] = useState([])
 
+  const [toursData, setToursData] = useState([])
+
   const onDateChangeHandler = (ranges) => {
     dispath(actionSetDateRange(ranges))
   };
 
   const onSearchButtonAction = () => {
-    const checkInDate = dateRange[0] ? moment(dateRange[0].$d).format(dateFormat) ?? '' : '';
-    const checkOutDate = dateRange[1] ? moment(dateRange[1].$d).format(dateFormat) ?? '' : '';
+    const checkInDate = dateRange[0] ? moment(dateRange[0]?.$d).format(dateFormat) ?? '' : '';
+    const checkOutDate = dateRange[1] ? moment(dateRange[1]?.$d).format(dateFormat) ?? '' : '';
     if (!checkInDate || !checkOutDate) {
       setDatePickerStatus("error")
       message.error("Hãy chọn ngày checkin, checkout")
@@ -59,14 +62,35 @@ const Home = () => {
   };
 
   const handleBookNowClick = (hotelCode) => {
-    const checkInDate = dateRange[0] ? moment(dateRange[0].$d).format(dateFormat) ?? '' : '';
-    const checkOutDate = dateRange[1] ? moment(dateRange[1].$d).format(dateFormat) ?? '' : '';
+    const checkInDate = dateRange[0] ? moment(dateRange[0]?.$d).format(dateFormat) ?? '' : '';
+    const checkOutDate = dateRange[1] ? moment(dateRange[1]?.$d).format(dateFormat) ?? '' : '';
     if (!checkInDate || !checkOutDate) {
       setDatePickerStatus("error")
       message.error("Hãy chọn ngày checkin, checkout")
       return
     }
     navigate(`${RouteName.BOOKING.path}/${hotelCode}`);
+  }
+
+  const handleBookTour = (params) => {
+    const checkInDate = params.checkInDate
+    const checkOutDate = params.checkOutDate
+    const queryParams = {
+      hotelCode:params.hotelCode,
+      checkInDate,
+      checkOutDate,
+      rooms: params.number_room,
+      guests: params.number_room,
+    };
+    navigate(`${RouteName.BOOKING.path}/${params.hotelCode}/tour/${params.packetCode}?${queryString.stringify(queryParams)}`);
+  }
+
+  const handleSearchPacket = (id) => {
+    let queryParams = {
+      packet: id
+    }
+    const url = `${RouteName.HOTELS.path}?${queryString.stringify(queryParams)}`;
+    navigate(url);
   }
 
   useEffect(() => {
@@ -86,6 +110,12 @@ const Home = () => {
           setPacketsData(data)
         }
 
+        rsp = await HotelBookingApi.getTours();
+        data = rsp.data.data
+        if (data && data.length > 0) {
+          setToursData(data)
+        }
+
       } catch (error) {
         message.error(error)
       }
@@ -100,7 +130,6 @@ const Home = () => {
       {/* <OverlayComponent
         isLoading={isLoading}
       ></OverlayComponent> */}
-
       <HeroCover
         datePickerStatus={datePickerStatus}
         dateRange={dateRange}
@@ -126,12 +155,16 @@ const Home = () => {
 
         </div>
         <div className='my-8'>
-          {(amenitiesData && amenitiesData.length > 0) && <PacketReview
+          {(packetsData && packetsData.length > 0) && <PacketReview
+            onSearchPacket={handleSearchPacket}
             packetsData={packetsData}
           ></PacketReview>}
         </div>
         <div className='my-8'>
-          {!isLoading && <Tour></Tour>}
+          {(toursData && toursData.length>0) && <Tour
+            onBookTour = {handleBookTour}
+            toursData={toursData}
+          ></Tour>}
         </div>
       </div>
     </>

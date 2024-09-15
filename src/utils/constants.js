@@ -14,7 +14,8 @@ export const REGISTRATION_MESSAGES = {
  * Messages related to user login.
  */
 export const LOGIN_MESSAGES = {
-  FAILED: 'Please enter valid email and password',
+  FAILED: 'Hãy điền email and password',
+  LOGIN_REQUIRE : 'Hãy đăng nhập để thực hiện chức năng này'
 };
 
 /**
@@ -32,6 +33,7 @@ export const CHANGEPASSWORD_MESSAGES = {
   SUCCESS: 'Tài khoản đã thay đổi mật khẩu thành công',
 };
 
+
 /**
  * Sorting filter labels
  */
@@ -45,6 +47,9 @@ export const SORTING_FILTER_LABELS = Object.freeze({
 export const RATING_MESSAGES = Object.freeze({
   SUCCESS: 'Đánh giá trành công',
   FAIL: 'Giá: Thấp đến Cao',
+  NOTTHING: 'Chưa có lượt đánh giá nào',
+  YOUR_RATING:'Đánh giá của bạn',
+  OVERALL_RATING : 'Đánh giá tổng quan',
 });
 
 const listBookingStatus = [

@@ -65,8 +65,8 @@ const Checkout = () => {
 
   const [currentStep, setCurrentStep] = useState(0)
 
-  const checkInDateTime = `${searchParams.get('checkIn')} `
-  const checkOutDateTime = `${searchParams.get('checkOut')}`
+  const checkIn = `${searchParams.get('checkIn')} `
+  const checkOut = `${searchParams.get('checkOut')}`
   const numberGuests = `${searchParams.get('guests')}`
   const numberRooms = `${searchParams.get('rooms')}`
 
@@ -122,8 +122,7 @@ const Checkout = () => {
       data: {},
     });
 
-    const checkInDate = moment(dateRange[0].$d).format(dateFormat) ?? '';
-    const checkOutDate = moment(dateRange[1].$d).format(dateFormat) ?? '';
+
     let payment = {
       "payment_method": "Tiền mặt",
       "payment_date": moment(new Date()).format(dateFormat),
@@ -135,7 +134,7 @@ const Checkout = () => {
       "state": formData.state
     }
 
-    let newBooking = { ...tempBooking, "checkin_at": checkInDate, "checkout_at": checkOutDate, "payment": payment }
+    let newBooking = { ...tempBooking, "checkin_at": checkIn, "checkout_at": checkOut, "payment": payment }
 
     dispatch(actionCheckout(newBooking))
 
@@ -168,8 +167,8 @@ const Checkout = () => {
         numberGuests={numberGuests}
         numberRooms={numberRooms}
         hotelName={searchParams.get('hotelName').replaceAll('-', ' ')}
-        checkIn={checkInDateTime}
-        checkOut={checkOutDateTime}
+        checkIn={checkIn}
+        checkOut={checkOut}
         phone={123}
         email={""}
         fullName={""}
