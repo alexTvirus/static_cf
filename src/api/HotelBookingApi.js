@@ -74,7 +74,7 @@ const HotelBookingApi = {
     },
 
     checkoutRoom: (payload = {}) => {
-        return apiPost(`checkout?XDEBUG_SESSION_START=19779`, payload)
+        return apiPost(`checkout?XDEBUG_SESSION_START=11952`, payload)
     },
     cancelBooking: (id, payload = {}) => {
         return apiPatch(`user/${id}/bookings/${payload.id}`, payload)

@@ -1,9 +1,9 @@
-import './hotale-style-custom.scss'
-import './style-core.scss'
-import './tourmaster-global-style-custom.scss'
-import './tourmaster-room-style-custom.scss'
-import './page-builder.scss'
-import './gdlr-custom-icon.scss'
+// import './hotale-style-custom.scss'
+// import './style-core.scss'
+// import './tourmaster-global-style-custom.scss'
+// import './tourmaster-room-style-custom.scss'
+// import './page-builder.scss'
+// import './gdlr-custom-icon.scss'
 
 import './icon.scss'
 
@@ -15,7 +15,7 @@ const Amenities = (props) => {
 
     return (<>
         <div className="gdlr-core-pbf-wrapper" >
-            <div className="max-w-[1000px] flex flex-wrap justify-center mx-auto " >
+            <div className="flex md:gap-y-3 sm:gap-y-1 flex-wrap justify-center mx-auto " >
 
                 <div className="w-[100%]">
                     <div className="">
@@ -33,7 +33,7 @@ const Amenities = (props) => {
                     amenitiesData && amenitiesData.length > 0 &&
                     amenitiesData.map((item, index) => {
                         return (<>
-                            <div key={`${item.id}-${index}`} className=" gdlr-core-column-12" id="gdlr-core-column-10">
+                            <div key={`${item.id}-${index}`} className="md:w-[20%] sm:w-[100%]">
 
                                 <div className="">
                                     <div className="leading-none px-[20px]  pb-[30px] text-center">

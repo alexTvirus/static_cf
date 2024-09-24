@@ -30,6 +30,11 @@ const HotelBookingDetailsCard = (props) => {
   const { dateRange, currentRoom ,booking} = useSelector(state => {
     return state.room
   })
+  
+  const isLogined = () => {
+    debugger
+    return localStorage.getItem("access_token") || false
+  }
 
   const { currentUser} = useSelector(state => {
     return state.auth
@@ -98,12 +103,12 @@ const HotelBookingDetailsCard = (props) => {
   };
 
   const onBookingConfirm = () => {
-    if (!dateRange || dateRange.length != 2 || !dateRange[0].$d || !dateRange[1].$d) {
+    if (!dateRange || dateRange?.length != 2 || !dateRange[0]?.$d || !dateRange[1]?.$d) {
       message.error("Hãy chọn ngày checkin, checkout")
       return;
     }
 
-    if(isObjectEmpty(currentUser)){
+    if(!isLogined()){
       message.error("Hãy đăng nhập để thực hiện chức năng này")
       return;
     }

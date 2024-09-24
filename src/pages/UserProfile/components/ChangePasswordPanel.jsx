@@ -5,10 +5,11 @@ import { useDispatch } from 'react-redux';
 import { actionChangePassword, actionUpdateUser } from '../../../redux/features/auth/authSlice';
 import OverlayComponent from '../../../components/OverLay'
 
-const ChangePasswordPanel = ({isLoading, userDetails }) => {
+const ChangePasswordPanel = ({ isLoading, userDetails }) => {
 
   const [isEditMode, setIsEditMode] = useState(false);
   const [password, setPassword] = useState('');
+  const [oldPassword, setOldPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
 
   const dispatch = useDispatch()
@@ -23,6 +24,7 @@ const ChangePasswordPanel = ({isLoading, userDetails }) => {
 
   const handleSaveClick = async () => {
     const updatedUserDetails = {
+      old_password: oldPassword,
       password: password,
       password_confirmation: passwordConfirmation,
     };
@@ -49,6 +51,12 @@ const ChangePasswordPanel = ({isLoading, userDetails }) => {
           {isEditMode ? (
             // Editable fields
             <>
+
+              <TextField
+                label="Mật khẩu cũ"
+                value={oldPassword}
+                onChange={setOldPassword}
+              />
               <TextField
                 label="Mật khẩu"
                 value={password}

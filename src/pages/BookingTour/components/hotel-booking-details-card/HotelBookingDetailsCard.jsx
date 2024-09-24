@@ -33,9 +33,13 @@ const HotelBookingDetailsCard = (props) => {
     return state.room
   })
 
+	 const isLogined = () => {
+
+    return localStorage.getItem("access_token") || false
+  }
+
+
   const dateRange = useState(()=>{
-    debugger 
-    let x = dayjs(checkInDate)
     return [dayjs(checkInDate),dayjs(checkOutDate)]
   })
 
@@ -106,9 +110,8 @@ const HotelBookingDetailsCard = (props) => {
   };
 
   const onBookingConfirm = () => {
-    debugger
 
-    if(isObjectEmpty(currentUser)){
+     if(!isLogined()){
       message.error("Hãy đăng nhập để thực hiện chức năng này")
       return;
     }

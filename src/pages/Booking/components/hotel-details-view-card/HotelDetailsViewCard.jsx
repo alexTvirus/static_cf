@@ -49,23 +49,7 @@ const HotelDetailsViewCard = ({ booking, hotelDetails }) => {
     setIsOpenReviewModel(false)
   }
 
-  // const handlePageChange = (page) => {
-  //   setCurrentReviewPage(page);
-  // };
 
-  // const handlePreviousPageChange = () => {
-  //   setCurrentReviewPage((prev) => {
-  //     if (prev <= 1) return prev;
-  //     return prev - 1;
-  //   });
-  // };
-
-  // const handleNextPageChange = () => {
-  //   setCurrentReviewPage((prev) => {
-  //     if (prev >= reviewData.pagination.totalPages) return prev;
-  //     return prev + 1;
-  //   });
-  // };
 
   const handleSelectPacket = (params) => {
     let newSet = { ...currentPacketIndex }
@@ -101,11 +85,11 @@ const HotelDetailsViewCard = ({ booking, hotelDetails }) => {
   }
 
   useEffect(() => {
-    if (ratings) {
+    if (!isObjectEmpty(ratings)) {
       setReviewData({
         isLoading: ratingLoading,
         data: ratings?.data || [],
-        totalReviews: ratings?.total || 0,
+        totalReviews: ratings?.data.length || 0,
         avg: ratings?.avg || 0,
         room_type_packet_id: ratings?.room_type_packet_id || 0,
       });
@@ -114,33 +98,14 @@ const HotelDetailsViewCard = ({ booking, hotelDetails }) => {
   }, [ratings])
 
   useEffect(() => {
-    debugger
+    
     setImages(hotelDetails?.room_type_images?.map((image) => ({
       original: image.url,
       thumbnail: image.url,
       thumbnailClass: 'h-[80px]',
       thumbnailLoading: 'lazy',
     })))
-
-
-    // const fetchHotelReviews = async () => {
-    //   const response = await networkAdapter.get(
-    //     `/api/hotel/${hotelDetails.hotelCode}/reviews`,
-    //     {
-    //       currentPage: currentReviewsPage,
-    //     }
-    //   );
-    //   if (response && response.data) {
-    //     setReviewData({
-    //       isLoading: false,
-    //       data: response.data.elements,
-    //       metadata: response.metadata,
-    //       pagination: response.paging,
-    //     });
-    //   }
-    // };
-    // fetchHotelReviews();
-  }, [hotelDetails, currentReviewsPage]);
+  }, [hotelDetails]);
 
 
   return (

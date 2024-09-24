@@ -53,7 +53,7 @@ const PacketReview = (props) => {
 
                                 return (<>
                                     <div className='flex flex-wrap'>
-                                        <div className={` w-[100%] md:w-[60%] ${index===0?'':'md:pt-[50px]'} sm:order-${order1} md:order-${order1}`}>
+                                        <div className={`md:order-1 sm:order-1 w-[100%] md:w-[60%] ${index===0?'':'md:pt-[50px]'}`}>
 
                                             <div className="">
                                                 <div className="leading-none text-center px-[20px]  pb-[0px]" >
@@ -66,7 +66,7 @@ const PacketReview = (props) => {
                                             </div>
 
                                         </div>
-                                        <div className={` w-[100%] md:w-[40%] ${index===0?'':'md:pt-[50px]'} sm:order-${order2} md:order-${order2}`}>
+                                        <div className={` w-[100%] md:w-[40%] ${index===0?'':'md:pt-[50px]'} sm:order-2 md:order-2`}>
                                             <div className="pt-[42px]" >
                                                 <div className=""  >
                                                     <div className="">
@@ -107,7 +107,7 @@ const PacketReview = (props) => {
                                 return (<>
                                     <div className='flex flex-wrap'>
 
-                                        <div className={`test2 w-[100%] md:pt-[50px] md:w-[60%] sm:order-${order1} md:order-${order2}`}>
+                                        <div className={`test2 w-[100%] md:pt-[50px] md:w-[60%] sm:order-1 md:order-2`}>
 
                                             <div className="">
                                                 <div className="leading-none text-center px-[20px]  pb-[0px]" >
@@ -120,7 +120,7 @@ const PacketReview = (props) => {
                                             </div>
 
                                         </div>
-                                        <div className={`test2 w-[100%] md:pt-[50px] md:w-[40%] sm:order-${order2} md:order-${order1}`}>
+                                        <div className={`test2 w-[100%] md:pt-[50px] md:w-[40%] sm:order-2 md:order-1`}>
                                             <div className="pt-[42px]" >
                                                 <div className=""  >
                                                     <div className="">

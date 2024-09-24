@@ -52,7 +52,7 @@ const Tours = () => {
     rsp = rsp.data
     if (data && data.length > 0) {
       setRooms(data)
-      setRoomsPagination({ ...roomsPagination, total: rsp.total, current_page: page, per_page: (pageSize * 2) })
+      setRoomsPagination({ ...roomsPagination, total: rsp.totalPage, current_page: page, per_page: (pageSize * 2) })
     }
     setIsLoading(false)
   }
@@ -82,7 +82,7 @@ const Tours = () => {
         rsp = rsp.data
         if (data && data.length > 0) {
           setRooms(data)
-          setRoomsPagination({ ...roomsPagination, total: rsp.total })
+          setRoomsPagination({ ...roomsPagination, total: rsp.totalPage })
         }
 
       } catch (error) {

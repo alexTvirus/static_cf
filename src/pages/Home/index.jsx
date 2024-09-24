@@ -2,6 +2,8 @@ import HeroCover from './components/hero-cover/HeroCover';
 import { useState, useEffect, useCallback } from 'react';
 import ResultsContainer from '../../components/ResultsContainer';
 
+import './gdlr-custom-icon.scss'
+
 import { history } from '../../routes/helper/history';
 
 import { RouteName } from '../../routes/RouteName';
@@ -229,9 +231,6 @@ const Home = () => {
 
   return (
     <>
-      {/* <OverlayComponent
-        isLoading={isLoading}
-      ></OverlayComponent> */}
       <HeroCover
         datePickerStatus={datePickerStatus}
         dateRange={dateRange}
