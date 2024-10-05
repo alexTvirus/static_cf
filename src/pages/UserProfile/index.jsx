@@ -33,8 +33,7 @@ const UserProfile = () => {
     return state.room
   })
 
-  debugger
-
+  
   const navigate = history.navigate
 
   const wrapperRef = useRef();

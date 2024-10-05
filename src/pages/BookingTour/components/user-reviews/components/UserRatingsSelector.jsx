@@ -16,8 +16,7 @@ const UserRatingsSelector = ({
 
 
   const isLogined = ()=>{
-    debugger
-	  return localStorage.getItem("access_token") || false
+    	  return localStorage.getItem("access_token") || false
   }
 
   return isLogined() ? (

@@ -27,7 +27,7 @@ const HotelViewCard = (props) => {
       className="card border p-4 flex flex-col md:flex-row gap-x-2 gap-y-4 w-full"
       data-testid="hotel-view-card"
     >
-      <div className="cursor-pointer">
+      <div className="cursor-pointer transform transition duration-500 hover:scale-105">
         <div
           onClick={() => onBookNowClick(hotelCode)}
           className="block text-slate-700 hover:text-brand transition-colors duration-300"

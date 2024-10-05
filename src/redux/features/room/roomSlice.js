@@ -373,8 +373,7 @@ const roomSlice = createSlice({
                 state.ratingLoading = true
             })
             .addCase(actionGetRating.fulfilled, (state, action) => {
-                debugger
-                state.ratingLoading = false
+                                state.ratingLoading = false
                 state.ratings = action?.payload?.data || []
             })
             .addCase(actionGetRating.rejected, (state, action) => {

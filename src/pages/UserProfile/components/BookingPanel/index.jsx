@@ -1,7 +1,7 @@
-import { formatDate1 } from '../../../utils/date-helpers'
-import { formatPrice } from '../../../utils/price-helpers'
-import { BOOKING_STATUS } from '../../../utils/constants'
-import OverlayComponent from '../../../components/OverLay'
+import { formatDate1 } from '../../../../utils/date-helpers'
+import { formatPrice } from '../../../../utils/price-helpers'
+import { BOOKING_STATUS } from '../../../../utils/constants'
+import OverlayComponent from '../../../../components/OverLay'
 
 
 import { Tag } from 'antd';
@@ -98,7 +98,10 @@ const BookingPanel = ({ isLoading,bookings, onCancelBooking }) => {
                       {
                         (booking.canCancel)
                         &&
-                        (booking.status != BOOKING_STATUS.CANCEL.id && booking.status != BOOKING_STATUS.PENDING_CANCEL.id)
+                        (booking.status != BOOKING_STATUS.CANCEL.id 
+                          && booking.status != BOOKING_STATUS.PENDING_CANCEL.id
+                          && booking.status != BOOKING_STATUS.COMPLETE.id
+                          )
                         &&
                         <button
                           onClick={() => onCancelBooking(booking.id)}

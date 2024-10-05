@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import FinalBookingSummary from './components/final-booking-summary/FinalBookingSummary';
+import FinalBookingSummary from './components/FinalBookingSummary';
 import { history } from '../../routes/helper/history';
 import { isObjectEmpty } from '../../utils/helpers'
 import { useSearchParams } from 'react-router-dom';

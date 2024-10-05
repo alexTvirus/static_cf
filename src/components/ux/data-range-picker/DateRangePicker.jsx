@@ -29,7 +29,7 @@ const DateRangePicker = (props) => {
           status={datePickerStatus}
           allowEmpty={[false,false]}
           disabled={isDisable && [true,true]}
-          placeholder={["check in","checkout"]}
+          placeholder={["check-in","check-out"]}
           className='custom-date '
           minDate={dayjs(new Date())}
           // defaultValue={[dayjs(),dayjs()]}

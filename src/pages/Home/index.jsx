@@ -198,8 +198,7 @@ const Home = () => {
         data = rsp.data.data
         rsp = rsp.data
         if (data && data.length > 0) {
-          debugger
-          setPacketsData(data)
+                    setPacketsData(data)
           setPacketsPagination({ ...packetsPagination, total: rsp.total })
         }
 

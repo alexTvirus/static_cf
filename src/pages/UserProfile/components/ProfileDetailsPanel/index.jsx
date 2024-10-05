@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Toast from '../../../components/ux/toast/Toast';
 import Select from 'react-select';
 import { useDispatch, useSelector } from 'react-redux';
-import { actionResetIsUserUpdated, actionUpdateUser } from '../../../redux/features/auth/authSlice';
+import { actionResetIsUserUpdated, actionUpdateUser } from '../../../../redux/features/auth/authSlice';
 
-import OverlayComponent from '../../../components/OverLay'
+import OverlayComponent from '../../../../components/OverLay'
 
 const ProfileDetailsPanel = ({isUserUpdated, userDetails }) => {
 

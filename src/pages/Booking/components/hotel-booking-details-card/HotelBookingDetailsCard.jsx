@@ -32,8 +32,7 @@ const HotelBookingDetailsCard = (props) => {
   })
   
   const isLogined = () => {
-    debugger
-    return localStorage.getItem("access_token") || false
+        return localStorage.getItem("access_token") || false
   }
 
   const { currentUser} = useSelector(state => {

@@ -55,7 +55,7 @@ const PacketReview = (props) => {
                                     <div className='flex flex-wrap'>
                                         <div className={`md:order-1 sm:order-1 w-[100%] md:w-[60%] ${index===0?'':'md:pt-[50px]'}`}>
 
-                                            <div className="">
+                                            <div onClick={() => onSearchPacket(item.id)} className="cursor-pointer transform transition duration-500 hover:scale-105">
                                                 <div className="leading-none text-center px-[20px]  pb-[0px]" >
                                                     <div className="gdlr-core-image-item-wrap gdlr-core-media-image gdlr-core-image-item-style-round" >
                                                         <img src={item?.packet_images &&
@@ -109,7 +109,7 @@ const PacketReview = (props) => {
 
                                         <div className={`test2 w-[100%] md:pt-[50px] md:w-[60%] sm:order-1 md:order-2`}>
 
-                                            <div className="">
+                                            <div onClick={() => onSearchPacket(item.id)} className="cursor-pointer transform transition duration-500 hover:scale-105">
                                                 <div className="leading-none text-center px-[20px]  pb-[0px]" >
                                                     <div className="gdlr-core-image-item-wrap gdlr-core-media-image gdlr-core-image-item-style-round" >
                                                         <img src={item?.packet_images &&
