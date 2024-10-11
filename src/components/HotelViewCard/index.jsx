@@ -3,11 +3,20 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, useNavigate } from 'react-router-dom';
 import { formatPrice } from '../../utils/price-helpers';
 import { RouteName } from '../../routes/RouteName';
-
+import { isObjectEmpty } from '../../utils/helpers';
 import { history } from '../../routes/helper/history';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { actionGetUserProfile } from '../../redux/features/auth/authSlice';
+import HotelBookingApi from '../../api/HotelBookingApi';
+import { message, Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
 const HotelViewCard = (props) => {
   const {
+    onGetUserProfile: handleGetUserProfile,
+    hasWish,
+    currentUser,
     id: hotelCode,
     image,
     title,
@@ -22,15 +31,44 @@ const HotelViewCard = (props) => {
   } = props;
   const navigate = history.navigate
 
+  const [love, setLove] = useState(false)
+
+  const [loading, setLoading] = useState(false)
+
+  const fetchData = async (options) => {
+    setLoading(true)
+    try {
+      let param = { ...options?.params }
+      param = { ...options, params: param }
+      let rsp = await HotelBookingApi.updateWishlist(options.id, param)
+      const data = rsp.data.data
+      rsp = rsp.data
+    } catch (error) {
+      message.error("lỗi call api")
+    }
+    setLoading(false)
+  }
+
+  useEffect(() => {
+    setLove(hasWish)
+  }, [hasWish]);
+
+  const handleWishlist = (options) => {
+    setLove(!love)
+    fetchData({ id: currentUser.id, "room_types": options })
+    handleGetUserProfile({"room_types": options})
+  }
+
+
   return (
     <div
       className="card border p-4 flex flex-col md:flex-row gap-x-2 gap-y-4 w-full"
       data-testid="hotel-view-card"
     >
-      <div className="cursor-pointer transform transition duration-500 hover:scale-105">
+      <div className="relative cursor-pointer">
         <div
           onClick={() => onBookNowClick(hotelCode)}
-          className="block text-slate-700 hover:text-brand transition-colors duration-300"
+          className="block text-slate-700"
         >
           <img
             src={image?.url}
@@ -38,14 +76,49 @@ const HotelViewCard = (props) => {
             className="md:w-[220px] md:h-[140px]"
           />
         </div>
+        {
+          !isObjectEmpty(currentUser) &&
+          <>
+            <div className='absolute   top-1 right-1  w-[36px] h-[36px] '>
+
+              <div className='tooltip w-[100%] h-[100%]'>
+                <span class="tooltiptext p-1">Yêu thích</span>
+                <button onClick={() => handleWishlist(hotelCode)} className='w-[100%] h-[100%] rounded-full bg-white hover:bg-slate-200  transition-colors duration-300'>
+
+                  <div class="w-[100%] h-[100%] relative" aria-hidden="true">
+                    {loading ?
+
+                      <><Spin
+                        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                        size="small" /></> :
+
+                      <>
+                        <img
+                          src={love ? "http://localhost/upload/heart.png" : "http://localhost/upload/heart1.png"}
+                          className="block w-[70%] h-[70%] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                        />
+                      </>
+
+                    }
+
+                  </div>
+
+                </button>
+              </div>
+
+            </div>
+          </>
+        }
+
+
       </div>
       <div className="flex flex-col justify-between ml-0 md:ml-2 flex-1">
         <div>
           <div
             onClick={() => onBookNowClick(hotelCode)}
-            className="cursor-pointer block text-slate-700 hover:text-brand transition-colors duration-300"
+            className="cursor-pointer block text-slate-700 "
           >
-            <h4 className="text-2xl font-bold text-slate-600">{title}</h4>
+            <h4 className="hover:text-slate-950 transition-colors duration-100 text-2xl font-bold text-brand">{title}</h4>
           </div>
           <p className="text-slate-600 text-sm mb-2">{subtitle}</p>
           <p className="text-sm text-gray-600">

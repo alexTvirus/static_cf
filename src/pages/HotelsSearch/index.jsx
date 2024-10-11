@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 
 import ResultsContainer from '../../components/ResultsContainer';
 import { isObjectEmpty } from '../../utils/helpers';
@@ -11,7 +11,13 @@ import _debounce from 'lodash/debounce';
 import GlobalSearchBox from '../../components/GlobalSearchBox';
 import { RouteName } from '../../routes/RouteName'
 import { PRICE } from '../../utils/constants';
+import VerticalFilters from '../../components/VerticalFilters';
+import VerticalFiltersSkeleton from '../../components/VerticalFiltersSkeleton';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Select from 'react-select';
+import LoadMore from '../../components/ux/pagination-controller/LoadMore';
 
+import { faFilter } from '@fortawesome/free-solid-svg-icons';
 
 import HotelBookingApi from '../../api/HotelBookingApi'
 
@@ -23,6 +29,9 @@ import moment from 'moment';
 import { DatePicker, Pagination, Radio, message } from 'antd';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import useFilter from './hooks/useFilter';
+import usePagination from './hooks/usePagination';
+import { actionGetUserProfile, actionUpdateWishList } from '../../redux/features/auth/authSlice';
 dayjs.extend(customParseFormat);
 const dateFormat = 'YYYY-MM-DD';
 
@@ -33,84 +42,26 @@ const HotelsSearch = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const params = history.getSearchParams(searchParams)
 
-  const dispath = useDispatch()
-  const { rooms, isLoading, pagination, dateRange } = useSelector(state => {
+  const dispatch = useDispatch()
+  const { dateRange } = useSelector(state => {
     return state.room
   })
+  const { currentUser } = useSelector(state => {
+    return state.auth
+  })
 
-  const [currentResultsPage, setCurrentResultsPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // State for managing filters data
-  const [filtersData, setFiltersData] = useState({
-    isLoading: false,
-    data: {
-      "checkbox": [{
-        filterId: "ratings",
-        filters: [
-          { id: 1, title: '1 Star', value: 1 },
-          { id: 2, title: '2 Star', value: 2 },
-          { id: 3, title: '3 Star', value: 3 },
-          { id: 4, title: '4 Star', value: 4 },
-          { id: 5, title: '5 Star', value: 5 }
-        ],
-        title: "Điểm đánh giá của khách"
-      }, {
-        filterId: "packets",
-        filters: [
-          { id: 1, title: 'Kỳ nghỉ Gia đình', value: '1' },
-          { id: 2, title: 'Gói nghỉ dưỡng ẩm thực trọn niềm vui', value: '2' },
-          { id: 3, title: 'Ưu Đãi Độc Quyền Cho Hành Khách Eva Air', value: '3' }
-        ],
-        title: "Gói ưu đãi"
-      }],
-      priceRange: {
-        title: "Ngân sách của bạn (mỗi đêm)",
-        min: PRICE.MIN.price,
-        max: PRICE.MAX.price,
-        defaultValue: [PRICE.MIN.price, PRICE.MAX.price]
-      }
-
-    },
-    errors: [],
-  });
-
-  const [sortByFilterValue, setSortByFilterValue] = useState({
-    value: '0',
-    label: 'Sắp xếp theo',
-  });
-
-
-  const [selectedFiltersState, setSelectedFiltersState] = useState({});
-
-  const [selectedPrice, setselectedPrice] = useState({
-    min: PRICE.MIN.price,
-    max: PRICE.MAX.price
-  });
-
-  const [filteredTypeheadResults, setFilteredTypeheadResults] = useState([]);
+  const [rooms, setRooms] = useState(true);
 
   const [datePickerStatus, setDatePickerStatus] = useState("")
-
-  const sortingFilterOptions = [
-    { value: '0', label: 'Sắp xếp theo' },
-    { value: '1', label: SORTING_FILTER_LABELS.PRICE_LOW_TO_HIGH },
-    { value: '2', label: SORTING_FILTER_LABELS.PRICE_HIGH_TO_LOW },
-  ];
 
 
   const [executeDebouncer, setExecuteDebouncer] = useState(false);
 
-  const handlePriceRangeUpdate = (params) => {
-    setselectedPrice({
-      min: params[0],
-      max: params[1]
-    })
-  }
-
-
   const handleBookNowClick = (hotelCode) => {
-    const checkInDate = dateRange[0] ? moment(dateRange[0]?.$d).format(dateFormat) ?? '' : '';
-    const checkOutDate = dateRange[1] ? moment(dateRange[1]?.$d).format(dateFormat) ?? '' : '';
+    const checkInDate = dateRange[0] ? dayjs(dateRange[0]?.$d).format(dateFormat) ?? '' : '';
+    const checkOutDate = dateRange[1] ? dayjs(dateRange[1]?.$d).format(dateFormat) ?? '' : '';
     if (!checkInDate || !checkOutDate) {
       setDatePickerStatus("error")
       message.error("Hãy chọn ngày checkin, checkout")
@@ -119,40 +70,17 @@ const HotelsSearch = () => {
     navigate(`${RouteName.BOOKING.path}/${hotelCode}`);
   }
 
-  const onSortingFilterChange = (selectedOption) => {
-    setSortByFilterValue(selectedOption);
-  };
-
-
-  const onFiltersUpdate = (updatedFilter) => {
-    setSelectedFiltersState(
-      selectedFiltersState.map((filterGroup) => {
-        if (filterGroup.filterId === updatedFilter.filterId) {
-          return {
-            ...filterGroup,
-            filters: filterGroup.filters.map((filter) => {
-              if (filter.id === updatedFilter.id) {
-                return {
-                  ...filter,
-                  isSelected: !filter.isSelected,
-                };
-              }
-              return filter;
-            }),
-          };
-        }
-        return filterGroup;
-      })
-    );
-  };
+  const handleGetUserProfile = (options) => {
+    dispatch(actionUpdateWishList(options.room_types))
+  }
 
   const onDateChangeHandler = (ranges) => {
-    dispath(actionSetDateRange(ranges))
+    dispatch(actionSetDateRange(ranges))
   };
 
   const onSearchButtonAction = () => {
-    const checkInDate = dateRange[0] ? moment(dateRange[0]?.$d).format(dateFormat) ?? '' : '';
-    const checkOutDate = dateRange[1] ? moment(dateRange[1]?.$d).format(dateFormat) ?? '' : '';
+    const checkInDate = dateRange[0] ? dayjs(dateRange[0]?.$d).format(dateFormat) ?? '' : '';
+    const checkOutDate = dateRange[1] ? dayjs(dateRange[1]?.$d).format(dateFormat) ?? '' : '';
     if (!checkInDate || !checkOutDate) {
       setDatePickerStatus("error")
       message.error("Hãy chọn ngày checkin, checkout")
@@ -162,16 +90,19 @@ const HotelsSearch = () => {
   };
 
   const handleSearch = (params = {}) => {
-    const activeFilters = getActiveFilters();
-    const checkInDate = dateRange[0] ? moment(dateRange[0]?.$d).format(dateFormat) ?? '' : '';
-    const checkOutDate = dateRange[1] ? moment(dateRange[1]?.$d).format(dateFormat) ?? '' : '';
-    let price = JSON.stringify(selectedPrice)
+    const init = async () => {
+      const activeFilters = getActiveFilters();
+      const checkInDate = dateRange[0] ? dayjs(dateRange[0]?.$d).format(dateFormat) ?? '' : '';
+      const checkOutDate = dateRange[1] ? dayjs(dateRange[1]?.$d).format(dateFormat) ?? '' : '';
+      let price = JSON.stringify(selectedPrice)
 
-    let packets = JSON.stringify(activeFilters?.packets)
-    let ratings = JSON.stringify(activeFilters?.ratings)
+      let packets = JSON.stringify(activeFilters?.packets)
+      let ratings = JSON.stringify(activeFilters?.ratings)
 
-    dispath(actionGetAllRoom({
-      params: {
+
+
+      let param = {
+        ...requestParams?.params,
         sortBy: sortByFilterValue.value,
         price: price,
         packets: packets,
@@ -179,69 +110,59 @@ const HotelsSearch = () => {
         checkin_at: checkInDate,
         checkout_at: checkOutDate
       }
-    }))
+      param = { ...requestParams, params: param }
+      setRequestParams(param)
+      fetchData(param)
+    }
+    init()
+
+
   }
 
-  const getActiveFilters = () => {
-    const filters = {};
-    selectedFiltersState.forEach((category) => {
-      const selectedValues = category.filters
-        .filter((filter) => filter.isSelected)
-        .map((filter) => filter.value);
 
-      if (selectedValues.length > 0) {
-        filters[category.filterId] = selectedValues;
-      }
-    });
-    if (!isObjectEmpty(filters)) {
-      return filters;
+
+  // -----
+
+  const fetchData = async (options) => {
+    setIsLoading(true)
+    try {
+      let param = { ...options?.params }
+      param = { ...options, params: param }
+      let rsp = await HotelBookingApi.getAllRoom(param)
+      const data = rsp.data.data
+      rsp = rsp.data
+
+      setPagination({ ...pagination, total: rsp.total, current_page: rsp.current_page, per_page: rsp.per_page })
+      setRooms(data)
+    } catch (error) {
+      message.error("lỗi call api")
     }
-    return null;
-  };
 
-  const onClearFiltersAction = () => {
-    const hasActiveFilters = selectedFiltersState.some((filterGroup) =>
-      filterGroup.filters.some((filter) => filter.isSelected)
-    );
+    setIsLoading(false)
+  }
+  // ---- log pagination
 
-    setselectedPrice({
-      min: PRICE.MIN.price,
-      max: PRICE.MAX.price
-    })
+  const { pagination, setPagination, requestParams, setRequestParams, handlePagination }
+    = usePagination({ fetchData })
 
-    if (hasActiveFilters) {
-      setSelectedFiltersState(
-        selectedFiltersState.map((filterGroup) => ({
-          ...filterGroup,
-          filters: filterGroup.filters.map((filter) => ({
-            ...filter,
-            isSelected: false,
-          })),
-        }))
-      );
-    }
-  };
+  // ---
 
 
-  const handlePageChange = (page) => {
-    setCurrentResultsPage(page);
-  };
-
-  const handlePreviousPageChange = () => {
-    setCurrentResultsPage((prev) => {
-      if (prev <= 1) return prev;
-      return prev - 1;
-    });
-  };
-
-  const handleNextPageChange = () => {
-    setCurrentResultsPage((prev) => {
-      if (prev >= pagination.totalPages) return prev;
-      return prev + 1;
-    });
-  };
+  //---- logic filter
+  const { sortingFilterOptions,
+    filtersData, setFiltersData,
+    sortByFilterValue,
+    selectedFiltersState, setSelectedFiltersState,
+    selectedPrice,
+    getActiveFilters, onSortingFilterChange, filteredTypeheadResults,
+    onFiltersUpdate, onClearFiltersAction, handlePriceRangeUpdate,
+    isVerticalFiltersOpen, isSortingFilterVisible,
+    toggleVerticalFiltersAction,
+    buttonRef, wrapperRef } = useFilter({})
+  //----
 
 
+  //------ xu ly delay call api
 
   const debounceFn = useCallback(_debounce(() => setExecuteDebouncer(true), 600), []);
 
@@ -254,12 +175,12 @@ const HotelsSearch = () => {
 
   useEffect(() => {
     if (!isObjectEmpty(selectedFiltersState)) {
-
       debounceFn();
     }
 
-  }, [selectedFiltersState, currentResultsPage, sortByFilterValue, selectedPrice]);
+  }, [selectedFiltersState, sortByFilterValue, selectedPrice]);
 
+  // ----
 
   useEffect(() => {
     const initData = async () => {
@@ -269,7 +190,7 @@ const HotelsSearch = () => {
         if (packets && packets.length > 0) {
           let newFiltersData = {
             ...filtersData,
-            isLoading: isLoading
+            isLoading: false
           }
           let packet = {
             filterId: "packets",
@@ -304,7 +225,7 @@ const HotelsSearch = () => {
           setFiltersData(newFiltersData)
         }
       } catch (error) {
-        message.error(error)
+        message.error("lỗi call api")
       }
 
     }
@@ -317,7 +238,6 @@ const HotelsSearch = () => {
         <div className="bg-brand px-2 lg:h-[120px] h-[220px] flex items-center justify-center">
           <GlobalSearchBox
             datePickerStatus={datePickerStatus}
-            locationTypeheadResults={filteredTypeheadResults}
             dateRange={dateRange}
             onDateChangeHandler={onDateChangeHandler}
             onSearchButtonAction={onSearchButtonAction}
@@ -326,24 +246,81 @@ const HotelsSearch = () => {
         <div className="container mx-auto">
           <div className="my-4"></div>
           <div className="w-[180px]"></div>
-          <ResultsContainer
-            selectedPrice={selectedPrice}
-            onPriceRangeUpdate={handlePriceRangeUpdate}
-            onBookNowClick={handleBookNowClick}
-            isLoading={isLoading}
-            hotelsResults={rooms}
-            enableFilters={true}
-            filtersData={filtersData}
-            onFiltersUpdate={onFiltersUpdate}
-            onClearFiltersAction={onClearFiltersAction}
-            selectedFiltersState={selectedFiltersState}
-            sortByFilterValue={sortByFilterValue}
-            onSortingFilterChange={onSortingFilterChange}
-            sortingFilterOptions={sortingFilterOptions}
-          />
-           
-        </div>
+          <div className="relative">
+            <div className="flex gap-x-0 md:gap-x-4 items-start mx-2">
+              {!filtersData.isLoading && selectedFiltersState.length > 0 && (
+                <div ref={wrapperRef}>
+                  <VerticalFilters
+                    isVerticalFiltersOpen={isVerticalFiltersOpen}
+                    filtersData={selectedFiltersState}
+                    priceRangeData={filtersData?.data?.priceRange}
 
+                    selectedPrice={selectedPrice}
+                    onPriceRangeUpdate={handlePriceRangeUpdate}
+                    onBookNowClick={handleBookNowClick}
+                    isLoading={isLoading}
+                    hotelsResults={rooms}
+                    enableFilters={true}
+
+                    onFiltersUpdate={onFiltersUpdate}
+                    onClearFiltersAction={onClearFiltersAction}
+                    selectedFiltersState={selectedFiltersState}
+                    sortByFilterValue={sortByFilterValue}
+                    onSortingFilterChange={onSortingFilterChange}
+                    sortingFilterOptions={sortingFilterOptions}
+                  />
+                </div>
+              )}
+              {filtersData.isLoading && <VerticalFiltersSkeleton />}
+              <div className="flex flex-col w-full items-start">
+                <div className="flex w-full justify-between px-2 md:px-0">
+                  {!isLoading && (
+                    <div className="vertical-filters__toggle-menu block md:hidden">
+                      <button
+                        ref={buttonRef}
+                        data-testid="vertical-filters__toggle-menu"
+                        onClick={toggleVerticalFiltersAction}
+                        className="inline-flex items-center px-2.5 py-1.5 
+                  border border-gray-300 font-medium rounded text-gray-700 bg-white 
+                  hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 
+                  focus:ring-indigo-500"
+                      >
+                        <FontAwesomeIcon icon={faFilter} size="sm" className="mr-1" />{' '}
+                        Bộ lọc
+                      </button>
+                    </div>
+                  )}
+                  {isSortingFilterVisible && (
+                    <Select
+                      value={sortByFilterValue}
+                      onChange={onSortingFilterChange}
+                      options={sortingFilterOptions}
+                      className="mb-2 w-[180px] text-sm"
+                    />
+                  )}
+                </div>
+                <ResultsContainer
+                  onGetUserProfile={handleGetUserProfile}
+                  currentUser={currentUser}
+                  selectedPrice={selectedPrice}
+                  onPriceRangeUpdate={handlePriceRangeUpdate}
+                  onBookNowClick={handleBookNowClick}
+                  isLoading={isLoading}
+                  hotelsResults={rooms}
+                />
+                <LoadMore
+                  defaultPageSize={pagination.default_perPage}
+                  onChange={(page, pageSize) => handlePagination(page, pageSize)}
+                  pageSize={pagination.per_page}
+                  pageSizeOptions={[5, 10]}
+                  defaultCurrent={pagination.current_page}
+                  current={pagination.current_page}
+                  total={pagination.total || 0}
+                ></LoadMore>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

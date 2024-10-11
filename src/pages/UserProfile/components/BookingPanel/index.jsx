@@ -9,7 +9,7 @@ import { Table } from 'antd';
 import { useEffect, useState } from 'react';
 import Expand from 'react-expand-animated';
 
-const BookingPanel = ({ isLoading,bookings, onCancelBooking }) => {
+const BookingPanel = ({ isLoading, bookings, onCancelBooking }) => {
   const [isExpandRooms, setIsExpandRooms] = useState(() => {
     const rooms = bookings.map((booking, index) => {
       return false;
@@ -98,10 +98,10 @@ const BookingPanel = ({ isLoading,bookings, onCancelBooking }) => {
                       {
                         (booking.canCancel)
                         &&
-                        (booking.status != BOOKING_STATUS.CANCEL.id 
+                        (booking.status != BOOKING_STATUS.CANCEL.id
                           && booking.status != BOOKING_STATUS.PENDING_CANCEL.id
                           && booking.status != BOOKING_STATUS.COMPLETE.id
-                          )
+                        )
                         &&
                         <button
                           onClick={() => onCancelBooking(booking.id)}

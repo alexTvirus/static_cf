@@ -62,3 +62,32 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+
+.tooltip {
+}
+
+/* Tooltip text */
+.tooltiptext {
+  white-space: nowrap;
+  visibility: hidden;
+  width: fit-content;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+
+  border-radius: 6px;
+
+  /* Position the tooltip text - see examples below! */
+  top:-30px;
+  left: 0;
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  transform: translateY(-10px);
+  transition: all .3s ease-in-out;
+  visibility: visible;
+}

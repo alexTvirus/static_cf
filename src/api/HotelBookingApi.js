@@ -121,7 +121,11 @@ const HotelBookingApi = {
         return apiPost(`rating`, payload)
     },
     getRatingRoom: (roomId,packetId,payload = {}) => {
-        return apiGet(`rating/room/${roomId}/packet/${packetId}`, {})
+        return apiGet(`rating/room/${roomId}/packet/${packetId}?XDEBUG_SESSION_START=17383`, {})
+    },
+
+    updateWishlist: (id ,payload = {}) => {
+        return apiPatch(`user/${id}/wishlists/?XDEBUG_SESSION_START=12653`, payload)
     },
 }
 

@@ -128,6 +128,28 @@ const authSlice = createSlice({
         actionResetIsUserUpdated: (state, actions) => {
             state.isUserUpdated = false
         },
+        actionUpdateWishList: (state, actions) => {
+
+            if(state.currentUser?.wishlists){
+                
+                let hasRoomtype = false
+
+                let wishlists = state.currentUser.wishlists.filter((item)=>{
+                    if(item.room_type_id == actions.payload){
+                        hasRoomtype = true
+                        return false
+                    }
+                    
+                    return true
+                })
+
+                if(hasRoomtype){
+                    state.currentUser.wishlists = wishlists
+                }else{
+                    state.currentUser.wishlists = [...state.currentUser.wishlists,...[{room_type_id:actions.payload}]]
+                }
+            }
+        },
     },
     extraReducers: builder => { 
         builder
@@ -160,6 +182,18 @@ const authSlice = createSlice({
             handleError(action.payload)
         })
 
+        .addCase(actionGetUserProfile.pending, (state, action) => {
+            state.isLoading = true
+        })
+        .addCase(actionGetUserProfile.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.currentUser = action.payload.data.data.userProfile
+        })
+        .addCase(actionGetUserProfile.rejected, (state, action) => {
+            state.isLoading = false
+            handleError(action.payload)
+        })
+
         .addCase(actionLogout.pending, (state, action) => {
             state.isLoading = true
         })
@@ -188,17 +222,7 @@ const authSlice = createSlice({
             handleError(action.payload)
         })
 
-        .addCase(actionGetUserProfile.pending, (state, action) => {
-            state.isLoading = true
-        })
-        .addCase(actionGetUserProfile.fulfilled, (state, action) => {
-            state.isLoading = false
-            state.currentUser = action.payload.data.data
-        })
-        .addCase(actionGetUserProfile.rejected, (state, action) => {
-            state.isLoading = false
-            handleError(action.payload)
-        })
+       
 
         .addCase(actionUpdateUser.pending, (state, action) => {
             state.isLoading = true
@@ -248,7 +272,7 @@ const authSlice = createSlice({
     }
 })
 
-export const { actionResetIsUserUpdated } = authSlice.actions
+export const { actionResetIsUserUpdated , actionUpdateWishList} = authSlice.actions
 
 
 // xuất ra reducer

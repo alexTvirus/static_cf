@@ -15,7 +15,8 @@ export const REGISTRATION_MESSAGES = {
  */
 export const LOGIN_MESSAGES = {
   FAILED: 'Hãy điền email and password',
-  LOGIN_REQUIRE : 'Hãy đăng nhập để thực hiện chức năng này'
+  LOGIN_REQUIRE : 'Hãy đăng nhập để thực hiện chức năng này',
+  CANT_REVIEW : "Bạn không thể review vì chưa đăng nhập hoặc chưa đặt phòng này"
 };
 
 /**

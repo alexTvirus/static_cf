@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as fasStar } from '@fortawesome/free-solid-svg-icons';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
@@ -7,6 +7,7 @@ import {isObjectEmpty} from '../../../../../utils/helpers'
 import {LOGIN_MESSAGES} from '../../../../../utils/constants'
 
 const UserRatingsSelector = ({
+  reviewData,
   userRating,
   handleRating,
   userReview,
@@ -14,12 +15,17 @@ const UserRatingsSelector = ({
   handleUserReviewChange,
 }) => {
 
+  const [canReview, setCanReview] = useState(false)
 
-  const isLogined = ()=>{
-    	  return localStorage.getItem("access_token") || false
+  useEffect(() => {
+    setCanReview(reviewData.canReview)
+  }, [reviewData])
+
+  const checkCanReview = () => {
+    return (localStorage.getItem("access_token") || false) && canReview
   }
 
-  return isLogined() ? (
+  return checkCanReview() ? (
     <div
       className={` w-full pl-0 md:pl-4 flex flex-col items-center justify-center`}
     >
@@ -50,7 +56,7 @@ const UserRatingsSelector = ({
     </div>
   ) : (
     <p className="font-semibold text-gray-700">
-      {LOGIN_MESSAGES.LOGIN_REQUIRE}
+      {LOGIN_MESSAGES.CANT_REVIEW}
     </p>
   );
 };

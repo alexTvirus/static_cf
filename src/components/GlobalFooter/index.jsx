@@ -16,7 +16,7 @@ const GlobalFooter = () => {
       <div className="container mx-auto px-6 py-6">
         <div className="flex flex-wrap justify-between">
           <div className="w-full md:w-1/3 mb-6 md:mb-0">
-            <h4 className="font-bold text-lg mb-2">Company Info</h4>
+            <h4 className="font-bold text-lg mb-2">Thông tin</h4>
             <FooterLink to="/about-us" label="Về chúng tôi" />
             <FooterLink to="/" label="Liên hệ" />
             <FooterLink to="/" label="Chính sách bảo mật" />
@@ -26,12 +26,12 @@ const GlobalFooter = () => {
             <FooterLink to="/" label="FAQs" />
           </div>
           <div className="w-full md:w-1/3 mb-6 md:mb-0">
-            <h4 className="font-bold text-lg mb-2">Newsletter</h4>
-            <p>Stay updated with our latest trends</p>
+            <h4 className="font-bold text-lg mb-2">Theo dõi</h4>
+            <p>Đăng kí để nhận được thông báo mới nhất</p>
             <form>
               <input
                 type="email"
-                placeholder="Enter email"
+                placeholder="email"
                 className="p-2 rounded"
               />
               <button className="ml-2 p-2 bg-brand text-white rounded">

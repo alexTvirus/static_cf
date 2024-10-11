@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Tabs from '../../components/ux/tabs/Tabs';
 import TabPanel from '../../components/ux/tab-panel/TabPanel';
 import {
   faAddressCard,
   faHotel,
-  faKey
+  faKey,
+  faHeart
 } from '@fortawesome/free-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,27 +14,32 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import useOutsideClickHandler from '../../hooks/useOutsideClickHandler';
 import { history } from '../../routes/helper/history';
 import BookingPanel from './components/BookingPanel';
+import WishListPanel from './components/WishListPanel';
 import ProfileDetailsPanel from './components/ProfileDetailsPanel';
 import { useDispatch, useSelector } from 'react-redux';
 import { actionBookingInfo, actionCancelBooking } from '../../redux/features/room/roomSlice';
+import { actionGetUserProfile, actionUpdateWishList } from '../../redux/features/auth/authSlice';
 
-
+import _debounce from 'lodash/debounce';
 import { isObjectEmpty } from '../../utils/helpers'
 import { BOOKING_STATUS } from '../../utils/constants'
 import ChangePasswordPanel from './components/ChangePasswordPanel';
+import usePagination from './hooks/usePagination';
+import HotelBookingApi from '../../api/HotelBookingApi';
+import { message } from 'antd';
+import useWishlist from './components/WishListPanel/hooks/useWishlist';
 
 
 const UserProfile = () => {
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
   const { currentUser, isUserUpdated, isLoading } = useSelector(state => {
     return state.auth
   })
 
-  const { userBookingsData, isLoading: roomLoading } = useSelector(state => {
-    return state.room
-  })
+  const [userBookingsData, setUserBookingsData] = useState({})
+  const [roomLoading, setRoomLoading] = useState(true)
 
-  
+
   const navigate = history.navigate
 
   const wrapperRef = useRef();
@@ -47,8 +53,8 @@ const UserProfile = () => {
         "id": e,
         "status": BOOKING_STATUS.PENDING_CANCEL.id
       }
-      await dispath(actionCancelBooking(data))
-      dispath(actionBookingInfo(currentUser.id))
+      await dispatch(actionCancelBooking(data))
+      dispatch(actionBookingInfo(currentUser.id))
     }
 
     cancelBooking()
@@ -60,13 +66,83 @@ const UserProfile = () => {
     }
   });
 
+  const handleGetUserProfile = (options) => {
+    dispatch(actionUpdateWishList(options.room_types))
+  }
+
   const onTabsMenuButtonAction = () => {
     setIsTabsVisible(!isTabsVisible);
   };
 
+  // useEffect(() => {
+
+  // }, [currentUser]);
+
+  const fetchUserBookingsData = async (options) => {
+    setRoomLoading(true)
+    try {
+      let param = { ...options?.params }
+      param = { ...options, params: param }
+      let rsp = await HotelBookingApi.getBookingInfo(options.id, param)
+      const data = rsp.data.data
+      rsp = rsp.data
+
+      setPagination({ ...pagination, total: rsp.total, current_page: rsp.current_page, per_page: rsp.per_page })
+      setUserBookingsData(data)
+    } catch (error) {
+      message.error("lỗi call api")
+    }
+
+    setRoomLoading(false)
+  }
+
+  // ----
+
+  const handleGetRoomTypeData = (options) => {
+
+  }
+
+  // ----
+
+  const { pagination, setPagination, requestParams, setRequestParams, handlePagination }
+    = usePagination({ fetchUserBookingsData })
+
+  //------ xu ly delay call api
+
+  const [executeDebouncer, setExecuteDebouncer] = useState(false);
+
+  const debounceFn = useCallback(_debounce(() => setExecuteDebouncer(true), 600), []);
+
   useEffect(() => {
-    !isObjectEmpty(currentUser) && dispath(actionBookingInfo(currentUser.id))
+    if (executeDebouncer) {
+      setExecuteDebouncer(false);
+      !isObjectEmpty(currentUser) && fetchUserBookingsData({ ...requestParams, id: currentUser.id })
+    }
+  }, [executeDebouncer]);
+
+  useEffect(() => {
+    debounceFn();
   }, [currentUser]);
+
+  // ----
+
+  const { isLoading: isWishlistLoading,fetchDataWishlist ,columns, wishListdata}
+    = useWishlist({handleGetUserProfile})
+
+  useEffect(() => {
+    if (currentUser?.wishlists) {
+      let roomTypes = currentUser?.wishlists.map((item) => {
+        return item.room_type_id
+      })
+      fetchDataWishlist({ params: { roomTypes: roomTypes } })
+    }
+
+  }, [currentUser])
+
+  // ---
+  useEffect(() => {
+    dispatch(actionGetUserProfile())
+  }, []);
 
   return (
     <>
@@ -121,9 +197,23 @@ const UserProfile = () => {
               {
                 !isObjectEmpty(userBookingsData) &&
                 <BookingPanel
-                  isLoading = {roomLoading}
+                  isLoading={roomLoading}
                   onCancelBooking={handleCancelBooking}
                   bookings={userBookingsData} />
+              }
+
+            </TabPanel>
+            <TabPanel
+              label="Danh sách yêu thích"
+              icon={faHeart}
+            >
+              {
+                !isObjectEmpty(wishListdata) &&
+                <WishListPanel
+                  columns={columns}
+                  wishListdata={wishListdata}
+                  isLoading = {isWishlistLoading}
+                />
               }
 
             </TabPanel>

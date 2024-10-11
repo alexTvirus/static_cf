@@ -91,6 +91,7 @@ const HotelDetailsViewCard = ({ booking, hotelDetails }) => {
         data: ratings?.data || [],
         totalReviews: ratings?.data.length || 0,
         avg: ratings?.avg || 0,
+        canReview: ratings?.canReview,
         room_type_packet_id: ratings?.room_type_packet_id || 0,
       });
 

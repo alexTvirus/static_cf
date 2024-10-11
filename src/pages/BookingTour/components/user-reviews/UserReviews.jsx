@@ -2,7 +2,7 @@ import Review from './components/Review';
 import React, { useState } from 'react';
 import RatingsOverview from './components/RatingsOverview';
 import UserRatingsSelector from './components/UserRatingsSelector';
-import {RATING_MESSAGES} from '../../../../utils/constants'
+import { RATING_MESSAGES } from '../../../../utils/constants'
 
 import PaginationController from '../../../../components/ux/pagination-controller/PaginationController';
 
@@ -77,6 +77,7 @@ const UserReviews = ({
         <div>
           {shouldHideUserRatingsSelector ? null : (
             <UserRatingsSelector
+              reviewData={reviewData}
               userRating={userRating}
               isEmpty={isEmpty}
               handleRating={handleRating}

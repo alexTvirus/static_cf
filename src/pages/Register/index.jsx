@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { history } from '../../routes/helper/history';
-import Toast from '../../components/ux/toast/Toast';
 import { REGISTRATION_MESSAGES } from '../../utils/constants';
 import { Formik, Form, Field } from 'formik';
 import Schemas from '../../utils/validation-schemas';
@@ -75,6 +74,9 @@ const Register = () => {
                         autoComplete="given-name"
                         className={`${errors.first_name && touched.first_name ? 'border-red-500' : ''} border block w-full px-4 py-3 mb leading-tight text-gray-700 bg-gray-200 rounded appearance-none focus:outline-none focus:bg-white`}
                       />
+                      {errors.first_name && touched.first_name ? (
+                        <div className='text-red-400 text-sm m-y-2'>{errors.first_name}</div>
+                      ) : null}
                     </div>
                     <div className="w-full px-3 md:w-1/2">
                       <Field
@@ -83,6 +85,9 @@ const Register = () => {
                         autoComplete="family-name"
                         className={`${errors.last_name && touched.last_name ? 'border-red-500' : ''} border block w-full px-4 py-3 mb leading-tight text-gray-700 bg-gray-200 rounded appearance-none focus:outline-none focus:bg-white`}
                       />
+                      {errors.last_name && touched.last_name ? (
+                        <div className='text-red-400 text-sm m-y-2'>{errors.last_name}</div>
+                      ) : null}
                     </div>
                   </div>
                   <div className="mb-6">
@@ -92,6 +97,9 @@ const Register = () => {
                       autoComplete="email"
                       className={`${errors.email && touched.email ? 'border-red-500' : ''} border block w-full px-4 py-3 mb leading-tight text-gray-700 bg-gray-200 rounded appearance-none focus:outline-none focus:bg-white`}
                     />
+                    {errors.email && touched.email ? (
+                      <div className='text-red-400 text-sm m-y-2'>{errors.email}</div>
+                    ) : null}
                   </div>
                   <div className="mb-6">
                     <Field
@@ -100,6 +108,9 @@ const Register = () => {
                       autoComplete="tel"
                       className={`${errors.phone && touched.phone ? 'border-red-500' : ''} border block w-full px-4 py-3 mb leading-tight text-gray-700 bg-gray-200 rounded appearance-none focus:outline-none focus:bg-white`}
                     />
+                    {errors.phone && touched.phone ? (
+                      <div className='text-red-400 text-sm m-y-2'>{errors.phone}</div>
+                    ) : null}
                   </div>
                   <div className="mb-6">
                     <Field
@@ -108,6 +119,9 @@ const Register = () => {
                       autoComplete="new-password"
                       className={`${errors.password && touched.password ? 'border-red-500' : ''} border block w-full px-4 py-3 mb leading-tight text-gray-700 bg-gray-200 rounded appearance-none focus:outline-none focus:bg-white`}
                     />
+                    {errors.password && touched.password ? (
+                      <div className='text-red-400 text-sm m-y-2'>{errors.password}</div>
+                    ) : null}
                   </div>
                   <div className="mb-6">
                     <Field
@@ -116,6 +130,9 @@ const Register = () => {
                       autoComplete="new-password"
                       className={`${errors.password_confirmation && touched.password_confirmation ? 'border-red-500' : ''} border block w-full px-4 py-3 mb leading-tight text-gray-700 bg-gray-200 rounded appearance-none focus:outline-none focus:bg-white`}
                     />
+                    {errors.password_confirmation && touched.password_confirmation ? (
+                      <div className='text-red-400 text-sm m-y-2'>{errors.password_confirmation}</div>
+                    ) : null}
                   </div>
                   <div className="flex items-center w-full my-3">
                     <button

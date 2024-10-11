@@ -1,10 +1,7 @@
 import HotelViewCard from '../HotelViewCard';
 import HotelViewCardSkeleton from '../HotelViewCardSkeleton'
 import EmptyHotelsState from '../EmptyHotelsState';
-import { useRef, useState } from 'react';
-import useOutsideClickHandler from '../../../../hooks/useOutsideClickHandler';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilter } from '@fortawesome/free-solid-svg-icons';
+
 
 import { Slider } from 'antd';
 

@@ -27,6 +27,7 @@ import Util from '../../utils/util';
 import { useSearchParams } from 'react-router-dom';
 import LoadMore from '../../components/ux/pagination-controller/LoadMore';
 import PacketCardSkeleton from '../../components/PacketCardSkeleton';
+import { actionGetUserProfile } from '../../redux/features/auth/authSlice';
 
 
 dayjs.extend(customParseFormat);
@@ -41,6 +42,9 @@ const Home = () => {
   const dispatch = useDispatch()
   const { dateRange, pagination } = useSelector(state => {
     return state.room
+  })
+  const { currentUser } = useSelector(state => {
+    return state.auth
   })
 
   const [datePickerStatus, setDatePickerStatus] = useState("")
@@ -112,6 +116,10 @@ const Home = () => {
       return
     }
     navigate(`${RouteName.BOOKING.path}/${hotelCode}`);
+  }
+
+  const handleGetUserProfile = () => {
+    dispatch(actionGetUserProfile())
   }
 
   const handleBookTour = (params) => {
@@ -242,6 +250,8 @@ const Home = () => {
             CÁC LOẠI PHÒNG
           </h2>
           <ResultsContainer
+            onGetUserProfile={handleGetUserProfile}
+            currentUser={currentUser}
             onBookNowClick={handleBookNowClick}
             isLoading={isLoading}
             hotelsResults={rooms}

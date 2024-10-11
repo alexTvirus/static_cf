@@ -77,6 +77,7 @@ const UserReviews = ({
         <div>
           {shouldHideUserRatingsSelector ? null : (
             <UserRatingsSelector
+              reviewData={reviewData}
               userRating={userRating}
               isEmpty={isEmpty}
               handleRating={handleRating}

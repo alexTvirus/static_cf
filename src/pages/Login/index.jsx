@@ -4,13 +4,14 @@ import React, { useContext } from 'react';
 
 import { history } from '../../routes/helper/history';
 import validations from '../../utils/validations';
-import Toast from '../../components/ux/toast/Toast';
+import { Formik, Form, Field } from 'formik';
+import Schemas from '../../utils/validation-schemas';
 import { LOGIN_MESSAGES } from '../../utils/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { actionLogin } from '../../redux/features/auth/authSlice';
 import { RouteName } from '../../routes/RouteName';
 
-import OverlayComponent  from '../../components/OverLay'
+import OverlayComponent from '../../components/OverLay'
 
 
 const Login = () => {
@@ -32,8 +33,7 @@ const Login = () => {
 
 
   const handleLoginSubmit = async (e) => {
-    e.preventDefault();
-    dispatch(actionLogin(loginData))
+    dispatch(actionLogin(e))
   };
 
   useEffect(() => {
@@ -42,16 +42,106 @@ const Login = () => {
   }, [isAuth])
 
 
-
   return (
     <>
       <OverlayComponent
-        isLoading = {isLoading}
+        isLoading={isLoading}
       ></OverlayComponent>
 
       <div className="login__form">
         <div className="container mx-auto p-4 flex justify-center min-h-[600px] items-center">
-          <form
+          <Formik
+            initialValues={{
+              email: '',
+              password: '',
+            }}
+            validationSchema={Schemas.loginSchema}
+            onSubmit={(values) => handleLoginSubmit(values)}
+
+          >
+
+            {({ errors, touched }) => (
+              <Form className="w-full max-w-lg p-4 md:p-10 shadow-md">
+                <div className="text-center mb-10">
+                  <h2 className="text-3xl font-black text-brand">
+                    Chào mừng bạn trở lại
+                  </h2>
+                  <p className="text-gray-500">
+                    Đăng nhập để tiếp tục
+                  </p>
+                </div>
+                <div className="mb-6">
+                  <Field
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    // value={loginData.email}
+                    // onChange={handleInputChange}
+                    autoComplete="Email"
+                    className={`${errors.email && touched.email ? 'border-red-500' : ''} appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
+                  />
+                  {errors.email && touched.email ? (
+                    <div className='text-red-400 text-sm m-y-2'>{errors.email}</div>
+                  ) : null}
+                </div>
+                <div className="mb-6">
+                  <Field
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    // value={loginData.password}
+                    // onChange={handleInputChange}
+                    autoComplete="current-password"
+                    className={`${errors.password && touched.password ? 'border-red-500' : ''} appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white`}
+                  />
+                  {errors.password && touched.password ? (
+                    <div className='text-red-400 text-sm m-y-2'>{errors.password}</div>
+                  ) : null}
+                </div>
+                <div className="items-center">
+                  <div>
+                    <button
+                      type="submit"
+                      className="bg-brand hover:bg-blue-700 text-white font-bold py-2 px-4 rounded 
+                  focus:outline-none focus:shadow-outline w-full"
+                    >
+                      Đăng nhập
+                    </button>
+                  </div>
+                  <div className="flex flex-wrap justify-center my-3 w-full">
+                    <Link
+                      to={RouteName.FORGOT_PASSWORD.path}
+                      className="inline-block align-baseline text-md text-gray-500 hover:text-blue-800 text-right"
+                    >
+                      Quên mật khẩu?
+                    </Link>
+                  </div>
+                  <div className="relative">
+                    <div className="absolute left-0 right-0 flex justify-center items-center">
+                      <div className="border-t w-full absolute"></div>
+                      <span className="bg-white px-3 text-gray-500 z-10">
+                        Đăng kí ?
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap justify-center my-3 w-full mt-12">
+                    <Link
+                      to={RouteName.REGISTER.path}
+                      className="inline-block align-baseline font-medium text-md text-brand hover:text-blue-800 text-right"
+                    >
+                      Tạo tài khoản mới
+                    </Link>
+                  </div>
+                </div>
+
+              </Form>
+            )}
+
+
+          </Formik>
+
+
+          {/* <form
             onSubmit={handleLoginSubmit}
             className="w-full max-w-lg p-4 md:p-10 shadow-md"
           >
@@ -72,6 +162,7 @@ const Login = () => {
                 onChange={handleInputChange}
                 autoComplete="username"
                 className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+
               />
             </div>
             <div className="mb-6">
@@ -120,7 +211,7 @@ const Login = () => {
                 </Link>
               </div>
             </div>
-          </form>
+          </form> */}
         </div>
       </div>
 

@@ -54,15 +54,18 @@ const ChangePasswordPanel = ({ isLoading, userDetails }) => {
 
               <TextField
                 label="Mật khẩu cũ"
+                type='password'
                 value={oldPassword}
                 onChange={setOldPassword}
               />
               <TextField
                 label="Mật khẩu"
+                type='password'
                 value={password}
                 onChange={setPassword}
               />
               <TextField
+                type='password'
                 label="Xác nhận mật khẩu"
                 value={passwordConfirmation}
                 onChange={setPasswordConfirmation}

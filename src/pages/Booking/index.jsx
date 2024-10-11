@@ -29,8 +29,8 @@ const Booking = () => {
   }, [])
 
   useEffect(() => {
-    const checkIn = moment(dateRange[0]?.$d).format(dateFormat) ?? dayjs().format(dateFormat)
-    const checkOut = moment(dateRange[1]?.$d).format(dateFormat) ?? dayjs().format(dateFormat)
+    const checkIn = dayjs(dateRange[0]?.$d).format(dateFormat) ?? dayjs().format(dateFormat)
+    const checkOut = dayjs(dateRange[1]?.$d).format(dateFormat) ?? dayjs().format(dateFormat)
     let newbooking = { ...booking, "room": { id: hotelId } }
     dispath(actionSetBooking(newbooking))
     dispath(actionGetRoom({
