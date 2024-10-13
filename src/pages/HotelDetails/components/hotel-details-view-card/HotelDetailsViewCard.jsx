@@ -1,5 +1,4 @@
 import HotelBookingDetailsCard from '../hotel-booking-details-card/HotelBookingDetailsCard';
-import UserReviews from '../user-reviews/UserReviews';
 import React, { useEffect, useState } from 'react';
 import ReactImageGallery from 'react-image-gallery';
 import { isObjectEmpty } from '../../../../utils/helpers'

@@ -82,10 +82,10 @@ const HotelViewCard = (props) => {
             <div className='absolute   top-1 right-1  w-[36px] h-[36px] '>
 
               <div className='tooltip w-[100%] h-[100%]'>
-                <span class="tooltiptext p-1">Yêu thích</span>
+                <span className="tooltiptext p-1">Yêu thích</span>
                 <button onClick={() => handleWishlist(hotelCode)} className='w-[100%] h-[100%] rounded-full bg-white hover:bg-slate-200  transition-colors duration-300'>
 
-                  <div class="w-[100%] h-[100%] relative" aria-hidden="true">
+                  <div className="w-[100%] h-[100%] relative" aria-hidden="true">
                     {loading ?
 
                       <><Spin
@@ -123,7 +123,7 @@ const HotelViewCard = (props) => {
           <p className="text-slate-600 text-sm mb-2">{subtitle}</p>
           <p className="text-sm text-gray-600">
 
-            <i class="gdlr-icon-double-bed2 mr-2 text-[28px] align-bottom"></i>
+            <i className="gdlr-icon-double-bed2 mr-2 text-[28px] align-bottom"></i>
             <span className="text-slate-600 font-bold text-sm mr-2">
               {`Giường:`}
             </span>
@@ -131,14 +131,14 @@ const HotelViewCard = (props) => {
               {`${maxOccupancy}`}
             </span>
 
-            <i class="gdlr-icon-shower-head mr-2 text-[28px] align-bottom"></i>
+            <i className="gdlr-icon-shower-head mr-2 text-[28px] align-bottom"></i>
             <span className="text-slate-600 font-bold text-sm mr-2">
               {`Phòng tắm:`}
             </span>
             <span className='mr-2'>
               {`${bathrooms}`}
             </span>
-            <i class="gdlr-icon-resize mr-2 text-[28px] align-bottom"></i>
+            <i className="gdlr-icon-resize mr-2 text-[28px] align-bottom"></i>
             <span className="text-slate-600 font-bold text-sm mr-2 ">
               {`Diện tích:`}
             </span>

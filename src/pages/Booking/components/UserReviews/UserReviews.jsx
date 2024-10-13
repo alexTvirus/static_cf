@@ -3,8 +3,6 @@ import React, { useState } from 'react';
 import RatingsOverview from './components/RatingsOverview';
 import UserRatingsSelector from './components/UserRatingsSelector';
 
-import Toast from '../../../../components/ux/toast/Toast';
-import PaginationController from '../../../../components/ux/pagination-controller/PaginationController';
 
 
 import dayjs from 'dayjs';
@@ -39,7 +37,7 @@ const UserReviews = ({
 
   const handleReviewSubmit = async () => {
     if (userRating === 0) {
-      message.error('Please select a rating before submitting.')
+      message.error('Hãy đánh giá trước khi gửi.')
       return;
     }
     await dispatch(actionRating({

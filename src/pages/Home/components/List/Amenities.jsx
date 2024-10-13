@@ -33,9 +33,9 @@ const Amenities = (props) => {
                     amenitiesData && amenitiesData.length > 0 &&
                     amenitiesData.map((item, index) => {
                         return (<>
-                            <div key={`${item.id}-${index}`} className="md:w-[20%] sm:w-[100%]">
+                            <div key={`${item.id}-${item.name}-${index}`} className="md:w-[20%] sm:w-[100%]">
 
-                                <div className="">
+                                <div  className="">
                                     <div className="leading-none px-[20px]  pb-[30px] text-center">
                                         <i className="text-[45px] max-w-[45px] max-h-[45px] min-w-[45px] min-h-[45px] text-center inline-block " >
                                             <img className='block object-cover w-full h-full' src={item.image} alt={item.name} />

@@ -1,5 +1,5 @@
 import { Switch, Space, Table, Tag, List, Avatar, Button, Flex, Form, Input, Modal, message } from "antd";
-import UserReviews from '../../user-reviews/UserReviews';
+import UserReviews from '../../UserReviews/UserReviews';
 const ModalReview = (props) => {
     const {
         onCancel,

@@ -13,7 +13,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faCheck, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 
-import moment from 'moment';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { useDispatch, useSelector } from 'react-redux';
@@ -38,14 +37,6 @@ const HotelBookingDetailsCard = (props) => {
     return localStorage.getItem("access_token") || false
   }
 
-
-  const dateRange = useState(()=>{
-    return [dayjs(checkInDate),dayjs(checkOutDate)]
-  })
-
-  const { currentUser} = useSelector(state => {
-    return state.auth
-  })
 
   const [selectedGuests, setSelectedGuests] = useState({
     value: 1,

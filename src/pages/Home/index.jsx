@@ -18,9 +18,9 @@ import queryString from 'query-string';
 import moment from 'moment';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import Amenities from './components/Test/Amenities';
-import PacketReview from './components/Test/PacketReview';
-import Tour from './components/Test/Tour';
+import Amenities from './components/List/Amenities';
+import PacketReview from './components/List/PacketReview';
+import Tour from './components/List/Tour';
 import { message } from 'antd';
 import HotelBookingApi from '../../api/HotelBookingApi';
 import Util from '../../utils/util';
@@ -28,6 +28,9 @@ import { useSearchParams } from 'react-router-dom';
 import LoadMore from '../../components/ux/pagination-controller/LoadMore';
 import PacketCardSkeleton from '../../components/PacketCardSkeleton';
 import { actionGetUserProfile } from '../../redux/features/auth/authSlice';
+import usePacketPagination from './hooks/usePacketPagination';
+import useTourPagination from './hooks/useTourPagination';
+import useRoomPagination from './hooks/useRoomPagination';
 
 
 dayjs.extend(customParseFormat);
@@ -49,12 +52,6 @@ const Home = () => {
 
   const [datePickerStatus, setDatePickerStatus] = useState("")
 
-  const [isLoading, setIsLoading] = useState(true)
-
-  const [isPacketLoading, setIsPacketLoading] = useState(true)
-
-  const [isTourLoading, setIsTourLoading] = useState(true)
-
   const [amenitiesData, setAmenitiesData] = useState([])
 
   const [packetsData, setPacketsData] = useState([])
@@ -63,29 +60,32 @@ const Home = () => {
 
   const [rooms, setRooms] = useState([])
 
-  const [roomsPagination, setRoomsPagination] = useState({
-    default_page: 1,
-    default_perPage: 1,
-    current_page: 1,
-    per_page: 4,
-    total: 0,
-  })
 
-  const [packetsPagination, setPacketsPagination] = useState({
-    default_page: 1,
-    default_perPage: 1,
-    current_page: 1,
-    per_page: 4,
-    total: 0,
-  })
 
-  const [toursPagination, setToursPagination] = useState({
-    default_page: 1,
-    default_perPage: 1,
-    current_page: 1,
-    per_page: 4,
-    total: 0,
-  })
+
+  // ----
+  const {
+    packetsPagination, setPacketsPagination,
+    isPacketLoading, setIsPacketLoading,
+    handlePacketPagination
+  } = usePacketPagination({ setPacketsData,params })
+  // ---
+
+  // ----
+  const {
+    toursPagination, setToursPagination,
+    isTourLoading, setIsTourLoading,
+    handleTourPagination
+  } = useTourPagination({ setToursData,params })
+  // ---
+  const {
+    roomsPagination, setRoomsPagination,
+    isLoading, setIsLoading,
+    handleRoomPagination
+  } = useRoomPagination({ setRooms,params })
+  // ---
+
+
 
   const onDateChangeHandler = (ranges) => {
     dispatch(actionSetDateRange(ranges))
@@ -143,43 +143,6 @@ const Home = () => {
     navigate(url);
   }
 
-  const handleRoomPagination = async (page, pageSize) => {
-    setIsLoading(true)
-    let rsp = await HotelBookingApi.getAllRoom({ params: { ...params, page: page, limit: (pageSize * 2) } });
-    let data = rsp.data.data
-    rsp = rsp.data
-    if (data && data.length > 0) {
-      setRooms(data)
-      setRoomsPagination({ ...packetsPagination, total: rsp.total, current_page: page, per_page: (pageSize * 2) })
-    }
-    setIsLoading(false)
-  }
-
-  const handlePacketPagination = async (page, pageSize) => {
-    setIsPacketLoading(true)
-    let rsp = await HotelBookingApi.getPackets({ params: { ...params, page: page, limit: (pageSize * 2) } });
-    let data = rsp.data.data
-    rsp = rsp.data
-    if (data && data.length > 0) {
-
-      setPacketsData(data)
-      setPacketsPagination({ ...packetsPagination, total: rsp.total, current_page: page, per_page: (pageSize * 2) })
-    }
-    setIsPacketLoading(false)
-  }
-
-  const handleTourPagination = async (page, pageSize) => {
-    setIsTourLoading(true)
-    let rsp = await HotelBookingApi.getTours({ params: { ...params, page: page, limit: (pageSize * 2) } });
-    let data = rsp.data.data
-    rsp = rsp.data
-    if (data && data.length > 0) {
-      setToursData(data)
-      setToursPagination({ ...toursPagination, total: rsp.total, current_page: page, per_page: (pageSize * 2) })
-    }
-    setIsTourLoading(false)
-  }
-
 
   useEffect(() => {
 
@@ -206,7 +169,7 @@ const Home = () => {
         data = rsp.data.data
         rsp = rsp.data
         if (data && data.length > 0) {
-                    setPacketsData(data)
+          setPacketsData(data)
           setPacketsPagination({ ...packetsPagination, total: rsp.total })
         }
 
@@ -221,7 +184,7 @@ const Home = () => {
         }
 
       } catch (error) {
-        message.error(error)
+        message.error("loi api")
       }
       setIsLoading(false)
       setIsTourLoading(false)
@@ -268,7 +231,7 @@ const Home = () => {
           ></LoadMore>
         </div>
         <div className='my-8'>
-          {(amenitiesData && amenitiesData.length > 0) &&
+          {(amenitiesData && amenitiesData?.length > 0) &&
             <Amenities
               isLoading={isLoading}
               amenitiesData={amenitiesData}

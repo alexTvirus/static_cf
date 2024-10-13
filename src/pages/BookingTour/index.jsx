@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import HotelDetailsViewCard from './components/hotel-details-view-card/HotelDetailsViewCard';
+import HotelViewCard from './components/HotelViewCard/HotelViewCard';
 import HotelDetailsViewCardSkeleton from './components/hotel-details-view-card-skeleton/HotelDetailsViewCardSkeleton';
 import { isObjectEmpty } from '../../utils/helpers'
 import OverlayComponent from '../../components/OverLay'
@@ -50,7 +50,7 @@ const BookingTour = () => {
       {(roomLoading || isObjectEmpty(currentRoom)) ? (
         <HotelDetailsViewCardSkeleton />
       ) : (
-        <HotelDetailsViewCard 
+        <HotelViewCard 
         checkInDate={checkInDate}
         checkOutDate={checkOutDate}
         numberGuests={numberGuests}

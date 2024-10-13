@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as fasStar } from '@fortawesome/free-solid-svg-icons';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
-import { useDispatch, useSelector } from 'react-redux';
-import {isObjectEmpty} from '../../../../../utils/helpers'
 import {LOGIN_MESSAGES} from '../../../../../utils/constants'
 
 const UserRatingsSelector = ({

@@ -1,5 +1,5 @@
-import HotelBookingDetailsCard from '../hotel-booking-details-card/HotelBookingDetailsCard';
-import UserReviews from '../user-reviews/UserReviews';
+import HotelBookingDetailsCard from '../HotelBookingDetailsCard/HotelBookingDetailsCard';
+
 import React, { useEffect, useState } from 'react';
 import ReactImageGallery from 'react-image-gallery';
 import { isObjectEmpty } from '../../../../utils/helpers'
@@ -12,11 +12,11 @@ import { formatPrice, formatPrice1 } from '../../../../utils/price-helpers';
 import { Divider } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { actionGetRating, actionSetBooking } from '../../../../redux/features/room/roomSlice';
-import ModalReview from '../user-reviews/components/ModalReview'
+import ModalReview from '../UserReviews/components/ModalReview'
 
 
 
-const HotelDetailsViewCard = ({ booking, hotelDetails, rooms, checkInDate, checkOutDate }) => {
+const HotelViewCard = ({ booking, hotelDetails, rooms, checkInDate, checkOutDate }) => {
   const dispatch = useDispatch();
   const { ratings, ratingLoading } = useSelector(state => {
     return state.room
@@ -300,4 +300,4 @@ const HotelDetailsViewCard = ({ booking, hotelDetails, rooms, checkInDate, check
   );
 };
 
-export default HotelDetailsViewCard;
+export default HotelViewCard;
