@@ -69,7 +69,7 @@ const ContactUs = (props) => {
                                                     <div className="gdlr-core-pbf-element">
                                                         <div className="gdlr-core-text-box-item gdlr-core-item-pdlr gdlr-core-item-pdb gdlr-core-left-align">
                                                             <div className="gdlr-core-text-box-item-content" >
-                                                                <p><a href="#">+1-2345-2345</a></p>
+                                                                <p><a href="#">+84-2345-2345</a></p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -122,7 +122,7 @@ const ContactUs = (props) => {
                                                             <div className="gdlr-core-text-box-item-content" >
                                                                 <p>
                                                                     <a href="#">
-                                                                        <span  >test@gmail.com</span>
+                                                                        <span  >proxywindert11@gmail.com</span>
                                                                     </a>
                                                                 </p>
                                                             </div>
@@ -171,8 +171,7 @@ const ContactUs = (props) => {
                                                         <div className="gdlr-core-text-box-item gdlr-core-item-pdlr gdlr-core-item-pdb gdlr-core-left-align" >
                                                             <div className="gdlr-core-text-box-item-content" >
                                                                 <p>
-                                                                    Số 10 Vũ Ngọc Phan.<br />
-                                                                    Đà Nẵng, Việt Nam 33342
+                                                                   Địa chỉ của chúng tôi
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -180,7 +179,10 @@ const ContactUs = (props) => {
                                                     <div className="gdlr-core-pbf-element">
                                                         <div className="gdlr-core-text-box-item gdlr-core-item-pdlr gdlr-core-item-pdb gdlr-core-left-align">
                                                             <div className="gdlr-core-text-box-item-content" >
-                                                                <p><a href="#">View On Google Map</a></p>
+                                                            <p>
+                                                                    Số 10 Vũ Ngọc Phan.<br />
+                                                                    Đà Nẵng, Việt Nam 33342
+                                                                </p>
                                                             </div>
                                                         </div>
                                                     </div>

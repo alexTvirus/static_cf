@@ -48,8 +48,8 @@ const Tour = (props) => {
             {
                 breakpoint: 480,
                 settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 2
+                    slidesToShow: 1,
+                    slidesToScroll: 1
                 }
             }
         ]
@@ -88,10 +88,15 @@ const Tour = (props) => {
                                                 return (<>
                                                     <div key={index} className='tour-item'>
                                                         <div className='relative'>
-                                                            <div className="gdlr-core-image-item-wrap gdlr-core-media-image" >
-                                                                <img src={item?.packet_images &&
-                                                                    item?.packet_images.length > 0 &&
-                                                                    item.packet_images[0].url} alt="" width="1300" height="716" title="chef-cook" />
+                                                            <div className="gdlr-core-image-item-wrap gdlr-core-media-image w-[100%]" >
+                                                                {/* <div className=''> */}
+                                                                    <img
+                                                                        className='max-h-[300px] w-[100%]  block object-cover'
+                                                                        referrerpolicy="no-referrer"
+                                                                        src={item?.packet_images &&
+                                                                            item?.packet_images.length > 0 &&
+                                                                            item.packet_images[0].url} alt="" title="chef-cook" />
+                                                                {/* </div> */}
                                                             </div>
 
                                                             <button
@@ -123,9 +128,7 @@ const Tour = (props) => {
                                                             <div className="">
                                                                 <div className="text-left px-[20px]  md:pb-[30px] clearfix" >
                                                                     <div className="text-lg font-normal tracking-normal normal-case text-slate-400" >
-                                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur dolorem beatae accusamus
-                                                                            soluta accusantium rerum, quas atque dolor
-                                                                            laboriosam, quasi adipisci a ?.</p>
+                                                                        <p className='content-overflow'>{item.description}</p>
                                                                     </div>
                                                                 </div>
                                                             </div>

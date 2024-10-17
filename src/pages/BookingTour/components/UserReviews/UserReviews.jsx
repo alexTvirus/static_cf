@@ -98,7 +98,7 @@ const UserReviews = ({
               <Review
                 key={index}
                 reviewerName={review?.customer?.email}
-                reviewDate={dayjs(review.created_at, dateFormat).format(dateFormat)}
+                reviewDate={dayjs(review.created_at).format(dateFormat)}
                 review={review.comment}
                 rating={review.rate}
                 verified={review.verified}

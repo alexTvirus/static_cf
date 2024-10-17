@@ -96,13 +96,29 @@ const HotelViewCard = ({ booking, hotelDetails }) => {
     }
   }, [ratings])
 
+
   useEffect(() => {
-    
+
     setImages(hotelDetails?.room_type_images?.map((image) => ({
-      original: image.url,
-      thumbnail: image.url,
       thumbnailClass: 'h-[80px]',
       thumbnailLoading: 'lazy',
+      thumbnail:image.url,
+      renderItem: () => {
+        return <div>
+          <img
+            referrerpolicy="no-referrer"
+            src={image.url}
+          />
+        </div>
+      },
+      renderThumbInner: () => {
+        return <div>
+          <img
+            referrerpolicy="no-referrer"
+            src={image.url}
+          />
+        </div>
+      },
     })))
   }, [hotelDetails]);
 
@@ -114,6 +130,7 @@ const HotelViewCard = ({ booking, hotelDetails }) => {
           <div>
             <div className="relative w-full">
               <ReactImageGallery
+
                 items={images}
                 showPlayButton={false}
                 showFullscreenButton={false}
@@ -125,7 +142,7 @@ const HotelViewCard = ({ booking, hotelDetails }) => {
               </h2>
               <p className="text-sm text-gray-600 mb-2">
 
-                <i class="gdlr-icon-double-bed2 mr-2 text-[28px] align-bottom"></i>
+                <i className="gdlr-icon-double-bed2 mr-2 text-[28px] align-bottom"></i>
                 <span className="text-slate-600 font-bold text-sm mr-2">
                   {`Giường:`}
                 </span>
@@ -133,14 +150,14 @@ const HotelViewCard = ({ booking, hotelDetails }) => {
                   {`${hotelDetails.max_occupancy}`}
                 </span>
 
-                <i class="gdlr-icon-shower-head mr-2 text-[28px] align-bottom"></i>
+                <i className="gdlr-icon-shower-head mr-2 text-[28px] align-bottom"></i>
                 <span className="text-slate-600 font-bold text-sm mr-2">
                   {`Phòng tắm:`}
                 </span>
                 <span className='mr-2'>
                   {`${hotelDetails.bathrooms}`}
                 </span>
-                <i class="gdlr-icon-resize mr-2 text-[28px] align-bottom"></i>
+                <i className="gdlr-icon-resize mr-2 text-[28px] align-bottom"></i>
                 <span className="text-slate-600 font-bold text-sm mr-2 ">
                   {`Diện tích:`}
                 </span>

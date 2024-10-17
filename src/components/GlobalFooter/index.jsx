@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { history } from '../../routes/helper/history';
+import { RouteName } from '../../routes/RouteName';
 
 const FooterLink = ({ to, label }) => (
   <Link
@@ -11,6 +13,9 @@ const FooterLink = ({ to, label }) => (
 );
 
 const GlobalFooter = () => {
+  const navigate = history.navigate
+  const location = history.location
+
   return (
     <footer className="bg-slate-50 text-slate-700 mt-6 rounded-none">
       <div className="container mx-auto px-6 py-6">
@@ -18,7 +23,7 @@ const GlobalFooter = () => {
           <div className="w-full md:w-1/3 mb-6 md:mb-0">
             <h4 className="font-bold text-lg mb-2">Thông tin</h4>
             <FooterLink to="/about-us" label="Về chúng tôi" />
-            <FooterLink to="/" label="Liên hệ" />
+            <FooterLink to="/contact-us" label="Liên hệ" />
             <FooterLink to="/" label="Chính sách bảo mật" />
           </div>
           <div className="w-full md:w-1/3 mb-6 md:mb-0">

@@ -1,19 +1,20 @@
 
 import { useState } from "react";
 
-
+import queryString from 'query-string';
 import { message, Popconfirm, Button } from "antd";
-
+import { history } from '../../../../../routes/helper/history';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import HotelBookingApi from "../../../../../api/HotelBookingApi";
+import { RouteName } from '../../../../../routes/RouteName';
 
 dayjs.extend(customParseFormat);
 const dateFormat = 'DD-MM-YYYY';
 
 
 const useDataTable = ({ handleGetUserProfile }) => {
-
+    const navigate = history.navigate
     const columns = [
         {
             title: 'Thông tin',
@@ -35,7 +36,10 @@ const useDataTable = ({ handleGetUserProfile }) => {
             title: 'Tên',
             dataIndex: 'name',
             key: 'name',
-            responsive: ["lg", 'md']
+            responsive: ["lg", 'md'],
+            render: (_, record) => {
+                return <p onClick={()=>handleSearchRoom(record.name)} className='cursor-pointer content-overflow'>{record.name}</p>
+            },
         }
         ,
         {
@@ -66,6 +70,14 @@ const useDataTable = ({ handleGetUserProfile }) => {
             ),
         },
     ];
+
+    const handleSearchRoom = (room_type_name) => {
+        let queryParams = {
+            room_type_name: room_type_name
+        }
+        const url = `${RouteName.HOTELS.path}?${queryString.stringify(queryParams)}`;
+        navigate(url);
+      }
 
 
     const handleDelete = (options) => {

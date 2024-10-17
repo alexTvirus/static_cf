@@ -38,13 +38,14 @@ const Payment = (
     });
 
     useEffect(() => {
+       
         if (cities && cities.length > 0) {
             setCitiesOption({
                 isLoading: false,
                 data: cities.map((city, index) => {
                     return {
                         label: city.name,
-                        value: city.code,
+                        value: city.id,
                     }
                 })
             })
@@ -58,7 +59,7 @@ const Payment = (
                 data: districs.map((city, index) => {
                     return {
                         label: city.name,
-                        value: city.code,
+                        value: city.id,
                     }
                 })
             })

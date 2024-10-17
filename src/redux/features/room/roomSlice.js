@@ -338,7 +338,7 @@ const roomSlice = createSlice({
             })
             .addCase(actionGetAllCities.fulfilled, (state, action) => {
                 state.isLoading = false
-                state.cities = action.payload.data
+                state.cities = action.payload.data.data
             })
             .addCase(actionGetAllCities.rejected, (state, action) => {
                 state.isLoading = false
@@ -350,7 +350,7 @@ const roomSlice = createSlice({
             })
             .addCase(actionGetDistrics.fulfilled, (state, action) => {
                 state.isLoading = false
-                state.districs = action.payload.data.districts
+                state.districs = action.payload.data.data
             })
             .addCase(actionGetDistrics.rejected, (state, action) => {
                 state.isLoading = false

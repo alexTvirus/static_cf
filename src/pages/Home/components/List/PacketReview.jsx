@@ -58,7 +58,9 @@ const PacketReview = (props) => {
                                             <div onClick={() => onSearchPacket(item.id)} className="cursor-pointer transform transition duration-500 hover:scale-105">
                                                 <div className="leading-none text-center px-[20px]  pb-[0px]" >
                                                     <div className="gdlr-core-image-item-wrap gdlr-core-media-image gdlr-core-image-item-style-round" >
-                                                        <img src={item?.packet_images &&
+                                                        <img 
+                                                        referrerpolicy="no-referrer"
+                                                        src={item?.packet_images &&
                                                             item?.packet_images.length > 0 &&
                                                             item.packet_images[0].url} alt="" width="1300" height="716" title="chef-cook" />
                                                     </div>
@@ -82,9 +84,7 @@ const PacketReview = (props) => {
                                                     <div className="">
                                                         <div className="text-left px-[20px]  md:pb-[30px] clearfix" >
                                                             <div className="text-lg font-normal tracking-normal normal-case text-slate-400" >
-                                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur dolorem beatae accusamus
-                                                                    soluta accusantium rerum, quas atque dolor
-                                                                    laboriosam, quasi adipisci a ?.</p>
+                                                                <p className='content-overflow'>{item.description}</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -112,7 +112,9 @@ const PacketReview = (props) => {
                                             <div onClick={() => onSearchPacket(item.id)} className="cursor-pointer transform transition duration-500 hover:scale-105">
                                                 <div className="leading-none text-center px-[20px]  pb-[0px]" >
                                                     <div className="gdlr-core-image-item-wrap gdlr-core-media-image gdlr-core-image-item-style-round" >
-                                                        <img src={item?.packet_images &&
+                                                        <img 
+                                                        referrerpolicy="no-referrer"
+                                                        src={item?.packet_images &&
                                                             item?.packet_images.length > 0 &&
                                                             item.packet_images[0].url} alt="" width="1300" height="716" title="chef-cook" />
                                                     </div>
@@ -135,9 +137,7 @@ const PacketReview = (props) => {
                                                     <div className="">
                                                         <div className="text-left px-[20px]  md:pb-[30px] clearfix" >
                                                             <div className="text-lg font-normal tracking-normal normal-case text-slate-400" >
-                                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur dolorem beatae accusamus
-                                                                    soluta accusantium rerum, quas atque dolor
-                                                                    laboriosam, quasi adipisci a ?.</p>
+                                                            <p className='content-overflow'>{item.description}</p>
                                                             </div>
                                                         </div>
                                                     </div>

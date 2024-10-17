@@ -89,7 +89,7 @@ const HotelsSearch = () => {
     debounceFn();
   };
 
-  const handleSearch = (params = {}) => {
+  const handleSearch = (options = {}) => {
     const init = async () => {
       const activeFilters = getActiveFilters();
       const checkInDate = dateRange[0] ? dayjs(dateRange[0]?.$d).format(dateFormat) ?? '' : '';
@@ -99,8 +99,8 @@ const HotelsSearch = () => {
       let packets = JSON.stringify(activeFilters?.packets)
       let ratings = JSON.stringify(activeFilters?.ratings)
 
-
-
+      let room_type_name = params?.room_type_name
+      debugger
       let param = {
         ...requestParams?.params,
         sortBy: sortByFilterValue.value,
@@ -108,7 +108,8 @@ const HotelsSearch = () => {
         packets: packets,
         ratings: ratings,
         checkin_at: checkInDate,
-        checkout_at: checkOutDate
+        checkout_at: checkOutDate,
+        room_type_name:!!room_type_name?room_type_name:""
       }
       param = { ...requestParams, params: param }
       setRequestParams(param)
@@ -185,6 +186,8 @@ const HotelsSearch = () => {
   useEffect(() => {
     const initData = async () => {
       try {
+
+
         const rsp = await HotelBookingApi.getPackets();
         let packets = rsp.data.data
         if (packets && packets.length > 0) {

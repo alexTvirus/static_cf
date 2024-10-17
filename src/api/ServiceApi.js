@@ -1,11 +1,11 @@
 import axios from "axios"
 
-const baseUrl = "https://provinces.open-api.vn/api"
+const baseUrl = "https://esgoo.net/api-tinhthanh"
 
 export const ServiceApi = {
     getAllCities: async (options = {}) => {
         try {
-            const response = await axios.get(`${baseUrl}/p/`, options)
+            const response = await axios.get(`${baseUrl}/1/0.htm`, options)
             return response
         } catch (e) {
             throw e
@@ -13,7 +13,7 @@ export const ServiceApi = {
     },
     getDistrics: async (cityId,options = {}) => {
         try {
-            const response = await axios.get(`${baseUrl}/p/${cityId}?depth=2`, options)
+            const response = await axios.get(`${baseUrl}/2/${cityId}.htm`, options)
             return response
         } catch (e) {
             throw e

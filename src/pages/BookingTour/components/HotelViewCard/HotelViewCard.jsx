@@ -106,10 +106,25 @@ const HotelViewCard = ({ booking, hotelDetails, rooms, checkInDate, checkOutDate
 
   useEffect(() => {
     setImages(hotelDetails?.room_type_images?.map((image) => ({
-      original: image.url,
-      thumbnail: image.url,
       thumbnailClass: 'h-[80px]',
       thumbnailLoading: 'lazy',
+      thumbnail:image.url,
+      renderItem: () => {
+        return <div>
+          <img
+            referrerpolicy="no-referrer"
+            src={image.url}
+          />
+        </div>
+      },
+      renderThumbInner: () => {
+        return <div>
+          <img
+            referrerpolicy="no-referrer"
+            src={image.url}
+          />
+        </div>
+      },
     })))
 
     if (!isObjectEmpty(hotelDetails))
