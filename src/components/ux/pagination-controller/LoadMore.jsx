@@ -19,7 +19,7 @@ const LoadMore = (props) => {
                         <div
                             onClick={() => onChange(current, pageSize)}
                             className="cursor-pointer text-center border-solid bg-transparent inline-block test hover:border-[#000000]" >
-                            <span className="gdlr-core-content">Xem thêm<i className="text-[16px] text-[#000000]  icon-arrow-right" ></i></span>
+                            <span className="gdlr-core-content">Xem thêm<i className="text-[16px] text-[#000000] " ></i></span>
                         </div>
                     </div>
                 </div>

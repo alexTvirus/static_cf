@@ -91,7 +91,7 @@ const PacketReview = (props) => {
                                                     <div className="">
                                                         <div className="text-left px-[20px]  pb-[30px] clearfix" >
                                                             <div className="cursor-pointer hover:border-[#000000] xemthem border-solid inline-block bg-transparent " href="#" id="">
-                                                                <span onClick={() => onSearchPacket(item.id)} className="gdlr-core-content">Xem thêm<i className=" icon-arrow-right" ></i></span>
+                                                                <span onClick={() => onSearchPacket(item.id)} className="gdlr-core-content">Xem thêm<i className="" ></i></span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -144,7 +144,7 @@ const PacketReview = (props) => {
                                                     <div className="">
                                                         <div className="text-left px-[20px]  pb-[30px] clearfix" >
                                                             <div className="hover:border-[#000000] xemthem border-solid inline-block bg-transparent cursor-pointer" >
-                                                                <span onClick={() => onSearchPacket(item.id)} className="gdlr-core-content">Xem thêm<i className=" icon-arrow-right" ></i></span>
+                                                                <span onClick={() => onSearchPacket(item.id)} className="gdlr-core-content">Xem thêm<i className="" ></i></span>
                                                             </div>
                                                         </div>
                                                     </div>

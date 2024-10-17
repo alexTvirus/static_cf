@@ -10,7 +10,7 @@ import AboutUs from './pages/AboutUs';
 import HotelDetails from './pages/HotelDetails';
 import Booking from './pages/Booking';
 import BookingTour from './pages/BookingTour';
-
+import ContactUs from './pages/ContactUs';
 import Tours from './pages/Tours';
 
 import Checkout from './pages/Checkout';
@@ -65,6 +65,9 @@ function App() {
             <Booking />
           } />
 
+          <Route path={`${RouteName.CONTACT_US.path}/`} element={
+            <ContactUs />
+          } />
 
 
           <Route path={RouteName.CHECKOUT.path} element={

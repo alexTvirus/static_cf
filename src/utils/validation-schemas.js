@@ -19,7 +19,7 @@ class Schemas extends ValidationSchema {
     email: ValidationSchema.email,
     phone: Yup.string()
       .matches(phoneRegExp, 'Phone number không đúng')
-      .required('Required'),
+      .required('Bắt buộc'),
     password: Yup.string()
       .min(6, 'Password quá ngắn - phải trên 6 kí tự')
       .required('Bắt buộc'),
@@ -31,6 +31,17 @@ class Schemas extends ValidationSchema {
     password: Yup.string()
       .min(6, 'Password quá ngắn - phải trên 6 kí tự')
       .required('Bắt buộc')
+  });
+
+  static contactSchema = Yup.object().shape({
+    email: ValidationSchema.email,
+    name: Yup.string()
+      .min(2, 'Phải trên 2 kí tự!')
+      .max(50, 'Phải dưới 50 kí tự!')
+      .required('Bắt buộc'),
+    message: Yup.string()
+      .min(2, 'Phải trên 2 kí tự!')
+      .required('Bắt buộc'),
   });
 }
 

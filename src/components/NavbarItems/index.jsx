@@ -74,6 +74,16 @@ const NavbarItems = ({ onHamburgerMenuToggle }) => {
           VỀ CHÚNG TÔI
         </Link>
       </li>
+      <li className="p-4 hover:bg-blue-900 md:hover:bg-brand">
+        <Link
+          to={RouteName.CONTACT_US.path}
+          className={`uppercase font-medium text-slate-100 hover-underline-animation ${isActive(RouteName.CONTACT_US.path) && 'active-link'
+            }`}
+          onClick={onHamburgerMenuToggle}
+        >
+          LIÊN HỆ
+        </Link>
+      </li>
       <li
         className={`${!isLogined() && 'p-4 hover:bg-blue-900 md:hover:bg-brand'}`}
       >
