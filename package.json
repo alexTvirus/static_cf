@@ -46,9 +46,9 @@
     "yup": "^1.4.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "eject": "react-scripts eject",
+    "start": "DISABLE_ESLINT_PLUGIN=true react-scripts start",
+    "build": "DISABLE_ESLINT_PLUGIN=true react-scripts build",
+    "eject": "DISABLE_ESLINT_PLUGIN=true react-scripts eject",
     "test": "concurrently \"react-scripts start\" \" json-server --watch db.json --port 5000 \" "
   },
   "eslintConfig": {
