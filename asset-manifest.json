@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "./static/css/main.9d6245ca.css",
+    "main.js": "./static/js/main.4168332c.js",
+    "static/js/453.86f06e8d.chunk.js": "./static/js/453.86f06e8d.chunk.js",
+    "static/media/404-background.jpg": "./static/media/404-background.530a5ed519ab6dd35fcb.jpg",
+    "static/media/gdl-custom-set.svg?bow9tn": "./static/media/gdl-custom-set.134ec7caaaf469066592.svg",
+    "static/media/content-blocked.jpg": "./static/media/content-blocked.f86534ff45ac25a453d6.jpg",
+    "static/media/gdl-custom-set.eot?bow9tn": "./static/media/gdl-custom-set.c9924e9505ce2c2b609b.eot",
+    "static/media/gdl-custom-set.woff?bow9tn": "./static/media/gdl-custom-set.f4c40da6d0a9b6095654.woff",
+    "static/media/gdl-custom-set.ttf?bow9tn": "./static/media/gdl-custom-set.f591da7a433f33ee1557.ttf",
+    "static/media/now-loading.gif": "./static/media/now-loading.0d33af9994d83fb627ab.gif",
+    "static/media/stay_booker_logo.png": "./static/media/stay_booker_logo.68e2a051e0ccca0cfc0d.png",
+    "static/media/slick.svg": "./static/media/slick.2630a3e3eab21c607e21.svg",
+    "static/media/slick.eot": "./static/media/slick.a4e97f5a2a64f0ab1323.eot",
+    "static/media/slick.ttf": "./static/media/slick.c94f7671dcc99dce43e2.ttf",
+    "static/media/slick.woff": "./static/media/slick.295183786cd8a1389865.woff",
+    "index.html": "./index.html",
+    "main.9d6245ca.css.map": "./static/css/main.9d6245ca.css.map",
+    "main.4168332c.js.map": "./static/js/main.4168332c.js.map",
+    "453.86f06e8d.chunk.js.map": "./static/js/453.86f06e8d.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9d6245ca.css",
+    "static/js/main.4168332c.js"
+  ]
+}
