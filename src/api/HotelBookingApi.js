@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const baseUrl = "http://localhost"
+const baseUrl = "https://lisatthu35-ewa.hf.space"
 
 
 async function apiGet(url, options = {}) {
