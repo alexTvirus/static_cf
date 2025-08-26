@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const baseUrl = "https://test-poroxy-node.onrender.com/cac"
+const baseUrl = "https://render-la-hotel-0sr2.onrender.com"
 
 
 async function apiGet(url, options = {}) {
