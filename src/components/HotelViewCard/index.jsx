@@ -96,7 +96,7 @@ const HotelViewCard = (props) => {
                       <>
                         <img
                           referrerpolicy="no-referrer"
-                          src={love ? "http://localhost/upload/heart.png" : "http://localhost/upload/heart1.png"}
+                          src={love ? "https://lh3.googleusercontent.com/d/1ONzFaexN1vcK2KqVoUj12-dzHq_opj5j=w1000-rw" : "https://lh3.googleusercontent.com/d/142KcW3ivY1V-1j5nOBo6ogsdYCm1NW43=w1000-rw"}
                           className="block w-[70%] h-[70%] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                         />
                       </>
