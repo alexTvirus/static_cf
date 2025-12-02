@@ -1,7 +1,7 @@
 import axios from "axios"
 
-//const baseUrl = "https://render-la-hotel-0sr2.onrender.com"
-const baseUrl = "https://cacmemai.pythonanywhere.com/p"
+const baseUrl = "https://render-la-hotel-0sr2.onrender.com"
+// const baseUrl = "https://cacmemai.pythonanywhere.com/p"
 
 
 async function apiGet(url, options = {}) {
